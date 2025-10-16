@@ -1,0 +1,9 @@
+trial,element,model,Block Friction,Ramp Friction,Ramp Direction,Dynamics,Failed Attempts,Valid Runs,Total Attempts,Block Noise SD,Ramp Noise SD
+a,red_block,forward_ramp_down,0.264,0.2012,forward,down,0,2000,2000,0.03,0.08
+a,red_block,forward_ramp_up,0.264,0.2012,forward,up,0,2000,2000,0.03,0.08
+a,black_block,forward_ramp_down,0.3929,0.2012,forward,down,0,2000,2000,0.03,0.08
+a,black_block,forward_ramp_up,0.3929,0.2012,forward,up,0,2000,2000,0.03,0.08
+b,blue_ramp,forward_ramp_down,0.3015,0.1023,forward,down,0,2000,2000,0.03,0.08
+b,blue_ramp,forward_ramp_up,0.3015,0.1023,forward,up,0,2000,2000,0.03,0.08
+b,yellow_ramp,forward_ramp_down,0.3015,0.5698,forward,down,0,2000,2000,0.03,0.08
+b,yellow_ramp,forward_ramp_up,0.3015,0.5698,forward,up,0,2000,2000,0.03,0.08

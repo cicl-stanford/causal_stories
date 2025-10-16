@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Experiment</title>
+
+    <!--load jspsych plugins*/-->
+    <script src="jspsych/dist/jspsych.js"></script>
+    <script src="jspsych/dist/plugin-preload.js"></script>
+    <script src="jspsych/dist/plugin-image-button-response.js"></script>
+    <script src="jspsych/dist/plugin-video-button-response.js"></script>
+    <script src="jspsych/dist/plugin-survey-html-form.js"></script>
+    <script src="jspsych/dist/plugin-image-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-fullscreen.js"></script>
+    <script src="jspsych/dist/plugin-instructions.js"></script>
+    <script src="jspsych/dist/plugin-html-slider-response.js"></script>
+    <script src="jspsych/dist/plugin-html-button-response.js"></script>
+    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-survey-multi-choice.js"></script>
+    <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.3"></script>
+
+    <!--load jQuery and Proliferate-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css">
+
+    <style>
+
+        /*NOTE!!! the jspsych SurveyMultiChoice plugin is altered to remove the asterisk from req fields*/
+
+        /* override some formatting for the html surveys */       
+        label { /* center buttons over content */
+          display: inline-block
+        }
+
+      </style>
+
+  </head>
+
+  <body></body>
+
+  <script>
+
+//Init JsPsych and define actions on_finish
+var jsPsych = initJsPsych({
+        on_finish: function(){
+
+            //get full raw jspsych data object
+            var all_data = jsPsych.data.get();
+
+            //get participant survey info
+            var participants = all_data.filter({trial: 'exit_survey'})
+
+            //get info from trials of interest
+            var trials = all_data.filterCustom(function(trial){
+                return (trial.trial == 'prediction_trial' || trial.trial == 'surprise_quiz'  || trial.trial == 'generalization_check' || trial.trial == 'generalization_check_survey');
+                })
+
+            //redirect to proper location
+            window.location = prolific_redirect
+
+        }
+    });
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------
+//Set veriables for Experiment
+const test_mode = false
+const data_collection = true
+var yn_buttons = jsPsych.randomization.shuffle(['Yes', 'No'])
+var trial_number = 16
+const stimulus_size = 0.7
+var max_bonus = 0.48
+const bonus_per_trial = 3 //cents!
+const expID = "PwjWqebRXewX"; //from Datapipe
+var subjectID = jsPsych.randomization.randomID(10);
+var prolific_redirect = "https://app.prolific.com/submissions/complete?cc=81BA5E26" //redirect link
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+
+  // capture info from Prolific, except in test mode
+  if(test_mode) {
+    var subject_id = 'test';
+    var study_id = 'test';
+    var session_id = 'test';
+    subjectID = 'test_' + String(jsPsych.randomization.randomID(10)) //also overwrite the subjectID
+    prolific_redirect = "https://app.prolific.com/submissions/complete?cc=XXXXXXXX" //and the redirect link
+  } else {
+    var subject_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
+    var study_id = jsPsych.data.getURLVariable('STUDY_ID');
+    var session_id = jsPsych.data.getURLVariable('SESSION_ID')
+  }
+
+  jsPsych.data.addProperties({
+    prolific_id: subject_id,
+    prolific_study_id: study_id,
+    prolific_session_id: session_id
+  })
+
+// SET CONDITION from DATAPIPE
+async function setConditionWithRetry(maxRetries = 3, delayBetweenRetries = 100) {
+    let retries = 0;
+    while (retries < maxRetries) {
+        try { 
+            var condition = await jsPsychPipe.getCondition(expID);
+            return condition;
+        } catch (error) {
+            console.error('Error retrieving condition (retry attempt', retries + 1, 'of', maxRetries, '):', error);
+            retries++;
+            await new Promise(resolve => setTimeout(resolve, delayBetweenRetries)); // Wait before retrying
+        }
+    }
+    throw new Error('Failed to retrieve condition after maximum retries');
+}
+
+// All code will wait to execute until the condition is retrieved
+(async () => {//closed at end of script
+    try {
+        var condition = await setConditionWithRetry(); // Retry with default parameters
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------IMPORT FILENAMES AND ANSWER KEY---------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+//Stimuli and answer key
+var forward_stimuli_dict = {
+hr_hb_c: {first:'stimuli/r_b_f.jpg', last:'stimuli/r_b_f_1.jpg', crosses: false, surprise_options:['stimuli/r_b_f_1.jpg','stimuli/r_b_f_2.jpg','stimuli/r_b_f_3.jpg', 'stimuli/r_b_f_4.jpg'], surprise_answer: ['stimuli/r_b_f_1.jpg']},
+hr_ly_c: {first:'stimuli/r_y_f.jpg', last:'stimuli/r_y_f_2.jpg', crosses: false, surprise_options:['stimuli/r_y_f_1.jpg','stimuli/r_y_f_2.jpg','stimuli/r_y_f_3.jpg', 'stimuli/r_y_f_4.jpg'], surprise_answer: ['stimuli/r_y_f_2.jpg']},
+lb_hb_c: {first:'stimuli/b_b_f.jpg', last:'stimuli/b_b_f_3.jpg', crosses: true, surprise_options: ['stimuli/b_b_f_1.jpg','stimuli/b_b_f_2.jpg','stimuli/b_b_f_3.jpg', 'stimuli/b_b_f_4.jpg'], surprise_answer: ['stimuli/b_b_f_3.jpg']},
+lb_ly_c: {first:'stimuli/b_y_f.jpg', last:'stimuli/b_y_f_4.jpg', crosses: true, surprise_options: ['stimuli/b_y_f_1.jpg','stimuli/b_y_f_2.jpg','stimuli/b_y_f_3.jpg', 'stimuli/b_y_f_4.jpg'], surprise_answer: ['stimuli/b_y_f_4.jpg']},
+hb_hy_c: {first:'stimuli/b_y_f.jpg', last:'stimuli/b_y_f_1.jpg', crosses: false, surprise_options:['stimuli/b_y_f_1.jpg','stimuli/b_y_f_2.jpg','stimuli/b_y_f_3.jpg', 'stimuli/b_y_f_4.jpg'], surprise_answer: ['stimuli/b_y_f_1.jpg']},
+hb_lb_c: {first:'stimuli/b_b_f.jpg', last:'stimuli/b_b_f_2.jpg', crosses: false, surprise_options:['stimuli/b_b_f_1.jpg','stimuli/b_b_f_2.jpg','stimuli/b_b_f_3.jpg', 'stimuli/b_b_f_4.jpg'], surprise_answer: ['stimuli/b_b_f_2.jpg']},
+lr_hy_c: {first:'stimuli/r_y_f.jpg', last:'stimuli/r_y_f_3.jpg', crosses: true, surprise_options: ['stimuli/r_y_f_1.jpg','stimuli/r_y_f_2.jpg','stimuli/r_y_f_3.jpg', 'stimuli/r_y_f_4.jpg'], surprise_answer: ['stimuli/r_y_f_3.jpg']},
+lr_lb_c: {first:'stimuli/r_b_f.jpg', last:'stimuli/r_b_f_4.jpg', crosses: true, surprise_options: ['stimuli/r_b_f_1.jpg','stimuli/r_b_f_2.jpg','stimuli/r_b_f_3.jpg', 'stimuli/r_b_f_4.jpg'], surprise_answer: ['stimuli/r_b_f_4.jpg']},
+lr_lb_r: {first:'stimuli/r_b_f.jpg', last:'stimuli/r_b_f_4.jpg', crosses: true, surprise_options: ['stimuli/r_b_f_1.jpg','stimuli/r_b_f_2.jpg','stimuli/r_b_f_3.jpg', 'stimuli/r_b_f_4.jpg'], surprise_answer: ['stimuli/r_b_f_4.jpg']},
+hb_lb_r: {first:'stimuli/b_b_f.jpg', last:'stimuli/b_b_f_3.jpg', crosses: true, surprise_options: ['stimuli/b_b_f_1.jpg','stimuli/b_b_f_2.jpg','stimuli/b_b_f_3.jpg', 'stimuli/b_b_f_4.jpg'], surprise_answer: ['stimuli/b_b_f_3.jpg']},
+lr_hy_r: {first:'stimuli/r_y_f.jpg', last:'stimuli/r_y_f_2.jpg', crosses: false, surprise_options:['stimuli/r_y_f_1.jpg','stimuli/r_y_f_2.jpg','stimuli/r_y_f_3.jpg', 'stimuli/r_y_f_4.jpg'], surprise_answer: ['stimuli/r_y_f_2.jpg']},
+hb_hy_r: {first:'stimuli/b_y_f.jpg', last:'stimuli/b_y_f_1.jpg', crosses: false, surprise_options:['stimuli/b_y_f_1.jpg','stimuli/b_y_f_2.jpg','stimuli/b_y_f_3.jpg', 'stimuli/b_y_f_4.jpg'], surprise_answer: ['stimuli/b_y_f_1.jpg']},
+hr_hb_r: {first:'stimuli/r_b_f.jpg', last:'stimuli/r_b_f_1.jpg', crosses: false, surprise_options:['stimuli/r_b_f_1.jpg','stimuli/r_b_f_2.jpg','stimuli/r_b_f_3.jpg', 'stimuli/r_b_f_4.jpg'], surprise_answer: ['stimuli/r_b_f_1.jpg']},
+lb_hb_r: {first:'stimuli/b_b_f.jpg', last:'stimuli/b_b_f_2.jpg', crosses: false, surprise_options:['stimuli/b_b_f_1.jpg','stimuli/b_b_f_2.jpg','stimuli/b_b_f_3.jpg', 'stimuli/b_b_f_4.jpg'], surprise_answer: ['stimuli/b_b_f_2.jpg']},
+hr_ly_r: {first:'stimuli/r_y_f.jpg', last:'stimuli/r_y_f_3.jpg', crosses: true, surprise_options: ['stimuli/r_y_f_1.jpg','stimuli/r_y_f_2.jpg','stimuli/r_y_f_3.jpg', 'stimuli/r_y_f_4.jpg'], surprise_answer: ['stimuli/r_y_f_3.jpg']},
+lb_ly_r: {first:'stimuli/b_y_f.jpg', last:'stimuli/b_y_f_4.jpg', crosses: true, surprise_options: ['stimuli/b_y_f_1.jpg','stimuli/b_y_f_2.jpg','stimuli/b_y_f_3.jpg', 'stimuli/b_y_f_4.jpg'], surprise_answer: ['stimuli/b_y_f_4.jpg']}  
+}
+
+var backward_stimuli_dict = {
+hr_hb_c: {first:'stimuli/r_b_b.jpg', last:'stimuli/r_b_b_1.jpg', crosses: false, surprise_options:['stimuli/r_b_b_1.jpg','stimuli/r_b_b_2.jpg','stimuli/r_b_b_3.jpg', 'stimuli/r_b_b_4.jpg'], surprise_answer: ['stimuli/r_b_b_1.jpg']},
+hr_ly_c: {first:'stimuli/r_y_b.jpg', last:'stimuli/r_y_b_2.jpg', crosses: false, surprise_options:['stimuli/r_y_b_1.jpg','stimuli/r_y_b_2.jpg','stimuli/r_y_b_3.jpg', 'stimuli/r_y_b_4.jpg'], surprise_answer: ['stimuli/r_y_b_2.jpg']},
+lb_hb_c: {first:'stimuli/b_b_b.jpg', last:'stimuli/b_b_b_3.jpg', crosses: true, surprise_options: ['stimuli/b_b_b_1.jpg','stimuli/b_b_b_2.jpg','stimuli/b_b_b_3.jpg', 'stimuli/b_b_b_4.jpg'], surprise_answer: ['stimuli/b_b_b_3.jpg']},
+lb_ly_c: {first:'stimuli/b_y_b.jpg', last:'stimuli/b_y_b_4.jpg', crosses: true, surprise_options: ['stimuli/b_y_b_1.jpg','stimuli/b_y_b_2.jpg','stimuli/b_y_b_3.jpg', 'stimuli/b_y_b_4.jpg'], surprise_answer: ['stimuli/b_y_b_4.jpg']},
+hb_hy_c: {first:'stimuli/b_y_b.jpg', last:'stimuli/b_y_b_1.jpg', crosses: false, surprise_options:['stimuli/b_y_b_1.jpg','stimuli/b_y_b_2.jpg','stimuli/b_y_b_3.jpg', 'stimuli/b_y_b_4.jpg'], surprise_answer: ['stimuli/b_y_b_1.jpg']},
+hb_lb_c: {first:'stimuli/b_b_b.jpg', last:'stimuli/b_b_b_2.jpg', crosses: false, surprise_options:['stimuli/b_b_b_1.jpg','stimuli/b_b_b_2.jpg','stimuli/b_b_b_3.jpg', 'stimuli/b_b_b_4.jpg'], surprise_answer: ['stimuli/b_b_b_2.jpg']},
+lr_hy_c: {first:'stimuli/r_y_b.jpg', last:'stimuli/r_y_b_3.jpg', crosses: true, surprise_options: ['stimuli/r_y_b_1.jpg','stimuli/r_y_b_2.jpg','stimuli/r_y_b_3.jpg', 'stimuli/r_y_b_4.jpg'], surprise_answer: ['stimuli/r_y_b_3.jpg']},
+lr_lb_c: {first:'stimuli/r_b_b.jpg', last:'stimuli/r_b_b_4.jpg', crosses: true, surprise_options: ['stimuli/r_b_b_1.jpg','stimuli/r_b_b_2.jpg','stimuli/r_b_b_3.jpg', 'stimuli/r_b_b_4.jpg'], surprise_answer: ['stimuli/r_b_b_4.jpg']},
+lr_lb_r: {first:'stimuli/r_b_b.jpg', last:'stimuli/r_b_b_4.jpg', crosses: true, surprise_options: ['stimuli/r_b_b_1.jpg','stimuli/r_b_b_2.jpg','stimuli/r_b_b_3.jpg', 'stimuli/r_b_b_4.jpg'], surprise_answer: ['stimuli/r_b_b_4.jpg']},
+hb_lb_r: {first:'stimuli/b_b_b.jpg', last:'stimuli/b_b_b_3.jpg', crosses: true, surprise_options: ['stimuli/b_b_b_1.jpg','stimuli/b_b_b_2.jpg','stimuli/b_b_b_3.jpg', 'stimuli/b_b_b_4.jpg'], surprise_answer: ['stimuli/b_b_b_3.jpg']},
+lr_hy_r: {first:'stimuli/r_y_b.jpg', last:'stimuli/r_y_b_2.jpg', crosses: false, surprise_options:['stimuli/r_y_b_1.jpg','stimuli/r_y_b_2.jpg','stimuli/r_y_b_3.jpg', 'stimuli/r_y_b_4.jpg'], surprise_answer: ['stimuli/r_y_b_2.jpg']},
+hb_hy_r: {first:'stimuli/b_y_b.jpg', last:'stimuli/b_y_b_1.jpg', crosses: false, surprise_options:['stimuli/b_y_b_1.jpg','stimuli/b_y_b_2.jpg','stimuli/b_y_b_3.jpg', 'stimuli/b_y_b_4.jpg'], surprise_answer: ['stimuli/b_y_b_1.jpg']},
+hr_hb_r: {first:'stimuli/r_b_b.jpg', last:'stimuli/r_b_b_1.jpg', crosses: false, surprise_options:['stimuli/r_b_b_1.jpg','stimuli/r_b_b_2.jpg','stimuli/r_b_b_3.jpg', 'stimuli/r_b_b_4.jpg'], surprise_answer: ['stimuli/r_b_b_1.jpg']},
+lb_hb_r: {first:'stimuli/b_b_b.jpg', last:'stimuli/b_b_b_2.jpg', crosses: false, surprise_options:['stimuli/b_b_b_1.jpg','stimuli/b_b_b_2.jpg','stimuli/b_b_b_3.jpg', 'stimuli/b_b_b_4.jpg'], surprise_answer: ['stimuli/b_b_b_2.jpg']},
+hr_ly_r: {first:'stimuli/r_y_b.jpg', last:'stimuli/r_y_b_3.jpg', crosses: true, surprise_options: ['stimuli/r_y_b_1.jpg','stimuli/r_y_b_2.jpg','stimuli/r_y_b_3.jpg', 'stimuli/r_y_b_4.jpg'], surprise_answer: ['stimuli/r_y_b_3.jpg']},
+lb_ly_r: {first:'stimuli/b_y_b.jpg', last:'stimuli/b_y_b_4.jpg', crosses: true, surprise_options: ['stimuli/b_y_b_1.jpg','stimuli/b_y_b_2.jpg','stimuli/b_y_b_3.jpg', 'stimuli/b_y_b_4.jpg'], surprise_answer: ['stimuli/b_y_b_4.jpg']}  
+}
+
+//DEFINE STIMULI BASED ON CONDITION
+var condition_1 = [ 
+"hr_hb_c",
+"hr_ly_c",
+"lb_hb_c",
+"lb_ly_c"]
+var condition_2 = [
+"hb_hy_c",
+"hb_lb_c",
+"lr_hy_c",
+"lr_lb_c"]
+var condition_3 = [
+"lr_lb_r",
+"hb_lb_r",
+"lr_hy_r",
+"hb_hy_r"]
+var condition_4 = [
+"hr_hb_r",
+"lb_hb_r",
+"hr_ly_r",
+"lb_ly_r"]
+
+
+if(condition == 0 | condition == 4) {
+    var condition_stimuli = condition_1
+    var farther_cube = 'black'
+    var farther_ramp = 'yellow'
+    var ramp_or_cube = 'cube'
+} else if(condition == 1 | condition == 5){
+    var condition_stimuli = condition_2
+    var farther_cube = 'red'
+    var farther_ramp = 'blue'
+    var ramp_or_cube = 'cube'
+} else if(condition == 2 | condition == 6){
+    var condition_stimuli = condition_3
+    var farther_cube = 'red'
+    var farther_ramp = 'blue'
+    var ramp_or_cube = 'ramp'
+} else if(condition == 3 | condition == 7){
+    var condition_stimuli = condition_4
+    var farther_cube = 'black'
+    var farther_ramp = 'yellow'
+    var ramp_or_cube = 'ramp'
+}
+if(condition < 4) {
+    var ramp_orientation = "forward"
+    var reverse_ramp_orientation = "backward"
+    var stimuli_dict = forward_stimuli_dict
+    var instructions_char = 'f'
+} else if (condition >= 4) {
+    var ramp_orientation = "backward"
+    var reverse_ramp_orientation = "forward"
+    var stimuli_dict = backward_stimuli_dict
+    var instructions_char = 'b'
+}
+
+
+//record condition info
+    jsPsych.data.addProperties({
+        condition: condition,
+        ramp_orientation: ramp_orientation,
+        ramp_or_cube: ramp_or_cube
+    })
+
+//BUILD TRIAL SEQUENCE BASED ON TRIAL_NUMBER
+var trial_sequence=[]
+
+condition_stimuli = jsPsych.randomization.shuffleNoRepeats(condition_stimuli) //shuffle order to start, this will also randomize order of surprise quiz trials
+
+for(var i=0; i<trial_number; i++){
+    trial_sequence.push(condition_stimuli[( i % 4)])
+}
+//randomize order w/o repeats so it isn't determined by condition_stimuli order
+trial_sequence = jsPsych.randomization.shuffleNoRepeats(trial_sequence)
+
+
+//BUILD GENERALIZATION CHECK SEQUENCE
+//randomize cube/ramp order
+var randint_gencheck_1 = String(jsPsych.randomization.randomInt(1,2))
+var randint_gencheck_2 = String(jsPsych.randomization.randomInt(1,2))
+var randint_gencheck_3 = String(jsPsych.randomization.randomInt(1,2))
+var randint_gencheck_4 = String(jsPsych.randomization.randomInt(1,2))
+
+var generalization_check_trials_matched = [
+    {
+        trial_id: 'multi_cube',
+        stimulus: 'stimuli/two_cubes_' + ramp_orientation + '_' + randint_gencheck_1 + '.jpg',
+        choices: ['stimuli/two_cubes_' + ramp_orientation + '_' + randint_gencheck_1 + '_left_red.jpg', 'stimuli/two_cubes_' + ramp_orientation + '_' + randint_gencheck_1 + '_left_black.jpg', 'stimuli/two_cubes_' + ramp_orientation + '_' + randint_gencheck_1 + '_right_red.jpg', 'stimuli/two_cubes_' + ramp_orientation + '_' + randint_gencheck_1 + '_right_black.jpg'],
+        farther_color: farther_cube,
+        orientation: 'consistent'
+    },
+    {
+        trial_id: 'multi_ramp',
+        stimulus: 'stimuli/two_ramps_' + ramp_orientation + '_' + randint_gencheck_2 + '.jpg',
+        choices: ['stimuli/two_ramps_' + ramp_orientation + '_' + randint_gencheck_2 + '_left_yellow.jpg', 'stimuli/two_ramps_' + ramp_orientation + '_' + randint_gencheck_2 + '_left_blue.jpg', 'stimuli/two_ramps_' + ramp_orientation + '_' + randint_gencheck_2 + '_right_blue.jpg', 'stimuli/two_ramps_' + ramp_orientation + '_' + randint_gencheck_2 + '_right_yellow.jpg'],
+        farther_color: farther_ramp,
+        orientation: 'consistent'
+    }]
+var generalization_check_trials_reversed = [
+    {
+        trial_id: 'multi_cube',
+        stimulus: 'stimuli/two_cubes_' + reverse_ramp_orientation + '_' + randint_gencheck_3 + '.jpg',
+        choices: ['stimuli/two_cubes_' + reverse_ramp_orientation + '_' + randint_gencheck_3 + '_left_red.jpg', 'stimuli/two_cubes_' + reverse_ramp_orientation + '_' + randint_gencheck_3 + '_left_black.jpg', 'stimuli/two_cubes_' + reverse_ramp_orientation + '_' + randint_gencheck_3 + '_right_red.jpg', 'stimuli/two_cubes_' + reverse_ramp_orientation + '_' + randint_gencheck_3 + '_right_black.jpg'],
+        farther_color: farther_cube,
+        orientation: 'reversed'
+    },
+    {
+        trial_id: 'multi_ramp',
+        stimulus: 'stimuli/two_ramps_' + reverse_ramp_orientation + '_' + randint_gencheck_4 + '.jpg',
+        choices: ['stimuli/two_ramps_' + reverse_ramp_orientation + '_' + randint_gencheck_4 + '_left_yellow.jpg', 'stimuli/two_ramps_' + reverse_ramp_orientation + '_' + randint_gencheck_4 + '_left_blue.jpg', 'stimuli/two_ramps_' + reverse_ramp_orientation + '_' + randint_gencheck_4 + '_right_blue.jpg', 'stimuli/two_ramps_' + reverse_ramp_orientation + '_' + randint_gencheck_4 + '_right_yellow.jpg'],
+        farther_color: farther_ramp,
+        orientation: 'reversed'
+    }]
+
+//shuffle trials
+var generalization_check_trials = jsPsych.randomization.shuffle(generalization_check_trials_matched).concat(jsPsych.randomization.shuffle(generalization_check_trials_reversed))
+
+//initiate timeline
+var timeline = []
+
+//retrieve full set of stimuli used for manual preloading
+var preload_images = []
+for( var i=0; i<condition_stimuli.length; i++){
+    var stim = condition_stimuli[i]
+    preload_images.push(stimuli_dict[stim]['first'])
+    preload_images.push(stimuli_dict[stim]['last'])
+    preload_images = preload_images.concat(stimuli_dict[stim]['surprise_options'])
+}
+for(var i=0; i<2; i++) {
+    preload_images.push(generalization_check_trials[i]['stimulus'])
+    preload_images = preload_images.concat(generalization_check_trials[i]['choices'])
+}
+
+//preload stimuli
+var preload = { //load files
+  type: jsPsychPreload,
+  images: preload_images
+}
+
+timeline.push(preload)
+
+//force fullscreen
+var fullscreen = { //load files
+  type: jsPsychFullscreen
+}
+timeline.push(fullscreen)
+
+const window_width = window.screen.availWidth
+
+//CONSENT
+var time = ' 5 minutes';
+var consent = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p><b>Consent Form</b></p> <div style="text-align:left;' +
+        'background-color:lightblue; padding:20px; max-width:900px;">' +
+        '<p><b>Description:</b> Welcome! You are invited to participate' +
+        ' in a research study in cognitive psychology. You will be asked' +
+        ' to perform various tasks on a computer which may include:' +
+        ' looking at images or videos, listening to sounds, reading' +
+        ' scenarios, or playing games. You may be asked a number of' +
+        // careful about single quotes
+        " different questions about making judgments and intepreting" +
+        " people's actions. All information collected will remain" +
+        ' confidential. </p>' +
+        ' <p> <b>Risks and benefits:</b> Risks involved in this study' +
+        ' are the same as those normally associated with using a' +
+        ' computer (e.g., mild eye/arm strain). If you have any pre-' +
+        ' existing conditions that might make reading and completing' +
+        ' a computer-based survey strenuous for you, you should' +
+        ' probably elect to not participate in this study. If at any' +
+        ' time during the study you feel unable to participate because' +
+        ' you are experiencing strain, you may end your participation' +
+        ' without penalty. We cannot and do not guarantee or promise that' +
+        ' you will receive any benefits from this study. Your decision' +
+        ' whether or not to participate in this study will not affect' +
+        ' your employment, medical care, and/or grades in school. </p>' +
+        '<p><b>Time involvement:</b> Your participation in this' +
+        ' experiment will take ' + time + '. </p>' +
+        '<p><b> Payment:</b> If recruitment materials indicate payment' +
+        ' (e.g., Prolific or other recruitment), you will receive' +
+        ' compensation as indicated. </p>' +
+        "<p><b>Subject's rights:</b> If you have read this notice and" +
+        ' have decided to participate in this project, please understand' +
+        ' your participation is voluntary and you have the right to' +
+        ' withdraw your consent or discontinue participation at any' +
+        ' time without penalty or loss of benefits to which you are' +
+        ' otherwise entitled. You have the right to refuse to answer' +
+        ' particular questions. Your individual privacy will be' +
+        ' maintained in all published and written data resulting from' +
+        ' the study. </p>' +
+        '<p><b>Contact information:</b> If you have any questions,' +
+        ' concerns or complaints about this research study, its' +
+        ' procedures, or risks and benefits, you should ask the' +
+        ' Protocol Director, (Professor Tobias Gerstenberg, Phone:' +
+        ' (650) 725-2431; Email: gerstenberg@stanford.edu). </p>' +
+        '<p><b>Independent contact:</b> If you are not satisfied' +
+        ' with how this study is being conducted, or if you have' +
+        ' any concerns, complaints, or general questions about the' +
+        ' research or your rights as a participant, please contact' +
+        ' the Stanford Institutional Review Board (IRB) to speak' +
+        ' to someone independent of the research team via email at' +
+        ' irb2-manager@lists.stanford.edu, or via phone at' +
+        ' (650) 723-2480 or toll free at 1-866-680-2906. You can also' +
+        ' write to the Stanford IRB, Stanford University, 3000 El' +
+        ' Camino Real, Five Palo Alto Square, 4th Floor, Palo Alto,' +
+        ' CA 94306. </p>' +
+        '<p>You may want to print a copy of this consent form to' +
+        ' keep. By clicking the button below, you acknowledge that' +
+        ' you have read the above information, that you are 18 years' +
+        ' of age, or older and give your consent to participate in' +
+        ' our internet-based study and consent for us to analyze the' +
+        ' resulting data. </p> </div>' +
+        '<p> Do you agree with the terms of the experiment as explained' +
+        ' above? </p>',
+    margin_vertical: '30px',
+    choices: ['I agree']
+}
+//timeline.push(consent)
+
+
+//Instructions
+var intro = []
+
+var intro_text = [ //create introductory text
+    "<img src= stimuli/r_b_" + instructions_char + ".jpg style=width:"+String(window_width/2)+
+    "px> </img> <p> In this experiment, you will see images like this one. You'll be asked to predict what happens next.</p>",
+
+   ("<img src= stimuli/r_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/r_y_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/b_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/b_y_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <p> In each trial, you will see one of these four images. </p>"),
+
+   ("</img> <img src= stimuli/b_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/r_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <p> A cube is either black or red. </p>"),
+
+   ("</img> <img src= stimuli/r_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/r_y_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <p> A ramp is either blue or yellow. </p>"),
+
+   ("<img src= stimuli/r_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/r_y_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/b_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/b_y_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <p>  Your goal is to predict whether the cube will end up to the right of the finish line. </p>"),
+
+   ("<img src= stimuli/r_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/r_y_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/b_b_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <img src= stimuli/b_y_" + instructions_char + ".jpg style=width:"+String(window_width/3)+
+   "px> </img> <p> After you've made your prediction, you will find out whether you were right.</p> <p> Pay attention to the feedback to learn what happens in each scenario. </p>"),
+
+   "<p> For every question you answer correctly, you will receive a bonus of "+ String(bonus_per_trial) +" cents.</p>" +
+   "<p> This experiment consists of "+ String(trial_number) + " trials, so the maximum bonus is $"+max_bonus.toFixed(2)+".</p>",
+    "Before the experiment begins, you will answer a couple questions about the instructions."]
+
+ var experiment_intro = { //create instructions trials
+   type: jsPsychInstructions,
+   pages: intro_text,
+   show_clickable_nav: true,
+   data: {trial: 'instructions_pt1'}
+ };
+
+ intro.push(experiment_intro)
+
+ //add a comprehension check
+ var comprehension_quiz = {
+  timeline: [
+    {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "<p> In this experiment, you will receive a bonus payment proportional to _________.</p>",
+      choices: [
+          "the number of trials answered correctly", 
+          "the average time taken to answer each question"],
+      data: {correct_response: 0, trial: 'comprehension_quiz'}
+    },
+    {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "You will be asked to predict whether objects _________.",
+      choices: ["will collide with each other", "will end up to the right of a finish line"],
+      data: {correct_response: 1, trial: 'comprehension_quiz'}
+    }],
+  data: {
+      trial: 'attention_check'
+    },
+  on_finish: function(data){
+      var accuracy = false
+      if(data.correct_response == data.response){
+        accuracy = true
+      }
+      data.accuracy = accuracy
+    }
+}
+intro.push(comprehension_quiz)
+
+//if one or more questions are answered incorrectly, play this message
+ var fail_message = {
+   type: jsPsychHtmlButtonResponse,
+   stimulus: "<p> Oops! You have answered one or more questions incorrectly.</p>" +
+             "<p> Please Review the instructions again before continuing with the experiment </p>",
+   choices: ["Review Instructions"],
+   data: {
+     trial: 'fail_message',
+     accuracy: false
+   }
+ }
+
+ //define conditional for the error message
+ var conditional_fail = {
+    timeline: [fail_message],
+    conditional_function: function(){
+        // get the data from the previous trials,
+        // if any were incorrect, display fail message and set data.loop = true
+        var data = jsPsych.data.get().last(2).values();
+        if(data[0].accuracy && data[1].accuracy){
+            return false;
+        } else {
+            return true;
+        }
+    } 
+}
+intro.push(conditional_fail)
+ 
+//if error message is triggered, loop back through the first part of the instructions
+  var instructions = {
+    timeline: intro,
+    loop_function: function(data){
+       if(data.last(1).values()[0].trial=='fail_message'){
+            return true
+        } else {
+            return false
+        }
+    }
+}
+timeline.push(instructions)
+
+var expt_begin = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: "The experiment will now begin",
+    choices: ["Begin"]
+}
+timeline.push(expt_begin)
+
+
+
+//define standard prediction trials
+for(var i=0; i<trial_number; i++) {
+
+    //define setup for each trial
+    var stimulus = stimuli_dict[trial_sequence[i]]
+    //define sequence for each trial based on setup
+    var quiz_sequence = {
+        timeline: [
+            {//initial thumbnale and question
+            type: jsPsychHtmlButtonResponse,
+            stimulus: "<img src=" + stimulus['first'] + " style=width:"+String(window_width*stimulus_size)+"px></img"+
+                        "<br> <center><p> Will the cube end up to the right of the finish line? </p><c/enter>",
+            stimulus_width:window_width/2,
+            choices: yn_buttons,
+            data: {
+                crosses: stimulus['crosses'],
+                trial: "prediction_trial",
+                answer_image: stimulus['surprise_answer']
+            },
+            on_finish: function(data) {
+                //update response to be 'Yes' or 'No'
+                data.response = yn_buttons[data.response]
+
+                if(data.crosses){
+                    data.correct_response = 'Yes'
+                } else {
+                    data.correct_response = 'No' 
+                    }
+
+                if(data.correct_response == data.response) {
+                    data.correct = true
+                } else {
+                    data.correct = false
+                  }
+                if(data.correct){
+                    data.accuracy_bool = 1
+                } else {
+                    data.accuracy_bool = 0
+                }
+                data.end_position = data.answer_image[0].substring(14, 15)
+                }
+            },
+        {//Reveal outcome and show feedack. Allow participant to continue to next trial.
+            type: jsPsychHtmlButtonResponse,
+            stimulus: function() {
+                if(jsPsych.data.getLastTrialData().values()[0].correct) {
+                    return "<img src=" + jsPsych.data.getLastTrialData().values()[0].answer_image + " style=width:"+String(window_width*stimulus_size)+"px></img"+
+                        "<br> <center><p> &#9989 Correct! &#9989 </p><c/enter>"
+                } else {
+                    return "<img src=" + jsPsych.data.getLastTrialData().values()[0].answer_image + " style=width:"+String(window_width*stimulus_size)+"px></img"+
+                        "<br> <center><p> &#10060 Incorrect! &#10060 </p><c/enter>"
+                    }
+                },
+            choices: ['Continue'],
+            data: {
+                trial: "feedback_trial"
+            }
+        }
+    ]
+    }
+   timeline.push(quiz_sequence)
+}
+//Instructions for surprise quiz
+var quiz_instructions = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: " <p> Now we will ask you a few different questions.</p> <p>Please answer them as well as you can.</p>",
+    choices: ['Continue'],
+    data: {
+        trial: 'surprise_quiz_instructions'
+    }
+
+}
+timeline.push(quiz_instructions)
+
+//helper function for surprise quiz--turn path into properly formatted html strign
+function to_html_string(filepath){
+    return "<br><img src=" + filepath + " style=width:"+String(window_width/5)+"px></img"
+}
+function to_html_string_gen(filepath){
+    return "<br><img src=" + filepath + " style=width:"+String(window_width/5)+"px></img"
+}
+
+//create surprise quiz
+for(var i = 0; i<condition_stimuli.length; i++){
+    var surprise_str = condition_stimuli[i]
+
+    //retrieve the list of surprise quiz stimuli for each stimulus in the given condition
+    var surprise_quiz_choices = []
+    for(var j = 0; j<4; j++){
+        surprise_quiz_choices.push(to_html_string(stimuli_dict[surprise_str]['surprise_options'][j]))
+    }
+    
+    //put the surprise quiz together
+    var surprise_quiz = {
+            type: jsPsychSurveyMultiChoice,
+            questions: [{
+                prompt: "<img src=" + stimuli_dict[surprise_str]['first'] + " style=width:"+String(window_width/2)+"px></img"+
+                        "<br> <center><p> Where will the cube end up? </p><c/enter>",
+                options: surprise_quiz_choices,
+                horizontal: true,
+                required: true}],
+                data: { 
+                    surprise_setup: surprise_str,
+                    choices: surprise_quiz_choices,
+                    trial: 'surprise_quiz'
+                },
+                on_finish: function(data) {//record accuracy
+                    data.response = data.response['Q0']
+                    if(data.response == to_html_string(stimuli_dict[data.surprise_setup]['surprise_answer'])){
+                        data.accuracy = true
+                    } else {
+                        data.accuracy = false
+                    }
+
+                    //record whether they were correct abt whether the cube will cross finish line
+                    data.selected_position = data.response.substring(27, 28)
+                    data.end_posision = to_html_string(stimuli_dict[data.surprise_setup]['surprise_answer']).substring(27, 28)
+
+                    if(stimuli_dict[data.surprise_setup]['crosses']){
+                        if(data.selected_position=='0' | data.selected_position=='1') {
+                            data.accuracy_finish_line = false
+                        } else {
+                            data.accuracy_finish_line = true
+                        }
+                    } else {
+                        if(data.selected_position=='2' | data.selected_position=='3') {
+                            data.accuracy_finish_line = false
+                        } else {
+                            data.accuracy_finish_line = true
+                        }
+                    }
+                }
+            }        
+    timeline.push(surprise_quiz)
+}   
+
+//create generalization check
+for(var i = 0; i<4; i++){
+    //put the surprise quiz together
+    var gen_check_choices = []
+    for(var j = 0; j<4; j++){
+        gen_check_choices.push(to_html_string_gen(generalization_check_trials[i]['choices'][j]))
+    }
+    var generalization_check_trial = {
+            type: jsPsychSurveyMultiChoice,
+            questions: [{
+                prompt: "<img src=" + generalization_check_trials[i]['stimulus'] + " style=width:"+String(window_width/2)+"px></img"+
+                        "<br> <center><p> Where will the cubes end up?",
+                options: gen_check_choices,
+                horizontal: true,
+                required: true}],
+                data: {
+                    trial: 'generalization_check',
+                    stimulus: generalization_check_trials[i]['stimulus'],
+                    orientation: generalization_check_trials[i]['orientation'],
+                    farther_color: generalization_check_trials[i]['farther_color'],
+                    choices: gen_check_choices
+                },
+                on_finish: function(data) {
+                data.response = data.response['Q0']
+                data.predicted_further = data.response.split('_')[5].split('.')[0]
+                data.predicted_direction = data.response.split('_')[4]
+
+                if(data.predicted_further == data.farther_color) {
+                    data.farther_color_generalized = true
+                } else {
+                    data.farther_color_generalized = false
+                }
+            }
+            }        
+    timeline.push(generalization_check_trial)
+}   
+//Ask about generalization check
+for(var i=0; i<4; i++) {
+    var generalization_check_survey = {
+            type: jsPsychSurveyHtmlForm,
+            preamble: "<br> <br> <img src=" + generalization_check_trials[i]['stimulus'] + " style=width:"+String(window_width/3)+"px>"+
+                        "<br> <center><p> For this image, you predicted that the cubes would end up like shown below. </p></center>",
+            html: function() {
+                    return  jsPsych.data.get().last(4).values()[0].response +
+                            '<br> <p> Why did you think this would happen?</p>' +
+                            '<center><textarea rows="5" name="response" cols="50" required=true, style="margin-top: 0;"></textarea> <br><br>'
+                        },                      
+            data: {
+                    trial: 'generalization_check_survey'
+                },
+            on_finish: function(data) {
+                data.relates_to = jsPsych.data.get().last(5).values()[0].trial_index
+                data.orientation = jsPsych.data.get().last(5).values()[0].orientation
+                data.predicted_further = jsPsych.data.get().last(5).values()[0].predicted_further
+                data.predicted_direction = jsPsych.data.get().last(5).values()[0].predicted_direction
+            }
+            }
+    timeline.push(generalization_check_survey) 
+}
+
+//thank you message
+var thanks = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+      //get trials of interest
+      var trials = jsPsych.data.get().filterCustom(function(trial){
+                return (trial.trial == 'prediction_trial');
+                })
+
+      //calculate overall accruacy
+      var score = trials.select('accuracy_bool').sum();
+      var bonus = (score/trial_number) * max_bonus
+
+      return "<p>Thank you for participating!</p>" +
+      "You answered " + score + " out of " + trial_number + " trials correctly, and will receive a $" + bonus.toFixed(2) + " bonus." +
+      "<p>Now you will complete a short survey before finishing the experiment.</p>"
+    },
+    choices: ['Continue'],
+    on_finish: function(data) {
+        data.response = data.response['response']
+    }
+  }
+  timeline.push(thanks)
+//-------------------------------------------------------------
+  //EXIT QUIZ
+//-------------------------------------------------------------
+
+var feedback_demographics = {
+    type: jsPsychSurveyHtmlForm,
+    html: '<div style="max-width:700px; text-align:center;"> <p>' +
+        'What factors influenced how you decided to respond? Do you' +
+        ' have any questions or comments regarding the experiment?' +
+        '</p> <textarea name="feedback" cols="40" rows="6"' +
+        ' "autofocus"></textarea> <p> Please provide the following' +
+        ' information to complete the study. </p> <div style="text-' +
+        'align:center;"> <div style="text-align:left; display:' +
+        'inline-block; margin-right:20px; line-height:1.8em;"> <ol>' +
+            '<li>Age:</li> <br><br>' +
+            '<li>Gender:</li> <br><br>' +
+            '<li>Race:</li> <br><br><br><br><br><br>' +
+            '<li>Ethnicity:</li>' +
+        '</ol> </div>' +
+        '<div style="text-align:left; display: inline-block;' +
+        ' line-height:1.8em;">' +
+            // age text box
+            '<input name="age" type="number"  min="18" max="100" /> <br> <br>' +
+            // gender options
+            '<input name="gender" type="radio" id="female" value=' +
+                '"Female" /> <label for="female"> Female </label>' +
+            '<input name="gender" type="radio" id="male" value=' +
+                '"Male" /> <label for="male"> Male </label>' +
+            '<input name="gender" type="radio" id="nonbinary" value=' +
+                '"Non-binary" /> <label for="nonbinary"> Non-binary </label> <br>' +
+            '<input name="gender" type="radio" id="other_gender" value=' +
+                '"other_gender" /> <label for="other_gender"> Other: <input' +
+                ' type="text" name="other_gender" /> </label> <br><br>' +
+            // race options
+            '<input name="race" type="radio" id="white" value=' +
+                '"White" /> <label for="white"> White </label> <br>' +
+            '<input name="race" type="radio" id="black" value=' +
+                '"Black/African American" /> <label for="black">' +
+                ' Black/African American </label> <br>' +
+            '<input name="race" type="radio" id="am_ind" value=' +
+                '"American Indian/Alaska Native" /> <label for="am_ind">' +
+                ' American Indian/Alaska Native </label> <br>' +
+            '<input name="race" type="radio" id="asian" value=' +
+                '"Asian" /> <label for="asian"> Asian </label> <br>' +
+            '<input name="race" type="radio" id="pac_isl" value=' +
+                '"Native Hawaiian/Pacific Islander" /> <label for="pac_isl">' +
+                ' Native Hawaiian/Pacific Islander </label> <br>' +
+            '<input name="race" type="radio" id="multi" value=' +
+                '"Multiracial" /> <label for="multi"> Multiracial/Mixed </label> <br>' +
+            '<input name="race" type="radio" id="other_race" value="other_race" />' +
+                '<label for="other_race"> Other: <input type="text"' +
+                'name="other_race" /> </label> <br><br>' +
+            // ethnicity options
+            '<input name="ethnicity" type="radio" id="hisp" value=' +
+                '"Hispanic" /> <label for="hisp"> Hispanic </label>' +
+            '<input name="ethnicity" type="radio" id="nonhisp" value=' +
+                '"Non-Hispanic" /> <label for="nonhisp"> Non-Hispanic' +
+                ' </label>' +
+        '</div> </div>' +
+        '<p> Please press the finish button to complete the experiment. </p> </div>',
+    button_label: 'Finish',
+    data: {
+      trial: 'exit_survey',
+    },
+    on_finish: function(data){
+
+      data.feedback = data.response['feedback'];
+      data.age = data.response['age'];
+      data.ethnicity = data.response['ethnicity']
+      data.gender = data.response['gender']
+      data.race = data.response['race']
+
+      //override undefined or other values
+      if (data.gender == "other_gender" || typeof data.gender == "undefined") {
+        data.gender = data.response['other_gender']};
+      delete data.other_gender;
+
+      if (data.race == "other_race" || typeof data.race == "undefined") {
+        data.race = data.response['other_race']};
+      delete data.other_race;
+
+      if (typeof data.ethnicity == "undefined") {
+        data.ethnicity = ""}
+
+      //calculate bonus info
+      var trials = jsPsych.data.get().filterCustom(function(trial){
+                return (trial.trial == 'prediction_trial');
+                })
+
+      data.overall_accuracy = trials.select('accuracy_bool').mean();
+      data.bonus = data.overall_accuracy * max_bonus
+    }
+};
+
+    timeline.push(feedback_demographics)
+
+
+//save data to datapipe
+    const save_data = {
+        type: jsPsychPipe,
+        action: "save",
+        experiment_id: expID,
+        filename: `${subjectID}.csv`,
+        data_string: ()=>jsPsych.data.get().csv()
+    };
+
+    //only implement data saving if desired
+    if(data_collection){
+        timeline.push(save_data)
+    }
+
+
+    
+jsPsych.run(timeline)
+
+
+//close out asynch call
+} catch (error) {
+        console.error('Failed to set condition:', error);
+        // Handle the error appropriately, e.g., inform the user, log, etc.
+    }
+})();
+
+
+</script>
+</html>

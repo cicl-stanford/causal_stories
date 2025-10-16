@@ -1,0 +1,2737 @@
+---
+title: "Causal stories"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  bookdown::html_document2:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    theme: cosmo
+    highlight: tango
+---
+
+# Load packages
+
+```{r, message=F}
+library("knitr")        # for knitting documents
+library("emmeans")      # for computing estimated marginal means 
+library("broom.mixed")  # for tidying up model objects
+library("kableExtra")   # for formatting tables
+library("brms")         # for Bayesian regression modeling
+library("Hmisc")        # for miscellaneous statistical functions
+library("boot")         # for bootstrap resampling
+library("nnet")         # for multinomial log-linear models
+library("modelr")       # for modeling functions with tidy data
+library("lme4")         # for linear mixed-effects models
+library("corrr")        # for correlation analysis
+library("tidybayes")    # for working with Bayesian models in a tidy way
+library("janitor")      # for data cleaning
+library("patchwork")    # for combining ggplot2 plots
+library("ggtext")       # for rich text in ggplot2
+library("rstatix")      # for pipe-friendly statistical tests
+library("rsample")      # for resampling and splitting data
+library("png")          # for reading and writing PNG images
+library("grid")         # for grid graphics
+library("egg")          # for arranging ggplot2 plots
+library("glue")         # for string interpolation
+library("ggeffects")    # for computing marginal effects from regression models
+library("xtable")       # for exporting tables to LaTeX or HTML
+library("jsonlite")     # for JSON data handling
+library("tidyverse")    # for data science packages (ggplot2, dplyr, etc.)
+```
+
+# Set options
+
+```{r}
+theme_set(theme_classic() + 
+    theme(text = element_text(size = 24)))
+
+opts_chunk$set(comment = "",
+               fig.show = "hold")
+
+# suppress grouping warning 
+options(dplyr.summarise.inform = F)
+
+# use effects contrast coding to interpret effects from categorical variables as main effects 
+options(contrasts = c("contr.sum", "contr.poly"))
+```
+
+# Functions
+
+## Print table
+
+```{r}
+# function for printing out html or latex tables 
+print_table = function(data, format = "html", digits = 2){
+  if(format == "html"){
+    data %>% 
+      kable(digits = digits) %>% 
+      kable_styling()
+  }else if(format == "latex"){
+    data %>% 
+      xtable(digits = digits,
+             caption = "Caption",
+             label = "tab:table") %>%
+      print(include.rownames = F,
+            booktabs = T,
+            sanitize.colnames.function = identity,
+            caption.placement = "top")
+  }
+}
+```
+
+## Round off
+
+```{r}
+round.off = function (x, digits=0) 
+{
+  posneg = sign(x)
+  z = trunc(abs(x) * 10 ^ (digits + 1)) / 10
+  z = floor(z * posneg + 0.5) / 10 ^ digits
+  return(z)
+}
+```
+
+## Blickets: Selections plot
+
+```{r}
+fun_plot_selections_blickets = function(data){
+  data = data %>%
+    mutate(total = sum(n), 
+           perc = (n / total) * 100,
+           low_perc = (low / total) * 100,
+           high_perc = (high / total) * 100)
+  
+  df.symbols = tibble(x = sort(data$blicket_response),
+                      y = 95,
+                      symbol = c("\u25A0", "\u25A1", "\u25CF", "\u25CB"))
+  
+  plot = ggplot(data = data,
+                mapping = aes(x = blicket_response,
+                              y = perc)) +
+    geom_col(mapping = aes(fill = color),
+             color = "black",
+             show.legend = F) +
+    geom_text(data = df.symbols,
+              mapping = aes(x = x,
+                            y = y,
+                            label = symbol),
+              size = 20,
+              show.legend = F,
+              family = "Arial Unicode MS") + 
+    geom_linerange(mapping = aes(x = blicket_response,
+                                 ymin = low_perc, 
+                                 ymax = high_perc)) +
+    scale_fill_manual(values = c("0" = "gray80",
+                                 "1" = "orange",
+                                 "2" = "darkgreen")) + 
+    scale_y_continuous(limits = c(0, 102),
+                       breaks = seq(0, 100, 20),
+                       labels = function(x) paste0(x, "%"),
+                       expand = expansion(add = c(0, 0))) + 
+    labs(y = "% selected") +
+    theme(axis.title.x = element_blank(),
+          text = element_text(size = 24))
+  return(plot)
+}
+```
+
+## Physics: Selections plot 
+
+```{r}
+fun_plot_selections_physics = function(data, exp="exp1"){
+  
+  if(exp == "exp2.conjunctive"){
+    fun_load_image = function(image){
+      readPNG(str_c("../../figures/stimuli/physics/conjunction_position", image, ".png"))
+    }
+  }
+  else if(exp == "exp3"){
+    ramp_index = unique(data$ramp_orientation)
+    fun_load_image = function(image){
+      readPNG(str_c("../../figures/stimuli/physics/",
+                    ramp_index,
+                    "_position",
+                    image,
+                    ".png"))
+    }
+  }else{
+    fun_load_image = function(image){
+      readPNG(str_c("../../figures/stimuli/physics/position", image, ".png"))
+    }
+  }
+
+  # Calculate percentages and CIs as percent
+  df.percent = data %>%
+    group_by(end_position) %>%
+    mutate(total = sum(n)) %>%
+    ungroup() %>%
+    mutate(percentage = (n / total) * 100,
+           low_pct = (low / total) * 100,
+           high_pct = (high / total) * 100)
+
+  df.images = df.percent %>%
+    distinct(end_position) %>%
+    mutate(grob = map(.x = end_position,
+                      .f = ~ fun_load_image(image = .x)))
+
+  df.text = df.percent %>%
+    distinct(end_position) %>%
+    mutate(x = 4,
+           y = 160,
+           text = 1:4)
+
+  if(exp == 8){
+    df.text$y = 165
+  }
+  
+  plot = ggplot(data = df.percent,
+                mapping = aes(x = selected_position,
+                              y = percentage,
+                              fill = fill)) +
+    geom_bar(stat = "identity",
+             color = "black") +
+    geom_linerange(mapping = aes(ymin = low_pct,
+                                 ymax = high_pct)) +
+    geom_custom(data = df.images,
+                mapping = aes(data = grob,
+                              x = -Inf,
+                              y = Inf,
+                              fill = NA),
+                grob_fun = function(x) rasterGrob(x,
+                                                  interpolate = T,
+                                                  vjust = -0.05,
+                                                  hjust = 0)) +
+    geom_text(data = df.text,
+              mapping = aes(x = x,
+                            y = y,
+                            label = text,
+                            fill = NA),
+              color = "white",
+              size = 8) +
+    facet_grid(cols = vars(end_position),
+               rows = vars(condition)) +
+    labs(x = "response option",
+         y = "% selected") +
+    scale_fill_manual(values = c("0" = "gray80",
+                                 "1" = "darkgreen",
+                                 "2" = "orange")) +
+    scale_y_continuous(breaks = seq(0, 100, 20),
+                       labels = function(x) paste0(x, "%"),
+                       expand = expansion(add = c(0, 5))) +
+    coord_cartesian(clip = "off",
+                    ylim = c(0, 105)) +
+    theme(legend.position = "none",
+          panel.grid.major.y = element_line(),
+          strip.background.x = element_blank(),
+          strip.text.x = element_blank(),
+          plot.margin = margin(t = 3, l = 0.2, r = 0.2, b = 0.1, unit = "cm"))
+
+  return(plot)
+}
+```
+
+## Accuracy plot
+
+```{r}
+fun_plot_accuracy = function(data, limit){
+  plot = ggplot(data = data %>% 
+                  mutate(trial_index = trial_index - 1),
+         mapping = aes(x = trial_index,
+                       y = accuracy)) + 
+    geom_hline(yintercept = 0.5,
+               linetype = "dashed") +
+    geom_smooth(method = "glm",
+                formula = "y ~ 0 + x",
+                method.args = list(family = "binomial"),
+                se = F,
+                color = "gray80") +
+    stat_summary(fun.data = "mean_cl_boot",
+                 fill = "darkgreen",
+                 shape = 21,
+                 size = 1) + 
+    scale_x_continuous(breaks = 0:(limit-1),
+                       labels = 1:limit,
+                       limits = c(0, limit-1)) +
+    scale_y_continuous(breaks = seq(0.4, 1, 0.1),
+                       labels = str_c(seq(40, 100, 10), "%")) +
+    coord_cartesian(ylim = c(0.35, 1)) + 
+    labs( x = "trial", y = "accuracy") + 
+    theme(panel.grid.major.y = element_line(),
+          text = element_text(size = 24))
+  return(plot)
+}
+```
+
+## Multinomial regression output
+
+```{r}
+fun_regression_output = function(estimate, conf.low, conf.high, p.value){
+  str_c("B = ", estimate, 
+      ", 95% CI [", conf.low, ", ", conf.high, "],",
+      " p = ", p_format(p.value, leading.zero = F))
+}
+```
+
+
+# EXPERIMENT 1: FEEDBACK
+
+## DATA
+
+### Read data
+
+```{r}
+df.exp1.feedback.trials = read.csv("../../data/experiment1/feedback/experiment1_feedback-trials.csv")
+df.exp1.feedback.participants = read.csv("../../data/experiment1/feedback/experiment1_feedback-participants.csv")
+df.exp1.feedback.prolific_ids = read.csv("../../data/experiment1/feedback/experiment1_feedback-workerids.csv")
+```
+
+### Wrangle
+
+```{r}
+# remove pilot data
+df.exp1.feedback.trials = df.exp1.feedback.trials %>% 
+  filter(proliferate.condition != "pilot")
+
+# summarize pop quiz performance for each participant
+df.exp1.feedback.pop_quiz = df.exp1.feedback.trials %>%
+  filter(trial=="pop_quiz") %>% 
+  mutate(
+    correct_color = case_when(substr(correct_response, 1, 1) == substr(response, 1, 1) ~ 1, TRUE ~ 0),
+    correct_shape = case_when(substr(correct_response, 2, 2) == substr(response, 2, 2) ~ 1, TRUE ~ 0),
+    rule_class = case_when(rule=="cube"|rule=="cylinder" ~ "shape",
+                           rule=="dark"|rule=="light" ~ "color"),
+    blicket_response = case_when(
+      correct_color == 1 & correct_shape == 1 ~ "fully_congruent",
+      correct_color == 0 & correct_shape == 0 ~ "fully_incongruent",
+      rule_class == "color" & correct_color == 1 ~ "rule_congruent",
+      rule_class == "shape" & correct_shape == 1 ~ "rule_congruent",
+      rule_class == "color" & correct_shape == 1 ~ "rule_incongruent",
+      rule_class == "shape" & correct_color == 1 ~ "rule_incongruent"),
+    rule_relevant_correct = case_when(
+      (rule_class == "color" & correct_color == 1)|(rule_class == "shape" & correct_shape == 1) ~ 1,
+      (rule_class == "color" & correct_color == 0)|(rule_class == "shape" & correct_shape == 0) ~ 0),
+    rule_irrelevant_correct = case_when(
+      (rule_class == "color" & correct_shape == 1)|(rule_class == "shape" & correct_color == 1) ~ 1,
+      (rule_class == "color" & correct_shape == 0)|(rule_class == "shape" & correct_color == 0) ~ 0),
+    on_off = case_when(
+      grepl("on", proliferate.condition) ~ "on",
+      grepl("off", proliferate.condition) ~ "off"))%>% 
+  select(workerid, correct_color, correct_shape, rule_class, rule, blicket_response, on_off, rule_relevant_correct, rule_irrelevant_correct) 
+
+# summarize performance on each trial type for each participant
+df.exp1.feedback.participant_summary = df.exp1.feedback.trials %>% 
+  select(-question_order, -error) %>% 
+  mutate(accuracy = case_when(accuracy== "True" ~1, accuracy=="False"~0)) %>% 
+  group_by(workerid, rule, trial) %>% 
+  summarize(accuracy = mean(accuracy), rt = mean(rt)) %>% 
+  inner_join(df.exp1.feedback.pop_quiz,
+             by = c("workerid", "rule")) %>% #add back in pop_quiz info
+  pivot_wider(names_from = trial, values_from = c(rt, accuracy)) %>% #one participant per line
+  ungroup()
+
+# full dataset (speficic info from every trial, along with summary info)
+df.exp1.feedback.full = df.exp1.feedback.trials %>% 
+  select(workerid,
+         accuracy_bool,
+         rt,
+         trial,
+         trial_index) %>% 
+  inner_join(df.exp1.feedback.participant_summary,
+             by = "workerid") %>% 
+  rename(accuracy = accuracy_bool,) %>% 
+  group_by(workerid) %>% 
+  # make sure trials are 1-18
+  mutate( first_blicket_index = min(trial_index),
+          trial_index = case_when(
+            trial == 'blicket' ~ (trial_index - first_blicket_index) / 2 + 1,
+            trial == "pop_quiz" ~ 17,
+            trial == "rule_question" ~ 18)) %>% 
+  select(-first_blicket_index) %>% 
+  ungroup()
+```
+
+## STATS
+
+### Power analysis 
+
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
+set.seed(1)
+
+simulations = 1000
+n = seq(50, 150, 10)
+probabilities = c(0.6, 0.25, 0.1, 0.05)
+
+fun_power = function(n){
+  df.simulation = tibble(data = sample(1:4,
+                                       size = n,
+                                       replace = T,
+                                       prob = probabilities)) %>% 
+    mutate(data = factor(data, 
+                         levels = c(2, 3, 4, 1),
+                         labels = c("rule-congruent",
+                                    "rule-incongruent",
+                                    "incongruent",
+                                    "congruent")))
+  
+  pvalue = multinom(formula = data ~ 1,
+                    data = df.simulation,
+                    trace = F) %>% 
+    tidy() %>% 
+    filter(y.level == "rule-incongruent") %>% 
+    pull(p.value) %>% 
+    .[1]
+  
+  return(pvalue)
+}
+
+df.power = expand_grid(simulation = 1:simulations, 
+                       n = n) %>% 
+  mutate(pvalue = map_dbl(.x = n,
+                          .f = ~ fun_power(.x))) %>% 
+  group_by(n) %>% 
+  summarize(power = sum(pvalue < .05,
+                        na.rm = T) / simulations)
+
+# save(df.power,
+#      file = "cache/power_analysis.RData")
+```
+
+
+```{r}
+load(file = "cache/power_analysis.RData")
+
+ggplot(data = df.power,
+       mapping = aes(x = n,
+                     y = power)) + 
+  geom_hline(yintercept = 0.8,
+             linetype = "dashed") + 
+  geom_line() + 
+  geom_point() + 
+  scale_x_continuous(breaks = df.power$n, 
+                     labels = df.power$n)
+```
+
+### Bootstrap counts
+
+```{r, cache=TRUE}
+#make reproducible
+set.seed(1)
+
+#get boostrapped confidence intervals 
+df.exp1.feedback.bootstraps = df.exp1.feedback.participant_summary %>%
+  select(blicket_response) %>% 
+  bootstrap(n = 1000) %>% # create 1000 bootstrapped samples
+  mutate(counts = map(.x = strap,
+                            .f = ~ .x %>% 
+                              as_tibble() %>% 
+                              group_by(blicket_response) %>% 
+                              count(blicket_response))) %>% 
+  select(-strap) %>% 
+  unnest(counts) %>% 
+  group_by(blicket_response) %>% 
+  summarize(mean = mean(n),
+            low = quantile(n, 0.025), # calculate the 2.5 / 97.5 percentiles
+            high = quantile(n, 0.975))
+
+#create data for plot
+df.exp1.feedback.bootstraps = df.exp1.feedback.participant_summary %>% 
+  group_by(blicket_response) %>% 
+  count(blicket_response) %>% 
+  inner_join(df.exp1.feedback.bootstraps,
+             by = "blicket_response") %>% 
+  ungroup() %>% 
+  mutate(color = as.factor(c(2, 0, 1, 0))) 
+```
+
+### Multinomial regression
+
+```{r}
+# reference = "rule incongruent"
+df.model = df.exp1.feedback.participant_summary %>% 
+  mutate(blicket_response = fct_relevel(blicket_response, "rule_incongruent"))
+
+fit = multinom(formula = blicket_response ~ 1,
+               data = df.model,
+               trace = F)
+
+#broom.mixed summary
+df.tidy = tidy(fit,
+               conf.int = T) %>% 
+  mutate(across(where(is.numeric), ~ round(., 2))) %>% 
+  filter(y.level == "rule_congruent")
+
+fun_regression_output(df.tidy$estimate,
+                      df.tidy$conf.low,
+                      df.tidy$conf.high,
+                      df.tidy$p.value)
+```
+
+### Accuracy as a function of outcome
+
+```{r}
+df.exp1.feedback.accuracy_outcome = df.exp1.feedback.participant_summary %>% 
+  count(on_off, accuracy_pop_quiz) %>% 
+  pivot_wider(names_from = accuracy_pop_quiz,
+              values_from = n) %>% 
+  mutate(percentage = `1` / (`0` + `1`))
+
+df.exp1.feedback.accuracy_outcome %>% 
+  print_table()
+```
+
+## FIGURES
+
+### Accuracy
+
+```{r, fig.width=8, fig.height=4}
+df.plot = df.exp1.feedback.full %>% 
+  filter(trial == "blicket")
+
+plot.exp1.feedback.accuracy = fun_plot_accuracy(data = df.plot,
+                                      limit = 16)
+plot.exp1.feedback.accuracy
+```
+
+### Selections
+
+```{r fig.width=8, fig.height=6}
+df.plot = df.exp1.feedback.bootstraps %>% 
+  mutate(blicket_response = factor(blicket_response,
+                                   levels = c("fully_congruent",
+                                              "rule_congruent",
+                                              "rule_incongruent",
+                                              "fully_incongruent"),
+                                   labels = c("congruent",
+                                              "rule\ncongruent",
+                                              "rule\nincongruent",
+                                              "incongruent")))
+
+plot.exp1.feedback.selections = fun_plot_selections_blickets(data = df.plot)
+plot.exp1.feedback.selections
+```
+
+# EXPERIMENT 1: NO FEEDBACK
+
+## DATA
+
+### Read data
+
+```{r}
+df.exp1.no_feedback.trials = read.csv("../../data/experiment1/no_feedback/experiment1_no_feedback-trials.csv")
+df.exp1.no_feedback.participants = read.csv("../../data/experiment1/no_feedback/experiment1_no_feedback-participants.csv")
+df.exp1.no_feedback.prolific_ids = read.csv("../../data/experiment1/no_feedback/experiment1_no_feedback-workerids.csv")
+```
+
+### Wrangle
+
+```{r}
+#summarize pop quiz performance for each participant
+df.exp1.no_feedback.pop_quiz = df.exp1.no_feedback.trials %>%
+  filter(trial=="pop_quiz") %>% 
+  mutate(
+    correct_color = case_when(substr(correct_response, 1, 1) == substr(response, 1, 1) ~ 1, TRUE ~ 0),
+    correct_shape = case_when(substr(correct_response, 2, 2) == substr(response, 2, 2) ~ 1, TRUE ~ 0),
+    rule_class = case_when(rule=="cube"|rule=="cylinder" ~ "shape",
+                           rule=="dark"|rule=="light" ~ "color"),
+    blicket_response = case_when(
+      correct_color == 1 & correct_shape == 1 ~ "fully_congruent",
+      correct_color == 0 & correct_shape == 0 ~ "fully_incongruent",
+      rule_class == "color" & correct_color == 1 ~ "rule_congruent",
+      rule_class == "shape" & correct_shape == 1 ~ "rule_congruent",
+      rule_class == "color" & correct_shape == 1 ~ "rule_incongruent",
+      rule_class == "shape" & correct_color == 1 ~ "rule_incongruent"),
+    rule_relevant_correct = case_when(
+      (rule_class == "color" & correct_color == 1)|(rule_class == "shape" & correct_shape == 1) ~ 1,
+      (rule_class == "color" & correct_color == 0)|(rule_class == "shape" & correct_shape == 0) ~ 0),
+    rule_irrelevant_correct = case_when(
+      (rule_class == "color" & correct_shape == 1)|(rule_class == "shape" & correct_color == 1) ~ 1,
+      (rule_class == "color" & correct_shape == 0)|(rule_class == "shape" & correct_color == 0) ~ 0),
+    on_off = case_when(
+      grepl("on", proliferate.condition) ~ "on",
+      grepl("off", proliferate.condition) ~ "off"))%>% 
+  select(workerid, correct_color, correct_shape, rule_class, rule, blicket_response, on_off, rule_relevant_correct, rule_irrelevant_correct)
+
+#summarize performance on each trial type for each participant
+df.exp1.no_feedback.participant_summary = df.exp1.no_feedback.trials %>% 
+  select(-question_order, -error) %>% 
+  mutate(accuracy = case_when(accuracy== "True" ~1, accuracy=="False"~0)) %>% 
+  group_by(workerid, rule, trial) %>% 
+  summarize(accuracy = mean(accuracy), rt = mean(rt)) %>% 
+  inner_join(df.exp1.no_feedback.pop_quiz,
+             by = c("workerid", "rule")) %>% #add back in pop_quiz info
+  pivot_wider(names_from = trial, values_from = c(rt, accuracy)) %>%  #one participant per line
+  ungroup()
+
+
+#full dataset (speficic info from every trial, along with summary info)
+df.exp1.no_feedback.full = df.exp1.no_feedback.trials %>% 
+  select(workerid,
+         accuracy_bool,
+         rt,
+         trial,
+         trial_index) %>% 
+  inner_join(df.exp1.no_feedback.participant_summary,
+             by = "workerid") %>% 
+  rename(accuracy = accuracy_bool,) %>% 
+  group_by(workerid) %>% 
+  #make sure trials are 1-18
+  mutate( first_blicket_index = min(trial_index),
+          trial_index = case_when(
+            trial == "blicket" ~ (trial_index - first_blicket_index) / 2 + 1,
+            trial == "pop_quiz" ~ 17,
+            trial == "rule_question" ~ 18)) %>% 
+  select(-first_blicket_index)
+```
+
+## STATS
+
+### Bootstrap counts
+
+```{r, cache=TRUE}
+#make reproducible
+set.seed(1)
+
+#get boostrapped confidence intervals 
+df.exp1.no_feedback.bootstraps = df.exp1.no_feedback.participant_summary %>%
+  select(blicket_response) %>% 
+  bootstrap(n = 1000) %>% # create 1000 bootstrapped samples
+  mutate(counts = map(.x = strap,
+                            .f = ~ .x %>% 
+                              as_tibble() %>% 
+                              group_by(blicket_response) %>% 
+                              count(blicket_response)))%>% 
+  select(-strap) %>% 
+  unnest(counts) %>% 
+  group_by(blicket_response) %>% 
+  summarize(mean = mean(n),
+            low = quantile(n, 0.025), # calculate the 2.5 / 97.5 percentiles
+            high = quantile(n, 0.975))
+
+#create data for plot
+df.exp1.no_feedback.bootstraps = df.exp1.no_feedback.participant_summary %>% 
+  group_by(blicket_response) %>% 
+  count(blicket_response) %>% 
+  inner_join(df.exp1.no_feedback.bootstraps,
+             by = "blicket_response") %>% 
+  ungroup() %>% 
+  mutate(color = as.factor(c(2, 0, 1, 0))) 
+```
+
+### Multinomial regression
+
+```{r, message=FALSE, warning=FALSE}
+# reference = 'rule incongruent'
+df.model = df.exp1.no_feedback.participant_summary %>% 
+  mutate(blicket_response = fct_relevel(blicket_response, "rule_incongruent"))
+
+fit = multinom(formula = blicket_response ~ 1,
+               data = df.model,
+               trace = F)
+
+#broom.mixed summary
+df.tidy = tidy(fit,
+               conf.int = T) %>% 
+  mutate(across(where(is.numeric), ~ round(., 2))) %>% 
+  filter(y.level == "rule_congruent")
+  
+fun_regression_output(df.tidy$estimate,
+                      df.tidy$conf.low,
+                      df.tidy$conf.high,
+                      df.tidy$p.value)
+```
+
+### Accuracy as a function of outcome
+
+```{r}
+df.exp1.no_feedback.accuracy_outcome = df.exp1.no_feedback.participant_summary %>% 
+  count(on_off, accuracy_pop_quiz) %>% 
+  pivot_wider(names_from = accuracy_pop_quiz,
+              values_from = n) %>% 
+  mutate(percentage = `1` / (`0` + `1`))
+
+df.exp1.no_feedback.accuracy_outcome %>% 
+  print_table()
+```
+
+## FIGURES
+
+### Accuracy
+
+```{r}
+df.plot = df.exp1.no_feedback.full %>% 
+  filter(trial == "blicket")
+
+plot.exp1.no_feedback.accuracy = fun_plot_accuracy(data = df.plot,
+                                      limit = 16)
+plot.exp1.no_feedback.accuracy
+```
+
+### Selections
+
+```{r fig.height=6, fig.width=8}
+df.plot = df.exp1.no_feedback.bootstraps %>% 
+  mutate(blicket_response = factor(blicket_response,
+                                   levels = c("fully_congruent",
+                                              "rule_congruent",
+                                              "rule_incongruent",
+                                              "fully_incongruent"),
+                                   labels = c("congruent",
+                                              "rule\ncongruent",
+                                              "rule\nincongruent",
+                                              "incongruent")))
+
+plot.exp1.no_feedback.selections = fun_plot_selections_blickets(data = df.plot)
+plot.exp1.no_feedback.selections
+```
+
+# EXPERIMENT 1: SHORT
+
+## DATA
+
+### Read data
+
+```{r}
+df.exp1.short.trials = read.csv("../../data/experiment1/short/experiment1_short-trials.csv")
+df.exp1.short.participants = read.csv("../../data/experiment1/short/experiment1_short-participants.csv")
+df.exp1.short.prolific_ids = read.csv("../../data/experiment1/short/experiment1_short-workerids.csv")
+```
+
+### Wrangle
+
+```{r}
+# summarize pop quiz performance for each participant
+df.exp1.short.pop_quiz = df.exp1.short.trials %>%
+  filter(trial=="pop_quiz") %>% 
+  mutate(
+    correct_color = case_when(substr(correct_response, 1, 1) == substr(response, 1, 1) ~ 1, TRUE ~ 0),
+    correct_shape = case_when(substr(correct_response, 2, 2) == substr(response, 2, 2) ~ 1, TRUE ~ 0),
+    rule_class = case_when(rule=="cube"|rule=="cylinder" ~ "shape",
+                           rule=="dark"|rule=="light" ~ "color"),
+    blicket_response = case_when(
+      correct_color == 1 & correct_shape == 1 ~ "fully_congruent",
+      correct_color == 0 & correct_shape == 0 ~ "fully_incongruent",
+      rule_class == "color" & correct_color == 1 ~ "rule_congruent",
+      rule_class == "shape" & correct_shape == 1 ~ "rule_congruent",
+      rule_class == "color" & correct_shape == 1 ~ "rule_incongruent",
+      rule_class == "shape" & correct_color == 1 ~ "rule_incongruent"),
+    rule_relevant_correct = case_when(
+      (rule_class == "color" & correct_color == 1)|(rule_class == "shape" & correct_shape == 1) ~ 1,
+      (rule_class == "color" & correct_color == 0)|(rule_class == "shape" & correct_shape == 0) ~ 0),
+    rule_irrelevant_correct = case_when(
+      (rule_class == "color" & correct_shape == 1)|(rule_class == "shape" & correct_color == 1) ~ 1,
+      (rule_class == "color" & correct_shape == 0)|(rule_class == "shape" & correct_color == 0) ~ 0),
+    on_off = case_when(
+      grepl("on", proliferate.condition) ~ "on",
+      grepl("off", proliferate.condition) ~ "off"))%>% 
+  select(workerid, correct_color, correct_shape, rule_class, rule, blicket_response, on_off, rule_relevant_correct, rule_irrelevant_correct)
+
+# summarize performance on each trial type for each participant
+df.exp1.short.participant_summary = df.exp1.short.trials %>% 
+  select(-question_order, -error) %>% 
+  mutate(accuracy = case_when(accuracy== "True" ~1, accuracy=="False"~0)) %>% 
+  group_by(workerid, rule, trial) %>% 
+  summarize(accuracy = mean(accuracy), rt = mean(rt)) %>% 
+  inner_join(df.exp1.short.pop_quiz,
+             by = c("workerid", "rule")) %>% #add back in pop_quiz info
+  pivot_wider(names_from = trial, values_from = c(rt, accuracy)) %>%  #one participant per line
+  ungroup()
+
+# full dataset (specific info from every trial, along with summary info)
+df.exp1.short.full = df.exp1.short.trials %>% 
+  select(workerid,
+         accuracy_bool,
+         rt,
+         trial,
+         trial_index) %>% 
+  inner_join(df.exp1.short.participant_summary,
+             by = "workerid") %>% 
+  rename(accuracy = accuracy_bool,) %>% 
+  group_by(workerid) %>% 
+  # make sure trials are 1-18
+  mutate( first_blicket_index = min(trial_index),
+          trial_index = case_when(
+            trial == "blicket" ~ (trial_index - first_blicket_index) / 2 + 1,
+            trial == "pop_quiz" ~ 17,
+            trial == "rule_question" ~ 18)) %>% 
+  select(-first_blicket_index) %>% 
+  ungroup()
+```
+
+## STATS
+
+### Bootstrap counts
+
+```{r, cache=TRUE}
+#make reproducible
+set.seed(1)
+
+#get boostrapped confidence intervals 
+df.exp1.short.bootstraps = df.exp1.short.participant_summary %>%
+  select(blicket_response) %>% 
+  bootstrap(n = 1000) %>% # create 1000 bootstrapped samples
+  mutate(counts = map(.x = strap,
+                            .f = ~ .x %>% 
+                              as_tibble() %>% 
+                              group_by(blicket_response) %>% 
+                              count(blicket_response)))%>% 
+  select(-strap) %>% 
+  unnest(counts) %>% 
+  group_by(blicket_response) %>% 
+  summarize(mean = mean(n),
+            low = quantile(n, 0.025), # calculate the 2.5 / 97.5 percentiles
+            high = quantile(n, 0.975))
+
+#create data for plot
+df.exp1.short.bootstraps = df.exp1.short.participant_summary %>% 
+  group_by(blicket_response) %>% 
+  count(blicket_response) %>% 
+  inner_join(df.exp1.short.bootstraps,
+             by = "blicket_response") %>% 
+  ungroup() %>% 
+  mutate(color = as.factor(c(2, 0, 1, 0))) 
+```
+
+### Multinomial Regression
+
+```{r, message=FALSE, warning=FALSE}
+# reference = "rule incongruent"
+df.model = df.exp1.short.participant_summary %>% 
+  mutate(blicket_response = fct_relevel(blicket_response, "rule_incongruent"))
+
+fit = multinom(formula = blicket_response ~ 1,
+               data = df.model,
+               trace = F)
+
+#broom.mixed summary
+df.tidy = tidy(fit,
+               conf.int = T) %>% 
+  mutate(across(where(is.numeric), ~ round(., 2))) %>% 
+  filter(y.level == "rule_congruent")
+  
+fun_regression_output(df.tidy$estimate,
+                      df.tidy$conf.low,
+                      df.tidy$conf.high,
+                      df.tidy$p.value)
+```
+
+### Accuracy as a function of outcome
+
+```{r}
+df.exp1.short.accuracy_outcome = df.exp1.short.participant_summary %>% 
+  count(on_off, accuracy_pop_quiz) %>% 
+  pivot_wider(names_from = accuracy_pop_quiz,
+              values_from = n) %>% 
+  mutate(percentage = `1` / (`0` + `1`))
+
+df.exp1.short.accuracy_outcome %>% 
+  print_table()
+```
+
+## FIGURES
+
+### Accuracy
+
+```{r}
+df.plot = df.exp1.short.full %>% 
+  filter(trial == "blicket")
+
+plot.exp1.short.accuracy = fun_plot_accuracy(data = df.plot,
+                                      limit = 16)
+plot.exp1.short.accuracy
+```
+
+
+### Selections
+
+```{r fig.height=6, fig.width=8}
+df.plot = df.exp1.short.bootstraps %>% 
+  mutate(blicket_response = factor(blicket_response,
+                                   levels = c("fully_congruent",
+                                              "rule_congruent",
+                                              "rule_incongruent",
+                                              "fully_incongruent"),
+                                   labels = c("congruent",
+                                              "rule\ncongruent",
+                                              "rule\nincongruent",
+                                              "incongruent")))
+
+plot.exp1.short.selections = fun_plot_selections_blickets(data = df.plot)
+plot.exp1.short.selections
+```
+
+# EXPERIMENT 1: CONJUNCTIVE
+
+## DATA
+
+### Read data
+
+```{r}
+df.exp1.conjunctive.trials = read.csv("../../data/experiment1/conjunctive/experiment1_conjunctive-trials.csv")
+df.exp1.conjunctive.participants = read.csv("../../data/experiment1/conjunctive/experiment1_conjunctive-participants.csv")
+df.exp1.conjunctive.prolific_ids = read.csv("../../data/experiment1/conjunctive/experiment1_conjunctive-workerids.csv")
+```
+
+### Wrangle
+
+```{r}
+# summarize pop quiz performance for each participant
+df.exp1.conjunctive.pop_quiz = df.exp1.conjunctive.trials %>%
+  filter(trial=="pop_quiz") %>% 
+  mutate(correct_color = case_when(substr(correct_response, 1, 1) == substr(response, 1, 1) ~ 1, TRUE ~ 0),
+         correct_shape = case_when(substr(correct_response, 2, 2) == substr(response, 2, 2) ~ 1, TRUE ~ 0),
+         on_off = case_when(substr(condition, 1, 2) == substr(condition, 4, 5) ~ "on", TRUE ~ "off"),
+         blicket_response = case_when(
+           correct_color == 1 & correct_shape == 1 ~ "fully_congruent",
+           correct_color == 0 & correct_shape == 0 ~ "fully_incongruent",
+           correct_color == 1 & correct_shape == 0 ~ "correct_color",
+           correct_color == 0 & correct_shape == 1 ~ "correct_shape")) %>% 
+  select(workerid, correct_color, on_off, condition, correct_shape, blicket_response)
+
+# summarize performance on each trial type for each participant
+df.exp1.conjunctive.participant_summary = df.exp1.conjunctive.trials %>% 
+  select(-question_order, -error) %>% 
+  mutate(accuracy = case_when(accuracy== "True" ~1, accuracy=="False"~0)) %>% 
+  group_by(workerid, trial) %>% 
+  summarize(accuracy = mean(accuracy), rt = mean(rt)) %>% 
+  inner_join(df.exp1.conjunctive.pop_quiz,
+             by = "workerid") %>% #add back in pop_quiz info
+  pivot_wider(names_from = trial, values_from = c(rt, accuracy)) %>%  #one participant per line
+  ungroup()
+
+# full dataset (specific info from every trial, along with summary info)
+df.exp1.conjunctive.full = df.exp1.conjunctive.trials %>% 
+  select(workerid,
+         accuracy_bool,
+         rt,
+         trial,
+         trial_index) %>% 
+  inner_join(df.exp1.conjunctive.participant_summary,
+             by = "workerid") %>% 
+  rename(accuracy = accuracy_bool,) %>% 
+  group_by(workerid) %>% 
+  # make sure trials are 1-18
+  mutate( first_blicket_index = min(trial_index),
+          trial_index = case_when(
+            trial == "blicket" ~ (trial_index - first_blicket_index) / 2 + 1,
+            trial == "pop_quiz" ~ 17,
+            trial == "rule_question" ~ 18)) %>% 
+  select(-first_blicket_index) %>% 
+  ungroup()
+```
+
+## STATS
+
+### Bootstrap counts
+
+```{r, cache=TRUE}
+#make reproducible
+set.seed(1)
+
+#get boostrapped confidence intervals 
+df.exp1.conjunctive.bootstraps = df.exp1.conjunctive.participant_summary %>%
+  select(blicket_response) %>% 
+  bootstrap(n = 1000) %>% # create 1000 bootstrapped samples
+  mutate(counts = map(.x = strap,
+                      .f = ~ .x %>% 
+                        as_tibble() %>% 
+                        group_by(blicket_response) %>% 
+                        count(blicket_response))) %>% 
+  select(-strap) %>% 
+  unnest(counts) %>% 
+  group_by(blicket_response) %>% 
+  summarize(mean = mean(n),
+            low = quantile(n, 0.025), # calculate the 2.5 / 97.5 percentiles
+            high = quantile(n, 0.975))
+
+#create data for plot
+df.exp1.conjunctive.bootstraps = df.exp1.conjunctive.participant_summary %>% 
+  group_by(blicket_response) %>% 
+  count(blicket_response) %>% 
+  inner_join(df.exp1.conjunctive.bootstraps,
+             by = "blicket_response") %>% 
+  ungroup() %>% 
+  mutate(color = as.factor(c(0, 0, 2, 0))) 
+```
+
+### Multinomial Regression
+
+### Hypothesis 1: Color vs. shape
+
+```{r}
+# reference = "correct color"
+df.model = df.exp1.conjunctive.participant_summary %>% 
+  mutate(blicket_response = fct_relevel(blicket_response, "correct_color"))
+
+fit = multinom(formula = blicket_response ~ 1,
+               data = df.model,
+               trace = F)
+
+# broom.mixed summary
+df.tidy = tidy(fit,
+               conf.int = T) %>% 
+  mutate(across(where(is.numeric), ~ round(., 2))) %>% 
+  filter(y.level == "correct_shape")
+
+fun_regression_output(df.tidy$estimate,
+                      df.tidy$conf.low,
+                      df.tidy$conf.high,
+                      df.tidy$p.value)
+```
+
+### Hypothesis 2: Fully incongruent vs. partially congruent
+
+```{r}
+# reference = "rule incongruent"
+df.model = df.exp1.conjunctive.participant_summary %>% 
+  mutate(blicket_response = ifelse(blicket_response %in% c("correct_color", "correct_shape"),
+                                   "partially_congruent", blicket_response),
+         blicket_response = fct_relevel(blicket_response, "fully_incongruent"))
+
+fit = multinom(formula = blicket_response ~ 1,
+               data = df.model,
+               trace = F)
+
+# broom.mixed summary
+df.tidy = tidy(fit,
+               conf.int = T) %>% 
+  mutate(across(where(is.numeric), ~ round(., 2))) %>% 
+  filter(y.level == "partially_congruent")
+
+str_c("B = ", df.tidy$estimate, 
+      ", 95% CI [", df.tidy$conf.low, ", ", df.tidy$conf.high, "],",
+      " p = ", p_format(df.tidy$p.value, leading.zero = F))
+```
+
+### Accuracy as a function of outcome
+
+```{r}
+df.exp1.conjunctive.accuracy_outcome = df.exp1.conjunctive.participant_summary %>% 
+  count(on_off, accuracy_pop_quiz) %>% 
+  pivot_wider(names_from = accuracy_pop_quiz,
+              values_from = n) %>% 
+  mutate(percentage = `1` / (`0` + `1`))
+
+df.exp1.conjunctive.accuracy_outcome %>% 
+  print_table()
+```
+
+## FIGURES
+
+### Accuracy
+
+```{r}
+df.plot = df.exp1.conjunctive.full %>% 
+  filter(trial == "blicket")
+
+plot.exp1.conjunctive.accuracy = fun_plot_accuracy(data = df.plot,
+                                      limit = 16)
+plot.exp1.conjunctive.accuracy
+```
+
+### Selections
+
+```{r fig.height=6, fig.width=8}
+df.plot = df.exp1.conjunctive.bootstraps %>% 
+  mutate(blicket_response = factor(blicket_response,
+                                   levels = c("fully_congruent",
+                                              "correct_shape",
+                                              "correct_color",
+                                              "fully_incongruent"),
+                                   labels = c("congruent",
+                                              "correct\nshape",
+                                              "correct\ncolor",
+                                              "incongruent")))
+
+plot.exp1.conjunctive.selections = fun_plot_selections_blickets(data = df.plot)
+plot.exp1.conjunctive.selections
+```
+
+# EXPERIMENT 1: COMBINED
+
+## STATS 
+
+### Demographics 
+
+```{r}
+df.exp1.participants = df.exp1.feedback.participants %>% 
+  mutate(condition = "feedback") %>% 
+  bind_rows(df.exp1.no_feedback.participants %>% 
+              mutate(condition = "no feedback"),
+            df.exp1.short.participants %>% 
+              mutate(condition = "short"),
+            df.exp1.conjunctive.participants %>% 
+              mutate(condition = "conjunctive")) %>% 
+    select(condition, workerid, age, gender, race, ethnicity)
+  
+# race
+df.exp1.participants %>% 
+  count(race) %>% 
+  arrange(desc(n))
+
+# ethnicity
+df.exp1.participants %>% 
+  count(ethnicity) %>% 
+  arrange(desc(n))
+
+# gender
+df.exp1.participants %>% 
+  count(gender) %>% 
+  arrange(desc(n))
+
+# age
+df.exp1.participants %>% 
+  summarize(age_mean = mean(age),
+            age_sd = sd(age)) %>% 
+  print_table(digits = 0)
+
+# condition 
+df.exp1.participants %>% 
+  count(condition)
+
+df.exp1.participants %>% nrow()
+```
+
+### Accuracy 
+
+```{r}
+df.exp1.feedback.pop_quiz %>% 
+  mutate(condition = "feedback") %>% 
+  bind_rows(df.exp1.no_feedback.pop_quiz %>% 
+              mutate(condition = "no feedback")) %>% 
+  count(blicket_response) %>% 
+  mutate(p = n / sum(n)) %>% 
+  print_table()
+```
+
+### Surprise 
+
+```{r}
+df.model =  bind_rows(df.exp1.feedback.participant_summary %>% 
+                        mutate(experiment = "feedback"),
+                      df.exp1.no_feedback.participant_summary %>% 
+                        mutate(experiment = "no_feedback"),
+                      df.exp1.short.participant_summary %>% 
+                        mutate(experiment = "short")) %>% 
+  mutate(response = ifelse(blicket_response == "rule_congruent", 1, 0),
+         experiment = factor(experiment, levels = c("short", "feedback", "no_feedback")))
+
+fit = glm(formula = response ~ 1 + experiment,
+          family = "binomial",
+          data = df.model)
+
+fit %>% 
+  emmeans(pairwise ~ experiment,
+          type = "response")
+```
+
+## FIGURES 
+
+### Accuracy
+
+```{r, fig.height=10, fig.width=16}
+plot.exp1.feedback.accuracy + 
+  labs(title = "feedback condition") + 
+  plot.exp1.no_feedback.accuracy + 
+  labs(title = "no feedback condition") + 
+  plot.exp1.short.accuracy + 
+  labs(title = "short condition") + 
+  plot.exp1.conjunctive.accuracy + 
+  labs(title = "conjunctive condition") + 
+  plot_layout(ncol = 2, 
+              nrow = 2) + 
+  plot_annotation(tag_levels = "A") & 
+  theme(plot.tag = element_text(face = "bold"))
+
+ggsave(filename = "../../figures/plots/exp1_accuracy.pdf", 
+       width = 16,
+       height = 10)
+```
+
+### Selections
+
+```{r, fig.height=10, fig.width=16}
+plot.exp1.feedback.selections + 
+  labs(title = "feedback condition") + 
+  plot.exp1.no_feedback.selections + 
+  labs(title = "no feedback condition") + 
+  plot.exp1.short.selections + 
+  labs(title = "short condition") + 
+  plot.exp1.conjunctive.selections + 
+  labs(title = "conjunctive condition") + 
+  plot_layout(ncol = 2, 
+              nrow = 2) + 
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(face = "bold"))
+
+ggsave(filename = "../../figures/plots/exp1_selections.pdf", 
+       width = 16,
+       height = 10,
+       device = cairo_pdf)
+```
+
+## TABLES
+
+### Accuracy as a function of outcome
+
+```{r}
+bind_rows(df.exp1.feedback.accuracy_outcome %>% 
+            mutate(condition = "feedback"),
+          df.exp1.no_feedback.accuracy_outcome %>% 
+            mutate(condition = "no feedback"),
+          df.exp1.short.accuracy_outcome %>% 
+            mutate(condition = "short"),
+          df.exp1.conjunctive.accuracy_outcome %>% 
+            mutate(condition = "conjunctive")) %>% 
+  select(condition, on_off, percentage) %>% 
+  pivot_wider(names_from = condition,
+              values_from = percentage) %>% 
+  rename(blicket = "on_off") %>% 
+  mutate(blicket = factor(blicket,
+                          levels = c("on", "off"),
+                          labels = c("yes", "no")),
+         across(.cols = -blicket,
+                .fns = ~ str_c(round(. * 100), "%"))) %>% 
+  arrange(blicket) %>% 
+  print_table()
+```
+
+# EXPERIMENT 2: LONG
+
+## DATA
+
+### Read data
+
+```{r}
+df.exp2.long.trials = read.csv("../../data/experiment2/long/experiment2_long-trials.csv")
+df.exp2.long.participants = read.csv("../../data/experiment2/long/experiment2_long-participants.csv")
+df.exp2.long.prolific_ids = read.csv("../../data/experiment2/long/experiment2_long-workerids.csv")
+```
+
+### Wrangle data
+
+```{r}
+df.exp2.long.surprise_quiz = df.exp2.long.trials %>% 
+  filter(trial == "surprise_quiz") %>% 
+  mutate(end_position = end_posision,
+         distance_from_correct = abs(selected_position - end_position)) %>% 
+  select(-c(accuracy_bool,
+            choices,
+            correct,
+            correct_response,
+            crosses,
+            end_posision,
+            internal_node_id,
+            question_order,
+            response,
+            stimulus,
+            error,
+            trial_type)) %>% 
+  mutate(end_position = end_position + 1, 
+         selected_position = selected_position + 1)
+```
+
+## STATS
+
+### Bootstrap counts
+
+```{r, cache=TRUE}
+# make reproducible
+set.seed(1)
+
+df.exp2.long.bootstraps = df.exp2.long.surprise_quiz %>%
+  bootstraps(times = 1000,
+             end_position) %>% 
+  mutate(counts = map(.x = splits,
+                      .f = ~ .x %>% 
+                        as_tibble() %>% 
+                        count(end_position, selected_position, .drop = F))) %>% 
+  select(-splits) %>% 
+  unnest(counts) %>% 
+  group_by(end_position, selected_position) %>% 
+  summarize(low = quantile(n, 0.025), 
+            high = quantile(n, 0.975))
+```
+
+### Hypothesis 1: Outcome-relevant features matter more
+
+```{r}
+df.exp2.long.hyp1 = df.exp2.long.surprise_quiz %>% 
+  select(workerid, end_position, selected_position) %>% 
+  mutate(relevant = ifelse(end_position %in% c(1, 2), -1, 1),
+         irrelevant = ifelse(end_position %in% c(1, 3), -1, 1)) %>% 
+  mutate(selected_position = factor(selected_position,
+                                    levels = 1:4,
+                                    ordered = T),
+         across(.cols = c(relevant, irrelevant), .fns = ~ as.factor(.)))
+
+fit.brm.exp2.long.hyp1 = brm(formula = selected_position ~ relevant * irrelevant + (1 | workerid),
+                       family = cumulative(link = "probit"),
+                       data = df.exp2.long.hyp1,
+                       file = "cache/fit.brm.exp2.long.hyp1",
+                       cores = 4, 
+                       seed = 1) 
+
+fit.brm.exp2.long.hyp1 %>% 
+  as_draws_df() %>% 
+  select(b_relevant1, b_irrelevant1) %>% 
+  mutate(difference = b_irrelevant1 - b_relevant1) %>% 
+  summarize(mean = mean(difference),
+            low = quantile(difference, 0.025),
+            high = quantile(difference, 0.975)) %>% 
+  print_table()
+```
+
+### Hypothesis 2: Outcome-congruent selection
+
+```{r}
+df.exp2.long.hyp2 = df.exp2.long.surprise_quiz %>% 
+  select(workerid, end_position, selected_position) %>% 
+  filter(end_position %in% c(2, 3)) %>% 
+  mutate(response = NA,
+         response = ifelse(end_position == 2 & selected_position == 1, 1, response),
+         response = ifelse(end_position == 2 & selected_position == 3, 0, response),
+         response = ifelse(end_position == 3 & selected_position == 4, 1, response),
+         response = ifelse(end_position == 3 & selected_position == 2, 0, response))
+
+fit.brm.exp2.long.hyp2 = brm(formula = response ~ 1 + (1 | workerid),
+                       family = "bernoulli",
+                       data = df.exp2.long.hyp2,
+                       file = "cache/fit.brm.exp2.long.hyp2",
+                       cores = 4, 
+                       seed = 1,
+                       control = list(adapt_delta = 0.9)) 
+
+fit.brm.exp2.long.hyp2 %>% 
+  tidy() %>% 
+  filter(effect == "fixed") %>% 
+  select(estimate, contains("conf")) %>% 
+  mutate(across(.cols = everything(),
+                .fns = ~ inv.logit(.) * 100)) %>% 
+  print_table()
+```
+
+## FIGURES
+
+### Accuracy
+
+```{r}
+df.plot = df.exp2.long.trials %>% 
+  filter(trial == "prediction_trial") %>% 
+  select(workerid, trial_index, correct) %>% 
+  group_by(workerid) %>% 
+  mutate(trial_index = factor(trial_index, 
+                              levels = unique(trial_index),
+                              labels = 1:16),
+         trial_index = as.numeric(as.character(trial_index))) %>% 
+  ungroup() %>% 
+  mutate(accuracy = ifelse(correct == "True", 1, 0))
+
+plot.exp2.long.accuracy = fun_plot_accuracy(data = df.plot,
+                                      limit = 16)
+plot.exp2.long.accuracy
+```
+
+### Selections
+
+```{r, warning=FALSE, message=FALSE}
+df.plot = df.exp2.long.surprise_quiz %>% 
+  count(end_position, selected_position, .drop = F) %>% 
+  left_join(df.exp2.long.bootstraps, 
+            by = c("end_position", "selected_position")) %>% 
+  mutate(fill = 0,
+         fill = ifelse(end_position == selected_position, 1, fill),
+         fill = ifelse(end_position == 1 & selected_position == 2, 2, fill),
+         fill = ifelse(end_position == 2 & selected_position == 1, 2, fill),
+         fill = ifelse(end_position == 3 & selected_position == 4, 2, fill),
+         fill = ifelse(end_position == 4 & selected_position == 3, 2, fill),
+         selected_position = as.factor(selected_position),
+         fill = as.factor(fill),
+         condition = "long")
+
+fun_plot_selections_physics(data = df.plot)
+```
+
+# EXPERIMENT 2: SHORT
+
+## DATA
+
+### Read data
+
+```{r}
+df.exp2.short.trials = read.csv("../../data/experiment2/short/experiment2_short-trials.csv")
+df.exp2.short.participants = read.csv("../../data/experiment2/short/experiment2_short-participants.csv")
+df.exp2.short.prolific_ids = read.csv("../../data/experiment2/short/experiment2_short-workerids.csv")
+```
+
+### Wrangle data
+
+```{r}
+df.exp2.short.surprise_quiz = df.exp2.short.trials %>% 
+  filter(trial == "surprise_quiz") %>% 
+  mutate(end_position = end_posision,
+         distance_from_correct = abs(selected_position - end_position)) %>% 
+  select(-c(accuracy_bool,
+            choices,
+            correct,
+            correct_response,
+            crosses,
+            end_posision,
+            internal_node_id,
+            question_order,
+            response,
+            stimulus,
+            error, trial_type)) %>% 
+  arrange(workerid) %>% #Keep only 30 first from each condition
+  group_by(condition, workerid) %>%
+  group_by(condition) %>%
+  slice(1:120) %>% #Each participant has 4 observations (keep 120 obs per condition)
+  ungroup() %>% 
+  mutate(end_position = end_position + 1, 
+         selected_position = selected_position + 1)
+```
+
+## STATS
+
+### Bootstrap counts
+
+```{r, cache=TRUE}
+# make reproducible
+set.seed(1)
+
+df.exp2.short.bootstraps = df.exp2.short.surprise_quiz %>%
+  bootstraps(times = 1000,
+             end_position) %>% 
+  mutate(counts = map(.x = splits,
+                      .f = ~ .x %>% 
+                        as_tibble() %>% 
+                        count(end_position, selected_position, .drop = F))) %>% 
+  select(-splits) %>% 
+  unnest(counts) %>% 
+  group_by(end_position, selected_position) %>% 
+  summarize(low = quantile(n, 0.025), 
+            high = quantile(n, 0.975))
+```
+
+### Hypothesis 1: Outcome-relevant features matter more
+
+```{r}
+df.exp2.short.hyp1 = df.exp2.short.surprise_quiz %>% 
+  select(workerid, end_position, selected_position) %>% 
+  mutate(relevant = ifelse(end_position %in% c(1, 2), -1, 1),
+         irrelevant = ifelse(end_position %in% c(1, 3), -1, 1)) %>% 
+  mutate(selected_position = factor(selected_position,
+                                    levels = 1:4,
+                                    ordered = T),
+         across(.cols = c(relevant, irrelevant), .fns = ~ as.factor(.)))
+
+fit.brm.exp2.short.hyp1 = brm(formula = selected_position ~ relevant * irrelevant + (1 | workerid),
+                       family = cumulative(link = "probit"),
+                       data = df.exp2.short.hyp1,
+                       file = "cache/fit.brm.exp2.short.hyp1",
+                       cores = 4, 
+                       seed = 1) 
+
+fit.brm.exp2.short.hyp1 %>% 
+  as_draws_df() %>% 
+  select(b_relevant1, b_irrelevant1) %>% 
+  mutate(difference = b_irrelevant1 - b_relevant1) %>% 
+  summarize(mean = mean(difference),
+            low = quantile(difference, 0.025),
+            high = quantile(difference, 0.975)) %>% 
+  print_table()
+```
+
+### Hypothesis 2: Outcome-congruent selection
+
+```{r}
+df.exp2.short.hyp2 = df.exp2.short.surprise_quiz %>% 
+  select(workerid, end_position, selected_position) %>% 
+  filter(end_position %in% c(2, 3)) %>% 
+  mutate(response = NA,
+         response = ifelse(end_position == 2 & selected_position == 1, 1, response),
+         response = ifelse(end_position == 2 & selected_position == 3, 0, response),
+         response = ifelse(end_position == 3 & selected_position == 4, 1, response),
+         response = ifelse(end_position == 3 & selected_position == 2, 0, response))
+
+fit.brm.exp2.short.hyp2 = brm(formula = response ~ 1 + (1 | workerid),
+                       family = "bernoulli",
+                       data = df.exp2.short.hyp2,
+                       file = "cache/fit.brm.exp2.short.hyp2",
+                       cores = 4, 
+                       seed = 1,
+                       control = list(adapt_delta = 0.95)) 
+
+fit.brm.exp2.short.hyp2 %>% 
+  tidy() %>% 
+  filter(effect == "fixed") %>% 
+  select(estimate, contains("conf")) %>% 
+  mutate(across(.cols = everything(),
+                .fns = ~ inv.logit(.) * 100)) %>% 
+  print_table()
+```
+
+## FIGURES
+
+### Accuracy
+
+```{r}
+df.plot = df.exp2.short.trials %>% 
+  filter(trial == "prediction_trial") %>% 
+  select(workerid, trial_index, correct) %>% 
+  group_by(workerid) %>% 
+  mutate(trial_index = factor(trial_index, 
+                              levels = unique(trial_index),
+                              labels = 1:4),
+         trial_index = as.numeric(as.character(trial_index))) %>% 
+  ungroup() %>% 
+  mutate(accuracy = ifelse(correct == "True", 1, 0))
+
+plot.exp2.short.accuracy = fun_plot_accuracy(data = df.plot,
+                                      limit = 4)
+plot.exp2.short.accuracy
+```
+
+### Selections
+
+```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=4}
+df.plot = df.exp2.short.surprise_quiz %>% 
+  count(end_position, selected_position, .drop = F) %>% 
+  left_join(df.exp2.short.bootstraps, 
+            by = c("end_position", "selected_position")) %>% 
+  mutate(fill = 0,
+         fill = ifelse(end_position == selected_position, 1, fill),
+         fill = ifelse(end_position == 1 & selected_position == 2, 2, fill),
+         fill = ifelse(end_position == 2 & selected_position == 1, 2, fill),
+         fill = ifelse(end_position == 3 & selected_position == 4, 2, fill),
+         fill = ifelse(end_position == 4 & selected_position == 3, 2, fill),
+         selected_position = as.factor(selected_position),
+         fill = as.factor(fill),
+         condition = "short")
+
+fun_plot_selections_physics(data = df.plot)
+```
+
+# EXPERIMENT 2: CONJUNCTIVE
+
+## DATA
+
+### Read data
+
+```{r}
+df.exp2.conjunctive.trials = read.csv("../../data/experiment2/conjunctive/experiment2_conjunctive-trials.csv")
+df.exp2.conjunctive.participants = read.csv("../../data/experiment2/conjunctive/experiment2_conjunctive-participants.csv")
+df.exp2.conjunctive.prolific_ids = read.csv("../../data/experiment2/conjunctive/experiment2_conjunctive-workerids.csv")
+```
+
+### Wrangle data
+
+```{r}
+df.exp2.conjunctive.surprise_quiz = df.exp2.conjunctive.trials %>% 
+  filter(trial == "surprise_quiz") %>% 
+  mutate(end_position = end_posision,
+         distance_from_correct = abs(selected_position - end_position)) %>% 
+  select(-c(accuracy_bool,
+            choices,
+            correct,
+            correct_response,
+            crosses,
+            end_posision,
+            internal_node_id,
+            question_order,
+            response,
+            stimulus,
+            error, trial_type)) %>% 
+  mutate(end_position = end_position + 1, 
+         selected_position = selected_position + 1)
+```
+
+## STATS
+
+### Bootstrap counts
+
+```{r, cache=TRUE}
+# make reproducible
+set.seed(1)
+
+df.exp2.conjunctive.bootstraps = df.exp2.conjunctive.surprise_quiz %>%
+  bootstraps(times = 1000,
+             end_position) %>% 
+  mutate(counts = map(.x = splits,
+                      .f = ~ .x %>% 
+                        as_tibble() %>% 
+                        count(end_position, selected_position, .drop = F))) %>% 
+  select(-splits) %>% 
+  unnest(counts) %>% 
+  group_by(end_position, selected_position) %>% 
+  summarize(low = quantile(n, 0.025), 
+            high = quantile(n, 0.975))
+```
+
+### Hypothesis 1: Responses for position 3
+
+```{r}
+df.exp2.conjunctive.hyp1 = df.exp2.conjunctive.surprise_quiz %>% 
+  select(workerid, end_position, selected_position) %>% 
+  filter(end_position == 3) %>% 
+  mutate(response = NA,
+         response = ifelse(selected_position == 2, 1, response),
+         response = ifelse(selected_position == 4, 0, response))
+
+fit.brm.exp2.conjunctive.hyp1 = brm(formula = response ~ 1,
+                       family = "bernoulli",
+                       data = df.exp2.conjunctive.hyp1,
+                       file = "cache/fit.brm.exp2.conjunctive.hyp1",
+                       cores = 4, 
+                       seed = 1) 
+
+fit.brm.exp2.conjunctive.hyp1 %>% 
+  tidy() %>% 
+  filter(effect == "fixed") %>% 
+  select(estimate, contains("conf")) %>% 
+  mutate(across(.cols = everything(),
+                .fns = ~ inv.logit(.) * 100)) %>% 
+  print_table()
+```
+
+### Hypothesis 2: Correct vs. incorrect
+
+```{r}
+df.exp2.conjunctive.hyp2 = df.exp2.conjunctive.surprise_quiz %>% 
+  select(workerid, end_position, selected_position) %>% 
+  mutate(response = (end_position == selected_position)*1,
+         position = ifelse(end_position == 4, 1, 0))
+  
+fit.brm.exp2.conjunctive.hyp2 = brm(formula = response ~ 1 + position + (1 | workerid),
+                       family = "bernoulli",
+                       data = df.exp2.conjunctive.hyp2,
+                       file = "cache/fit.brm.exp2.conjunctive.hyp2",
+                       cores = 4, 
+                       seed = 1) 
+
+fit.brm.exp2.conjunctive.hyp2 %>% 
+  emmeans(specs = pairwise ~ position,
+          type = "response") %>% 
+  summary(point.est = "mean") %>% 
+  print(digits = 4)
+
+# percentage correct 
+fit.brm.exp2.conjunctive.hyp2 %>% 
+  emmeans(specs = pairwise ~ position,
+          type = "response") %>% 
+  pluck("emmeans") %>% 
+  as_tibble() %>% 
+  mutate(across(.cols = - position,
+                .fns = ~ . * 100)) %>% 
+  print_table()
+
+# difference 
+fit.brm.exp2.conjunctive.hyp2 %>% 
+  emmeans(specs = pairwise ~ position) %>% 
+  pluck("contrasts") %>% 
+  as_tibble() %>% 
+  print_table()
+```
+
+## FIGURES
+
+### Accuracy
+
+```{r}
+df.plot = df.exp2.conjunctive.trials %>% 
+  filter(trial == "prediction_trial") %>% 
+  select(workerid, trial_index, correct) %>% 
+  group_by(workerid) %>% 
+  mutate(trial_index = factor(trial_index, 
+                              levels = unique(trial_index),
+                              labels = 1:16),
+         trial_index = as.numeric(as.character(trial_index))) %>% 
+  ungroup() %>% 
+  mutate(accuracy = ifelse(correct == "True", 1, 0))
+
+plot.exp2.conjunctive.accuracy = fun_plot_accuracy(data = df.plot,
+                                      limit = 16)
+plot.exp2.conjunctive.accuracy
+```
+
+### Selections
+
+```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=4}
+df.plot = df.exp2.conjunctive.surprise_quiz %>% 
+  count(end_position, selected_position, .drop = F) %>% 
+  left_join(df.exp2.conjunctive.bootstraps, 
+            by = c("end_position", "selected_position")) %>% 
+  mutate(fill = case_when(end_position == selected_position ~ 1,
+                          end_position == 1 & selected_position == 2 ~ 2,
+                          end_position == 1 & selected_position == 3 ~ 2,
+                          end_position == 2 & selected_position == 1 ~ 2,
+                          end_position == 2 & selected_position == 3 ~ 2,
+                          end_position == 3 & selected_position == 1 ~ 2,
+                          end_position == 3 & selected_position == 2 ~ 2,
+                          TRUE ~ 0),
+         selected_position = as.factor(selected_position),
+         fill = as.factor(fill),
+         condition = "conjunctive")
+
+plot.exp2.conjunctive.selections = fun_plot_selections_physics(data = df.plot,
+                                                               exp = "exp2.conjunctive")
+plot.exp2.conjunctive.selections
+```
+
+# EXPERIMENT 2: COMBINED
+
+## STATS 
+
+### Demographics 
+
+```{r}
+df.exp2.participants = df.exp2.long.participants %>% 
+  mutate(condition = "long") %>% 
+  bind_rows(df.exp2.short.participants %>% 
+  inner_join(df.exp2.short.surprise_quiz %>% 
+               distinct(workerid),
+             by = "workerid") %>% 
+              mutate(condition = "short"),
+            df.exp2.conjunctive.participants %>% 
+              mutate(condition = "conjunctive")) %>% 
+    select(condition, workerid, age, gender, race, ethnicity)
+  
+# race
+df.exp2.participants %>% 
+  count(race) %>% 
+  arrange(desc(n))
+
+# ethnicity
+df.exp2.participants %>% 
+  count(ethnicity) %>% 
+  arrange(desc(n))
+
+# gender
+df.exp2.participants %>% 
+  count(gender) %>% 
+  arrange(desc(n))
+
+# age
+df.exp2.participants %>% 
+  summarize(age_mean = mean(age, na.rm = T),
+            age_sd = sd(age, na.rm = T)) %>% 
+  print_table(digits = 0)
+
+# condition 
+df.exp2.participants %>% 
+  count(condition)
+
+nrow(df.exp2.participants)
+```
+
+### Accuracy depending on final position 
+
+```{r}
+df.exp2.long.surprise_quiz %>% 
+  select(workerid, accuracy, end_position, selected_position) %>% 
+  mutate(condition = "long") %>% 
+  bind_rows(df.exp2.short.surprise_quiz %>% 
+              select(workerid, accuracy, end_position, selected_position) %>% 
+              mutate(condition = "short")) %>% 
+  mutate(close = ifelse(end_position %in% c(2, 3), "yes", "no"),
+         accuracy = ifelse(accuracy == "False", F, T)) %>% 
+  group_by(condition, close) %>% 
+  summarize(accuracy = sum(accuracy)/n()) %>% 
+  print_table()
+```
+
+## FIGURES 
+
+### Accuracy
+
+```{r, fig.height=6, fig.width=24}
+plot.exp2.long.accuracy + 
+  labs(title = "long condition") + 
+  plot.exp2.short.accuracy + 
+  labs(title = "short condition") + 
+  plot.exp2.conjunctive.accuracy + 
+  labs(title = "conjunctive condition") +
+  plot_layout(ncol = 3, 
+              nrow = 1,
+              widths = c(2, 0.75, 2)) + 
+  plot_annotation(tag_levels = "A") & 
+  theme(plot.tag = element_text(face = "bold"))
+
+ggsave(filename = "../../figures/plots/exp2_accuracy.pdf", 
+       width = 24,
+       height = 6)
+```
+
+### Selections
+
+```{r, fig.width=10, fig.height=10, message=FALSE, warning=FALSE}
+
+df.plot = df.exp2.long.surprise_quiz %>% 
+  count(end_position, selected_position, .drop = F) %>% 
+  left_join(df.exp2.long.bootstraps, 
+            by = c("end_position", "selected_position")) %>% 
+  mutate(condition = "long") %>% 
+  bind_rows(df.exp2.short.surprise_quiz %>% 
+              count(end_position, selected_position, .drop = F) %>% 
+              left_join(df.exp2.short.bootstraps, 
+                        by = c("end_position", "selected_position")) %>% 
+              mutate(condition = "short")) %>% 
+  mutate(fill = 0,
+         fill = ifelse(end_position == selected_position, 1, fill),
+         fill = ifelse(end_position == 1 & selected_position == 2, 2, fill),
+         fill = ifelse(end_position == 2 & selected_position == 1, 2, fill),
+         fill = ifelse(end_position == 3 & selected_position == 4, 2, fill),
+         fill = ifelse(end_position == 4 & selected_position == 3, 2, fill),
+         selected_position = as.factor(selected_position),
+         fill = as.factor(fill))
+
+df.plot = df.plot %>% 
+  group_by(end_position, condition) %>% 
+  mutate(total = sum(n),
+         n = (n/total) * 100,
+         low = (low/total) * 100,
+         high = (high/total) * 100) %>% 
+  ungroup()
+
+fun_load_image = function(image){
+  readPNG(str_c("../../figures/stimuli/physics/position", image, ".png"))
+}
+
+df.images = df.plot %>% 
+  distinct(end_position, condition) %>% 
+  mutate(grob = map(.x = end_position,
+                    .f = ~ fun_load_image(image = .x))) %>% 
+  mutate(grob = ifelse(condition == "short", NA, grob))
+
+df.text = df.plot %>% 
+  distinct(end_position, condition) %>% 
+  group_by(condition) %>% 
+  mutate(x = 4,
+         y = 155,
+         text = 1:4) %>% 
+  ungroup() %>% 
+  mutate(text = ifelse(condition == "short", NA, text))
+
+plot.ex56.selections = ggplot(data = df.plot,
+                              mapping = aes(x = selected_position,
+                                            y = n,
+                                            fill = fill)) +
+  geom_bar(stat = "identity",
+           color = "black") +
+  geom_linerange(mapping = aes(ymin = low,
+                               ymax = high)) +
+  geom_custom(data = df.images,
+              mapping = aes(data = grob,
+                            x = -Inf,
+                            y = Inf,
+                            fill = NA),
+              grob_fun = function(x) rasterGrob(x,
+                                                interpolate = T,
+                                                vjust = -0.05,
+                                                hjust = 0)) +
+  geom_text(data = df.text,
+            mapping = aes(x = x,
+                          y = y,
+                          label = text,
+                          fill = NA),
+            color = "white",
+            size = 8) +
+  facet_grid(cols = vars(end_position),
+             rows = vars(condition)) +
+  labs(x = "response option",
+       y = "% selected") +
+  scale_fill_manual(values = c("0" = "gray80",
+                               "1" = "darkgreen",
+                               "2" = "orange")) +
+  scale_y_continuous(breaks = seq(0, 100, 20),
+                     labels = function(x) str_c(x, "%"),
+                     expand = expansion(add = c(0, 5))) +
+  coord_cartesian(clip = "off",
+                  ylim = c(0, 95)) +
+  theme(legend.position = "none",
+        panel.grid.major.y = element_line(),
+        strip.background.x = element_blank(),
+        strip.text.x = element_blank(),
+        plot.margin = margin(t = 2.5, l = 0.2, r = 0.2, b = 0, unit = "cm"),
+        panel.spacing.y = unit(1, "cm"))
+
+plot.ex56.selections + 
+  plot.exp2.conjunctive.selections +
+  theme(plot.margin = margin(t = 2.5, l = 0.2, r = 0.2, b = 0, unit = "cm")) + 
+  plot_layout(ncol = 1, 
+              nrow = 2,
+              heights = c(2, 1.1)) +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(face = "bold"))
+
+ggsave(filename = "../../figures/plots/exp2_selections.pdf", 
+       width = 10,
+       height = 10)
+```
+
+# EXPERIMENT 3
+
+## DATA
+
+### Read data
+
+```{r, warning=FALSE, message=FALSE}
+file_list = list.files(path = "../../data/experiment3",
+                       pattern = "\\.csv$",
+                       full.names = TRUE)
+
+df.exp3 = map_df(file_list,
+                 ~ read_csv(., show_col_types = FALSE))
+```
+
+### Wrangle data
+
+```{r}
+# create individual datasets
+df.exp3.trials = df.exp3 %>% 
+  filter(trial %in% c("prediction_trial",
+                      "surprise_quiz",
+                      "generalization_check",
+                      "generalization_check_survey"))
+
+df.exp3.participants = df.exp3 %>% 
+  filter(trial == "exit_survey") %>% 
+  select(participant = prolific_id,
+         condition,
+         contains("ramp"),
+         rt,
+         age,
+         ethnicity,
+         gender,
+         race,
+         overall_accuracy,
+         bonus)
+
+# condition 0 and 4 participants might need to be replaced (cube never ended in position 1)
+df.exp3.predictions = df.exp3.trials %>% 
+  filter(trial == "prediction_trial") %>% 
+  select(participant = prolific_id,
+         condition,
+         contains("ramp"),
+         answer_image,
+         correct_response,
+         response,
+         end_position,
+         accuracy_bool,
+         rt) %>% 
+  group_by(participant) %>% 
+  mutate(order = 1:n(),
+         .after = participant) %>% 
+  ungroup()
+
+df.exp3.surprise = df.exp3.trials %>% 
+  filter(trial == "surprise_quiz") %>%
+  select(participant = prolific_id,
+         condition,
+         contains("ramp"),
+         surprise_setup,
+         end_position = end_posision,
+         selected_position,
+         accuracy,
+         accuracy_finish_line,
+         rt) %>% 
+  mutate(distance_from_correct = end_position - selected_position) %>% 
+  group_by(participant) %>% 
+  mutate(order = 1:n(),
+         .after = participant) %>% 
+  ungroup()
+  
+df.exp3.generalization = df.exp3.trials %>% 
+  filter(trial == "generalization_check") %>% 
+  select(participant = prolific_id,
+         condition,
+         contains("ramp"),
+         stimulus,
+         choices,
+         orientation, 
+         farther_color,
+         predicted_further,
+         predicted_direction,
+         farther_color_generalized,
+         rt) %>% 
+  rename(relative_orientation = orientation,
+         ramp_orientation_training = ramp_orientation) %>% 
+  mutate(ramp_orientation_absolute = case_when(
+    relative_orientation == "consistent" ~ ramp_orientation_training,
+    relative_orientation == "reversed" & ramp_orientation_training == "forward" ~ "backward",
+    relative_orientation == "reversed" & ramp_orientation_training == "backward" ~ "forward",
+    TRUE ~ "ERROR"),
+    predicted_direction = ifelse(predicted_direction == "left", 0, 1),
+    stimulus = ifelse(str_detect(stimulus, "cubes"), "cube", "ramp")) %>% 
+  mutate(selection = case_when(
+    predicted_direction == 0 & farther_color_generalized ~ 1,
+    predicted_direction == 0 & !farther_color_generalized ~ 2,
+    predicted_direction == 1 & !farther_color_generalized ~ 3,
+    predicted_direction == 1 & farther_color_generalized ~ 4),
+    selection = factor(selection, levels = 1:4)) %>% 
+  group_by(participant) %>% 
+  mutate(order = 1:n(),
+         .after = participant) %>% 
+  ungroup() %>% 
+  mutate(trial_match = ramp_or_cube == stimulus,
+         trial_type = str_c(ramp_orientation_absolute, ramp_or_cube, stimulus, sep = "_"),
+         trial_type = case_when(
+           trial_type == "forward_cube_cube" ~ 1,
+           trial_type == "forward_cube_ramp" ~ 2,
+           trial_type == "backward_cube_cube" ~ 3,
+           trial_type == "backward_cube_ramp" ~ 4,
+           trial_type == "forward_ramp_ramp" ~ 1,
+           trial_type == "forward_ramp_cube" ~ 2,
+           trial_type == "backward_ramp_ramp" ~ 3,
+           trial_type == "backward_ramp_cube" ~ 4))
+
+df.exp3.index = df.exp3.generalization %>% 
+  select(ramp_orientation_training,
+         ramp_orientation_absolute,
+         trial_type) %>% 
+  distinct() %>% 
+  mutate(ramp_orientation_training = factor(ramp_orientation_training,
+                                            levels = c("forward", "backward")),
+         ramp_orientation_absolute = factor(ramp_orientation_absolute,
+                                            levels = c("forward", "backward"))) %>% 
+  arrange(ramp_orientation_training,
+          ramp_orientation_absolute,
+          trial_type) %>% 
+  mutate(stimulus = rep(c("cube", "ramp"), 4))
+```
+
+### Demographics 
+
+```{r}
+df.exp3.participants %>% 
+  nrow()
+
+df.exp3.participants %>% 
+  summarize(age_mean = mean(age),
+            age_sd = sd(age)) %>% 
+  print_table(digits = 0)
+
+df.exp3.participants %>% 
+  count(gender) %>% 
+  print_table()
+
+df.exp3.participants %>% 
+  count(race) %>% 
+  print_table()
+
+df.exp3.participants %>% 
+  count(ethnicity) %>% 
+  print_table()
+```
+
+### Read in modeling results 
+
+```{r}
+df.exp3.generalization.model = read_csv("data/model_vs_human_comparison.csv",
+                                        show_col_types = F) %>% 
+  clean_names() %>% 
+  select(condition, trial, contains("prediction")) %>% 
+  pivot_longer(cols = -c(condition, trial),
+               names_to = "position",
+               values_to = "prediction") %>% 
+  mutate(condition = str_remove(condition, "_ramp_condition"),
+         trial = str_remove(trial, "trial_"),
+         position = as.numeric(str_extract(position, "\\d+")),
+         ramp_orientation_absolute = ifelse(trial %in% c("a", "b"), "forward", "backward"),
+         stimulus = ifelse(trial %in% c("a", "c"), "cube", "ramp")) %>% 
+  rename(ramp_orientation_training = condition) %>% 
+  relocate(trial)
+```
+
+## STATS 
+
+### Bootstraps 
+
+#### Surprise 
+
+```{r}
+# make reproducible
+set.seed(1)
+
+df.exp3.bootstraps.surprise = df.exp3.surprise %>%
+  bootstraps(times = 1000,
+             end_position) %>% 
+  mutate(counts = map(.x = splits,
+                      .f = ~ .x %>% 
+                        as_tibble() %>% 
+                        group_by(ramp_orientation) %>% 
+                        count(end_position, selected_position, .drop = F))) %>% 
+  select(-splits) %>% 
+  unnest(counts) %>% 
+  group_by(ramp_orientation, end_position, selected_position) %>% 
+  summarize(low = quantile(n, 0.025), 
+            high = quantile(n, 0.975))
+```
+
+#### Generalization
+
+##### Direction
+
+```{r}
+set.seed(1)
+
+df.exp3.bootstraps.generalization = df.exp3.generalization %>% 
+  bootstrap(n = 1000) %>% # create 1000 bootstrapped samples
+  mutate(data = map(.x = strap,
+                      .f = ~ .x %>% 
+                        as_tibble() %>% 
+                        group_by(ramp_orientation_training, ramp_orientation_absolute) %>% 
+                        summarize(prediction = mean(predicted_direction)))) %>% 
+  select(-strap) %>% 
+  unnest(data) %>% 
+  group_by(ramp_orientation_training, ramp_orientation_absolute) %>% 
+  summarize(mean = mean(prediction),
+            low = quantile(prediction, 0.025), # calculate the 2.5 / 97.5 percentiles
+            high = quantile(prediction, 0.975))
+```
+
+##### Position
+
+```{r}
+set.seed(1)
+
+df.exp3.generalization.position.boot.aggregated = df.exp3.generalization %>% 
+  bootstrap(n = 1000) %>% # create 1000 bootstrapped samples
+  mutate(data = map(.x = strap,
+                    .f = ~ .x %>% 
+                      as_tibble() %>%
+                      count(ramp_orientation_training,
+                            trial_type,
+                            selection,
+                            .drop = F) %>% 
+                      ungroup())) %>% 
+  select(-strap) %>% 
+  unnest(data) %>% 
+  group_by(ramp_orientation_training,
+                            trial_type,
+                            selection) %>% 
+  summarize(low = quantile(n, 0.025), # calculate the 2.5 / 97.5 percentiles
+            high = quantile(n, 0.975))
+```
+
+### Hypotheses 
+
+#### Hypothesis 1: Outcome relevant feature
+
+```{r, warning=FALSE, message=FALSE}
+df.exp3.hyp1 = df.exp3.surprise %>% 
+  select(participant, end_position, selected_position) %>% 
+  mutate(relevant = ifelse(end_position %in% c(1, 2), -1, 1),
+         irrelevant = ifelse(end_position %in% c(1, 3), -1, 1)) %>% 
+  mutate(selected_position = factor(selected_position,
+                                    levels = 1:4,
+                                    ordered = T),
+         across(.cols = c(relevant, irrelevant), .fns = ~ as.factor(.)))
+
+fit.brm.exp3.hyp1 = brm(formula = selected_position ~ relevant * irrelevant + (1 | participant),
+                       family = cumulative(link = "probit"),
+                       data = df.exp3.hyp1,
+                       file = "cache/fit.brm.exp3.hyp1",
+                       cores = 4, 
+                       seed = 1) 
+
+fit.brm.exp3.hyp1 %>% 
+  as_draws_df() %>% 
+  select(b_relevant1, b_irrelevant1) %>% 
+  mutate(difference = b_irrelevant1 - b_relevant1) %>% 
+  summarize(mean = mean(difference),
+            low = quantile(difference, 0.025),
+            high = quantile(difference, 0.975)) %>% 
+  print_table()
+```
+
+#### Hypothesis 2: Correct vs. incorrect
+
+```{r}
+df.exp3.hyp2 = df.exp3.surprise %>% 
+  filter(end_position %in% c(2, 3)) %>% 
+  mutate(response = NA,
+         response = ifelse(end_position == 2 & selected_position == 1, 1, response),
+         response = ifelse(end_position == 2 & selected_position == 3, 0, response),
+         response = ifelse(end_position == 3 & selected_position == 4, 1, response),
+         response = ifelse(end_position == 3 & selected_position == 2, 0, response))
+  
+fit.brm.exp3.hyp2 = brm(formula = response ~ 1 + (1 | participant),
+                       family = "bernoulli",
+                       data = df.exp3.hyp2,
+                       file = "cache/fit.brm.exp3.hyp2",
+                       cores = 4, 
+                       seed = 1,
+                       control = list(adapt_delta = 0.95)) 
+
+fit.brm.exp3.hyp2 %>% 
+  tidy() %>% 
+  filter(effect == "fixed") %>% 
+  select(estimate, contains("conf")) %>% 
+  mutate(across(.cols = everything(),
+                .fns = ~ inv.logit(.) * 100)) %>% 
+  print_table()
+```
+
+#### Hypothesis 3: Generalization direction 
+
+We predict that there will be a negative effect of training (people will be more likely to select an image with the blocks on the right side of the ramp when the ramp faces backwards than when it faces forwards). We predict that there will be a positive effect of generalization (people will be more likely to select an image with the blocks on the right side when the ramp in the generalization trial faces forward than when it faces backward). We predict that there will be a positive interaction effect (the difference in participants' selections between the two types of generalization trials will be greater when the ramp faced forward in the training compared to when it faced backward).
+
+```{r}
+df.exp3.hyp3 = df.exp3.generalization %>% 
+  select(participant,
+         order,
+         ramp_or_cube,
+         ramp_orientation_training,
+         ramp_orientation_absolute,
+         predicted_direction) %>% 
+  mutate(response = predicted_direction,
+         ramp_orientation_training = ifelse(ramp_orientation_training == "forward", 1, -1),
+         ramp_orientation_absolute = ifelse(ramp_orientation_absolute == "forward", 1, -1))
+
+fit.brm.exp3.hyp3 = brm(formula = response ~ 1 + ramp_orientation_training * ramp_orientation_absolute + (1 | participant),
+                       family = "bernoulli",
+                       data = df.exp3.hyp3,
+                       file = "cache/fit.brm.exp3.hyp3",
+                       control = list(adapt_delta = 0.9),
+                       cores = 4, 
+                       seed = 1)
+
+fit.brm.exp3.hyp3 %>% 
+  tidy() %>% 
+  filter(effect == "fixed") %>% 
+  select(-c(effect, component, group)) %>% 
+  print_table()
+```
+
+### Predictions
+
+#### Accuracy across trials for each condition 
+
+```{r}
+# forward condition
+df.data = df.exp3.predictions %>% 
+  mutate(order = order - 1) %>% 
+  filter(ramp_orientation == "forward")
+
+fit.brm.exp3.prediction_forward = brm(formula = accuracy_bool ~ 0 + order + (0 + order | participant),
+                                      family = "bernoulli",
+                                      data = df.data,
+                                      file = "cache/fit.brm.exp3.prediction_forward",
+                                      cores = 4, 
+                                      seed = 1)
+
+# backward condition
+df.data = df.exp3.predictions %>% 
+  mutate(order = order - 1) %>% 
+  filter(ramp_orientation == "backward")
+
+fit.brm.exp3.prediction_backward = brm(formula = accuracy_bool ~ 0 + order + (0 + order | participant),
+                                       family = "bernoulli",
+                                       data = df.data,
+                                       file = "cache/fit.brm.exp3.prediction_backward",
+                                       control = list(adapt_delta = 0.99),
+                                       cores = 4, 
+                                       seed = 1)
+```
+
+#### Effect of training and cube/ramp
+
+```{r}
+df.data = df.exp3.predictions %>% 
+  mutate(ramp_orientation = ifelse(ramp_orientation == "forward", 1, -1),
+         ramp_or_cube = ifelse(ramp_or_cube == "cube", 1, -1))
+
+fit.brm.exp3.prediction = brm(formula = accuracy_bool ~ 1 + ramp_orientation * ramp_or_cube + (1 | participant),
+                       family = "bernoulli",
+                       data = df.data,
+                       file = "cache/fit.brm.exp3.prediction",
+                       cores = 4, 
+                       seed = 1)
+
+fit.brm.exp3.prediction
+```
+
+#### Effect of training 
+
+```{r}
+df.data = df.exp3.predictions %>% 
+  mutate(ramp_orientation = ifelse(ramp_orientation == "forward", 0, 1))
+
+fit.brm.exp3.prediction2 = brm(formula = accuracy_bool ~ 1 + ramp_orientation + (1 | participant),
+                               family = "bernoulli",
+                               data = df.data,
+                               file = "cache/fit.brm.exp3.prediction2",
+                               cores = 4, 
+                               seed = 1)
+
+fit.brm.exp3.prediction2
+```
+
+### Feature-based model 
+
+```{r}
+df.features = df.exp3.generalization %>%
+  count(ramp_orientation_training,
+        trial_type,
+        selection,
+        .drop = F) %>% 
+  left_join(df.exp3.generalization.position.boot.aggregated,
+            by = join_by(ramp_orientation_training, trial_type, selection)) %>% 
+  mutate(side = case_when(ramp_orientation_training == "forward" & trial_type %in% c(1, 2) & selection %in% c(3, 4) ~ "consistent",
+                          ramp_orientation_training == "forward" & trial_type %in% c(3, 4) & selection %in% c(1, 2) ~ "consistent",
+                          ramp_orientation_training == "backward" & trial_type %in% c(1, 2) & selection %in% c(1, 2) ~ "consistent",
+                          ramp_orientation_training == "backward" & trial_type %in% c(3, 4) & selection %in% c(3, 4) ~ "consistent",
+                          TRUE ~ "inconsistent"),
+         feature = ifelse(trial_type %in% c(1, 3), "diagnostic", "non-diagnostic"),
+         friction = case_when(trial_type %in% c(1, 3) & selection %in% c(1, 4) ~ "consistent",
+                              trial_type %in% c(2, 4) & selection %in% c(2, 3) ~ "consistent",
+                              TRUE ~ "inconsistent")
+  )
+
+fit.features_full = lm(formula = n ~ 1 + ramp_orientation_training * side * feature * friction,
+                     data = df.features)
+
+df.features_full = df.features %>% 
+  bind_cols(fit.features_full %>% 
+              augment() %>% 
+              clean_names() %>% 
+              select(fitted))
+
+fit.features_full %>% 
+  tidy()
+```
+
+### Feature-based model (without interactions)
+
+```{r}
+fit.features_simple = lm(formula = n ~ 1 + ramp_orientation_training * (side + feature + friction),
+                         data = df.features)
+
+df.features_simple = df.features %>% 
+  bind_cols(fit.features_simple %>% 
+              augment() %>% 
+              clean_names() %>% 
+              select(fitted))
+
+fit.features_simple %>% 
+  tidy()
+```
+
+### Correlations between model predictions and responses 
+
+```{r}
+df.n = df.exp3.generalization %>% 
+  distinct(participant, ramp_orientation_training) %>% 
+  count(ramp_orientation_training)
+
+df.model = df.exp3.generalization.model %>% 
+  mutate(prediction = ifelse(ramp_orientation_training == "forward",
+                             prediction * df.n$n[df.n$ramp_orientation_training == "forward"],
+                             prediction * df.n$n[df.n$ramp_orientation_training == "backward"])) %>% 
+  left_join(df.exp3.index,
+            by = c("ramp_orientation_training", "ramp_orientation_absolute", "stimulus")) %>% 
+  rename(selection = position)
+
+df.features_full %>%
+  mutate(selection = as.numeric(as.character(selection))) %>%
+  left_join(df.model,
+            by = join_by(ramp_orientation_training, trial_type, selection)) %>% 
+  select(data = n,
+         features = fitted,
+         abstraction = prediction) %>% 
+  summarize(r_features = cor(features, data),
+            r_abstraction = cor(abstraction, data),
+            rmse_features = sqrt(mean((features - data)^2)),
+            rmse_abstraction = sqrt(mean((abstraction - data)^2))) %>% 
+  pivot_longer(cols = everything(),
+               names_sep = "_",
+               names_to = c("index", "model"),
+               values_to = "value") %>% 
+  pivot_wider(names_from = index,
+              values_from = value) %>% 
+  print_table()
+```
+
+## TABLES 
+
+### Accuracy 
+
+```{r}
+df.exp3.predictions %>% 
+  group_by(ramp_orientation, ramp_or_cube) %>% 
+  summarize(mean = mean(accuracy_bool) * 100) %>% 
+  print_table(digits = 0)
+```
+
+### Consistency 
+
+```{r}
+df.exp3.generalization %>% 
+  select(participant, 
+         ramp_or_cube,
+         stimulus,
+         ramp_orientation_training,
+         ramp_orientation_absolute,
+         predicted_direction) %>% 
+  mutate(model_physics = ifelse(ramp_orientation_absolute == "forward", 1, 0),
+         model_agent = 1,
+         model_ramp = ifelse(ramp_orientation_absolute == "backward", 1, 0),
+         index_physics = predicted_direction == model_physics,
+         index_agent = predicted_direction == model_agent,
+         index_ramp = predicted_direction == model_ramp) %>% 
+  group_by(participant, ramp_orientation_training) %>%
+  summarize(n_physics = all(index_physics),
+            n_agent = all(index_agent),
+            n_ramp = all(index_ramp)) %>% 
+  mutate(n_other = !(n_physics | n_agent | n_ramp)) %>% 
+  group_by(ramp_orientation_training) %>%
+  summarize(physics = sum(n_physics),
+            agent = sum(n_agent),
+            ramp = sum(n_ramp),
+            other = sum(n_other)) %>% 
+  print_table()
+```
+
+### Explanations 
+
+```{r}
+df.table = df.exp3 %>% 
+  filter(trial == "generalization_check_survey") %>% 
+  select(ramp_orientation,
+         ramp_or_cube,
+         orientation,
+         predicted_further,
+         predicted_direction,
+         response) %>% 
+  rowwise() %>% 
+  mutate(response = list(fromJSON(response))) %>% 
+  ungroup() %>% 
+  unnest(response)
+
+# print_table(df.table)
+```
+
+## FIGURES
+
+### Accuracy
+
+```{r, fig.width=16, fig.height=5}
+df.plot = df.exp3.predictions %>% 
+  rename(accuracy = accuracy_bool,
+         trial_index = order)
+
+
+p1 = fun_plot_accuracy(data = df.plot %>% 
+                         filter(ramp_orientation == "forward"),
+                  limit = 16) + 
+  labs(title = "ramp forward")
+
+p2 = fun_plot_accuracy(data = df.plot %>% 
+                         filter(ramp_orientation == "backward"),
+                  limit = 16) + 
+  labs(title = "ramp backward")
+
+p1 + p2 + 
+  plot_layout(ncol = 2) + 
+  plot_annotation(tag_levels = "A") & 
+  theme(title = element_text(size = 24),
+        plot.tag = element_text(face = "bold"))
+
+ggsave(filename = "../../figures/plots/exp3_accuracy.pdf",
+       width = 16,
+       height = 5)
+```
+
+### Selections
+
+```{r, warning=FALSE, message=FALSE, fig.width=10, fig.height=8}
+df.plot = df.exp3.surprise %>% 
+  group_by(ramp_orientation) %>% 
+  count(end_position, selected_position, .drop = F) %>%
+  left_join(df.exp3.bootstraps.surprise, 
+            by = c("ramp_orientation",
+                   "end_position", 
+                   "selected_position")) %>% 
+  mutate(fill = 0,
+         fill = ifelse(end_position == selected_position, 1, fill),
+         fill = ifelse(end_position == 1 & selected_position == 2, 2, fill),
+         fill = ifelse(end_position == 2 & selected_position == 1, 2, fill),
+         fill = ifelse(end_position == 3 & selected_position == 4, 2, fill),
+         fill = ifelse(end_position == 4 & selected_position == 3, 2, fill),
+         selected_position = as.factor(selected_position),
+         fill = as.factor(fill),
+         condition = NA)
+
+plot.ex8.selections_forward = fun_plot_selections_physics(data = df.plot %>% 
+                                                            filter(ramp_orientation == "forward"),
+                                                          exp = "exp3") + 
+  theme(strip.background = element_blank(),
+        strip.text = element_blank())
+
+plot.ex8.selections_backward = fun_plot_selections_physics(data = df.plot %>% 
+                                                             filter(ramp_orientation == "backward"),
+                                                          exp = "exp3") + 
+  theme(strip.background = element_blank(),
+        strip.text = element_blank())
+
+plot.ex8.selections_forward +
+  theme(plot.margin = margin(t = 2.5, l = 0.2, r = 0.2, b = 0, unit = "cm")) + 
+  plot.ex8.selections_backward +
+  theme(plot.margin = margin(t = 2.5, l = 0.2, r = 0.2, b = 0, unit = "cm")) + 
+  plot_layout(ncol = 1, 
+              nrow = 2) +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(face = "bold"))
+
+ggsave(filename = "../../figures/plots/exp3_selections.pdf", 
+       width = 10,
+       height = 8)
+```
+
+### Generalization 
+
+#### Direction 
+
+```{r, fig.width=8, fig.height=5}
+df.plot = df.exp3.bootstraps.generalization %>% 
+  mutate(ramp_orientation_training = factor(ramp_orientation_training,
+                                            levels = c("forward", "backward")),
+         ramp_orientation_absolute = factor(ramp_orientation_absolute,
+                                            levels = c("forward", "backward"))) %>% 
+  mutate(across(.cols = c(mean, low, high),
+                .fns = ~ . - 0.5))
+
+df.model.abstraction = df.exp3.generalization.model %>% 
+  mutate(direction = ifelse(position %in% c(1, 2), "left", "right")) %>% 
+  group_by(ramp_orientation_training, ramp_orientation_absolute, direction, stimulus) %>%
+  summarize(prediction = sum(prediction)) %>% 
+  group_by(ramp_orientation_training, ramp_orientation_absolute, direction) %>% 
+  summarize(prediction = mean(prediction)) %>% 
+  filter(direction == "right") %>% 
+  mutate(prediction = prediction - 0.5)
+  
+df.model.features = df.features_full %>% 
+  group_by(ramp_orientation_training, trial_type) %>%
+  mutate(n = n / sum(n),
+         fitted = fitted / sum(fitted)) %>%
+  ungroup() %>% 
+  mutate(ramp_orientation_absolute = ifelse(trial_type %in% c(1, 2), "forward", "backward"),
+         direction = ifelse(selection %in% c(1, 2), "left", "right")) %>% 
+  group_by(ramp_orientation_training, ramp_orientation_absolute, direction, trial_type) %>%
+  summarize(prediction = sum(fitted)) %>% 
+  group_by(ramp_orientation_training, ramp_orientation_absolute, direction) %>% 
+  summarize(prediction = mean(prediction)) %>% 
+  filter(direction == "right") %>% 
+  mutate(prediction = prediction - 0.5)
+
+df.model = df.model.abstraction %>% 
+  select(ramp_orientation_training, ramp_orientation_absolute, prediction) %>%
+  mutate(model = "abstraction") %>% 
+  bind_rows(df.model.features %>% 
+              select(ramp_orientation_training, ramp_orientation_absolute, prediction) %>%
+              mutate(model = "features")) %>% 
+  mutate(ramp_orientation_training = factor(ramp_orientation_training,
+                                            levels = c("forward", "backward")),
+         ramp_orientation_absolute = factor(ramp_orientation_absolute,
+                                            levels = c("forward", "backward")))
+
+ggplot(data = df.plot,
+       mapping = aes(x = ramp_orientation_training,
+                     y = mean,
+                     fill = ramp_orientation_absolute,
+                     group = ramp_orientation_absolute)) +
+  geom_hline(yintercept = 0,
+             linetype = "dashed",
+             color = "black") +
+  geom_col(position = position_dodge(width = 0.9),
+           color = "black") +
+  geom_linerange(mapping = aes(ymin = low,
+                               ymax = high),
+                 position = position_dodge(width = 0.9),
+                 color = "black",
+                 linewidth = 1) +
+  geom_point(data = df.model,
+             mapping = aes(x = ramp_orientation_training,
+                           y = prediction,
+                           group = ramp_orientation_absolute,
+                           fill = model),
+             position = position_dodge2(width = c(0.9)),
+             shape = 21,
+             size = 3,
+             show.legend = F) +
+  scale_y_continuous(limits = c(-0.5, 0.5),
+                     breaks = c(-0.5, 0, 0.5),
+                     labels = c("100% left", "50%", "100% right")) +
+  scale_fill_manual(values = c("forward" = "#1f77b4",
+                               "backward" = "#E41A1C",
+                               "features" = "#a020f0",
+                               "abstraction" = "#ffc0cb"),
+                    breaks = c("forward", "backward")) + 
+  labs(x = "ramp orientation in training",
+       y = "predicted direction",
+       fill = "ramp orientation\nduring generalization") +
+  theme(panel.grid.minor.y = element_line(),
+        panel.grid.major.y = element_line(),
+        legend.title = element_text(size = 20))
+
+ggsave(filename = "../../figures/plots/exp3_generalization_direction.pdf",
+       width = 8,
+       height = 5)
+```
+
+#### Position 
+
+```{r, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
+df.index = df.exp3.generalization %>% 
+  select(ramp_orientation_training,
+         ramp_orientation_absolute,
+         trial_type) %>% 
+  distinct() %>% 
+  mutate(ramp_orientation_training = factor(ramp_orientation_training,
+                                            levels = c("forward", "backward")),
+         ramp_orientation_absolute = factor(ramp_orientation_absolute,
+                                            levels = c("forward", "backward"))) %>% 
+  arrange(ramp_orientation_training,
+          ramp_orientation_absolute,
+          trial_type) %>% 
+  mutate(stimulus = rep(c("cube", "ramp"), 4))
+
+l.plots = list()
+
+for (i in 1:nrow(df.index)){
+  df.plot = df.exp3.generalization %>%
+    count(ramp_orientation_training,
+          trial_type,
+          selection,
+          .drop = F) %>% 
+    ungroup() %>% 
+    left_join(df.exp3.generalization.position.boot.aggregated, 
+              by = c("ramp_orientation_training",
+                     "trial_type",
+                     "selection")) %>% 
+    filter(ramp_orientation_training == df.index$ramp_orientation_training[i],
+           trial_type == df.index$trial_type[i])
+  
+  df.plot = df.plot %>%
+    group_by(ramp_orientation_training,
+             trial_type) %>%
+    mutate(total = sum(n)) %>%
+    ungroup() %>%
+    mutate(n = (n / total) * 100,
+           low = (low / total) * 100,
+           high = (high / total) * 100)
+  
+fun_load_image = function(image){
+  readPNG(str_c("../../figures/stimuli/physics/generalization_",
+                df.index$stimulus[i],
+                "_",
+                df.index$ramp_orientation_absolute[i],
+                image,
+                ".png"))
+}
+
+df.images = df.plot %>% 
+  distinct(selection) %>% 
+  mutate(grob = map(.x = selection,
+                    .f = ~ fun_load_image(image = .x)))
+
+df.text = df.plot %>% 
+  distinct(selection) %>% 
+  mutate(x = 1.3,
+         y = 190,
+         text = 1:4)
+
+df.n = df.exp3.generalization %>% 
+  distinct(participant, ramp_orientation_training) %>% 
+  count(ramp_orientation_training)
+
+df.model = df.exp3.generalization.model %>% 
+  mutate(prediction = ifelse(ramp_orientation_training == "forward",
+                             prediction * df.n$n[df.n$ramp_orientation_training == "forward"],
+                             prediction * df.n$n[df.n$ramp_orientation_training == "backward"])) %>% 
+  left_join(df.index,
+            by = c("ramp_orientation_training", "ramp_orientation_absolute", "stimulus")) %>% 
+  rename(selection = position) %>% 
+  filter(ramp_orientation_training == df.index$ramp_orientation_training[i],
+           trial_type == df.index$trial_type[i]) %>% 
+  mutate(prediction = prediction / unique(df.plot$total) * 100)
+
+df.model_features = df.features_full %>% 
+  filter(ramp_orientation_training == df.index$ramp_orientation_training[i],
+           trial_type == df.index$trial_type[i]) %>% 
+  mutate(fitted = fitted / unique(df.plot$total) * 100)
+
+p = ggplot(data = df.plot,
+              mapping = aes(x = 1,
+                            y = n)) + 
+  geom_bar(stat = "identity",
+           color = "black",
+           fill = "gray80") + 
+  geom_linerange(mapping = aes(ymin = low,
+                               ymax = high),
+                 linewidth = 1) + 
+  geom_point(data = df.model,
+             mapping = aes(x = 0.8,
+                           y = prediction),
+             shape = 21,
+             fill = "pink",
+             size = 4) +
+  geom_point(data = df.model_features,
+             mapping = aes(x = 1.2,
+                           y = fitted),
+             shape = 21,
+             fill = "purple",
+             size = 4) +
+  geom_custom(data = df.images,
+              mapping = aes(data = grob,
+                            x = -Inf,
+                            y = Inf),
+              grob_fun = function(x) rasterGrob(x,
+                                                interpolate = T,
+                                                vjust = -0.25,
+                                                hjust = 0)) + 
+  facet_grid(cols = vars(selection)) +
+  labs(x = "response option",
+       y = "% selected") + 
+  scale_y_continuous(breaks = seq(0, 100, 20),
+                     labels = function(x){str_c(x, "%")},
+                     expand = expansion(add = c(3, 1))) + 
+  coord_cartesian(clip = "off",
+                  ylim = c(0, 100)) + 
+  theme(legend.position = "none",
+        panel.grid.major.y = element_line(),
+        strip.background.x = element_blank(),
+        strip.text.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        plot.margin = margin(t = 3.5, l = 0.2, r = 0.2, b = 0.1, unit = "cm"),
+        plot.title = element_text(vjust = 16))
+
+l.plots[[i]] = p
+}
+
+wrap_plots(l.plots[1:4]) &
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(face = "bold"))
+
+ggsave(filename = "../../figures/plots/exp3_generalization_training_forward.pdf",
+       width = 20,
+       height = 10)
+
+wrap_plots(l.plots[5:8]) &
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(face = "bold"))
+
+ggsave(filename = "../../figures/plots/exp3_generalization_training_backward.pdf",
+       width = 20,
+       height = 10)
+```
+
+# Session info
+
+```{r, echo=F}
+sessionInfo()
+```
