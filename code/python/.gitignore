@@ -1,0 +1,15 @@
+.cursor/
+.venv/
+__pycache__/
+
+# Live progress (all steps)
+data/STATUS
+data/STATUS.tmp
+data/progress.log
+
+# Step 4 grid search — large, regenerable outputs
+data/grid_search/results/
+data/grid_search/step2_all_results.csv.gz
+data/grid_search/step2_progress.json
+data/grid_search/run.log
+data/grid_search/run_all.log

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Experiment</title>
+
+    <!--load jspsych plugins*/-->
+    <script src="jspsych/dist/jspsych.js"></script>
+    <script src="jspsych/dist/plugin-preload.js"></script>
+    <script src="jspsych/dist/plugin-image-button-response.js"></script>
+    <script src="jspsych/dist/plugin-survey-html-form.js"></script>
+    <script src="jspsych/dist/plugin-image-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-fullscreen.js"></script>
+    <script src="jspsych/dist/plugin-instructions.js"></script>
+    <script src="jspsych/dist/plugin-html-button-response.js"></script>
+    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-survey-multi-select.js"></script>
+
+    <!--load jQuery and Proliferate-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://proliferate.alps.science/static/js/proliferate.js" type="text/javascript"></script>
+    <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css">
+
+    <style>
+      /* override some formatting for the html surveys */
+      label {
+        display: inline-block
+      }
+    </style>
+  </head>
+
+  <body></body>
+
+  <script>
+
+    var jsPsych = initJsPsych({
+        on_finish: function(){
+           // jsPsych.data.displayData();
+
+            //get full raw jspsych data object
+            var all_data = jsPsych.data.get();
+
+            //get participant survey info
+            var participants = all_data.filter({trial: 'exit_survey'})
+
+            //get info from trials of interest
+            var trials = all_data.filterCustom(function(trial){
+                return (trial.trial == 'blicket' || trial.trial == 'pop_quiz' || trial.trial == 'rule_question');
+                })
+
+            //save data to proliferate
+            proliferate.submit({
+              'raw': all_data.values(),
+              'trials': trials.values(),
+              'participants': participants.values()})
+
+            //redirect message
+            $('#jspsych-content').css('margin-top', 'auto');
+                $('#jspsych-content').html('<div style="margin: auto;"> <p>' +
+                    ' Thank you for participating in this experiment! </p>' +
+                    '<p> Redirecting you back to Prolific... </p>');
+                setTimeout(function(){}, 300);
+
+        }
+    });
+
+//-------------------------------------------------------------
+//CREATE A RULE
+//-------------------------------------------------------------
+// d=dark, l=light, c=cylinder, s=cube
+var blicket_names = jsPsych.randomization.shuffle(['dc', 'lc', 'ds', 'ls']);
+
+  //functions will take a blicket image code, ex. lc= light cylinder, ds= dark cube
+  dark = function(file_name) {
+    if(file_name[0]=='d'){
+      return true
+    } else {
+      return false
+    }
+  }
+
+  light = function(file_name) {
+    if(file_name[0] == 'l') {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  cube = function(file_name) {
+    if(file_name[1]=='s'){
+      return true
+    } else {
+      return false
+    }
+  }
+
+  cylinder = function(file_name) {
+  if(file_name[1]=='c'){
+    return true
+  } else {
+    return false
+  }
+}
+
+//create dict of rules and their names (easier to keep track of rules)
+var rules = {'dark': dark, 'light': light, 'cube': cube, 'cylinder': cylinder}
+ var rule_names = ['dark', 'light', 'cube', 'cylinder']
+ var color_rules = ['light', 'dark']
+ var shape_rules = ['cube', 'cylinder']
+
+ //====================================================================================================
+ //SET CONDITIONS FOR EXPERIMENT (ensure properly counterbalanced)
+   const trial_count = 16 //number of trials (note:must be greater than 2, and there are only 4 blocks)
+   var rule_name = jsPsych.randomization.shuffle(shape_rules)[0]
+   const last_trial_type = 'on'
+   const max_bonus = 0.80 //max monetary bonus in USD
+ //====================================================================================================
+ 
+ //set last trial based on last_trial_type and rule
+ var blicket_rule = rules[rule_name]
+ var last_trial_candidates = []
+
+ for(var i=0; i<blicket_names.length; i++){//get candidates based on rule
+   if( (blicket_rule(blicket_names[i]) && last_trial_type == 'on') ||
+      (!(blicket_rule(blicket_names[i])) && last_trial_type == 'off') ) {
+
+     last_trial_candidates.push(blicket_names[i])
+   };
+ }
+
+//set last trial
+ var last_trial = jsPsych.randomization.shuffle(last_trial_candidates)[0]
+
+
+ //record the rule
+   jsPsych.data.addProperties({
+     rule: rule_name
+   });
+ 
+ //-------------------------------------------------------------
+ //BUILD THE STIMULI LIST
+ //-------------------------------------------------------------
+ 
+ // blicket trials
+     // generate the list of stimuli
+ 
+     var trial_sequence = []
+ 
+     //build a list of stimuli the length of trial_count-2
+     for(var i=0; i<(trial_count-2); i++){
+         trial_sequence.push(blicket_names[(i % 4)])
+     } 
+     //randomize the order of the stimului (no repeats)
+     trial_sequence = jsPsych.randomization.shuffleNoRepeats(trial_sequence);
+ 
+     //select a penultimate trial which is not the same as the last truly random trial, and not the 
+     //same as the desired final trial
+     var last_truly_random = trial_sequence[trial_sequence.length-1]
+ 
+     var penultimate_candidates = []
+     for(var i = 0; i<blicket_names.length; i++){ //get penultimate candidates 
+       if(blicket_names[i] != last_truly_random && blicket_names[i] != last_trial){
+         penultimate_candidates.push(blicket_names[i])
+       }
+     }
+     var penultimate = jsPsych.randomization.shuffle(penultimate_candidates)[0] //randomly select penultimate
+ 
+     //add penultimate and final trials to the sequence
+     trial_sequence.push(penultimate);
+     trial_sequence.push(last_trial)
+
+
+
+//COMPUTE INFO ABOUT EACH STIMULUS
+//create a dict to store the 'correct' answers, based on a rule
+
+  //set buttons
+    const off_key = 'f';
+    const on_key = 'j';
+
+    var buttons = [off_key, on_key]
+
+    //set info about each image based on the blicket rule
+    var answers = {} //create dict
+    for(var i=0; i<blicket_names.length; i++){
+      if(blicket_rule(blicket_names[i])){
+        answers[blicket_names[i]] = {
+          hidden_img: 'blicket_images/' + blicket_names[i] + '.jpg',
+          answer: 'on',
+          correct_key: on_key,
+          answer_img: 'blicket_images/' + blicket_names[i] + '_on.jpg'}
+     } else {
+        answers[blicket_names[i]] = {
+          hidden_img: 'blicket_images/' + blicket_names[i] + '.jpg',
+          answer: 'off',
+          correct_key: off_key,
+          answer_img:  'blicket_images/' + blicket_names[i] + '_off.jpg'}
+    }
+  }
+
+//-------------------------------------------------
+  //Load images, force full screen, get consent
+//-------------------------------------------------
+var timeline = []
+
+//preload images
+var auto_preload = {
+    type: jsPsychPreload,
+    auto_preload: true
+}
+timeline.push(auto_preload)
+
+var image_files = [ //some files will need to be loaded manually
+"blicket_images/all_blocks_hidden.jpg",
+"blicket_images/blicket_machine_off.jpg",
+"blicket_images/blocks.jpg",
+"blicket_images/cubes.jpg",
+"blicket_images/cylinders.jpg",
+"blicket_images/lights.jpg",
+"blicket_images/darks.jpg",
+"blicket_images/pentagonal_prism_on.jpg",
+"blicket_images/lc_block.jpg",
+"blicket_images/ls_block.jpg",
+"blicket_images/dc_block.jpg",
+"blicket_images/ds_block.jpg"]
+
+var manual_preload = { //load files missed by auto (those imbedded in htmls)
+  type: jsPsychPreload,
+  show_detailed_errors: true,
+  images: image_files
+}
+timeline.push(manual_preload)
+
+//force full screen
+var fullscreen = {
+  type: jsPsychFullscreen,
+  fullscreen_mode: true
+};
+timeline.push(fullscreen)
+
+
+//CONSENT
+ var time = ' 5 minutes';
+var consent = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p><b>Consent Form</b></p> <div style="text-align:left;' +
+        'background-color:lightblue; padding:20px; max-width:900px;">' +
+        '<p><b>Description:</b> Welcome! You are invited to participate' +
+        ' in a research study in cognitive psychology. You will be asked' +
+        ' to perform various tasks on a computer which may include:' +
+        ' looking at images or videos, listening to sounds, reading' +
+        ' scenarios, or playing games. You may be asked a number of' +
+        // careful about single quotes
+        " different questions about making judgments and intepreting" +
+        " people's actions. All information collected will remain" +
+        ' confidential. </p>' +
+        ' <p> <b>Risks and benefits:</b> Risks involved in this study' +
+        ' are the same as those normally associated with using a' +
+        ' computer (e.g., mild eye/arm strain). If you have any pre-' +
+        ' existing conditions that might make reading and completing' +
+        ' a computer-based survey strenuous for you, you should' +
+        ' probably elect to not participate in this study. If at any' +
+        ' time during the study you feel unable to participate because' +
+        ' you are experiencing strain, you may end your participation' +
+        ' without penalty. We cannot and do not guarantee or promise that' +
+        ' you will receive any benefits from this study. Your decision' +
+        ' whether or not to participate in this study will not affect' +
+        ' your employment, medical care, and/or grades in school. </p>' +
+        '<p><b>Time involvement:</b> Your participation in this' +
+        ' experiment will take ' + time + '. </p>' +
+        '<p><b> Payment:</b> If recruitment materials indicate payment' +
+        ' (e.g., Prolific or other recruitment), you will receive' +
+        ' compensation as indicated. </p>' +
+        "<p><b>Subject's rights:</b> If you have read this notice and" +
+        ' have decided to participate in this project, please understand' +
+        ' your participation is voluntary and you have the right to' +
+        ' withdraw your consent or discontinue participation at any' +
+        ' time without penalty or loss of benefits to which you are' +
+        ' otherwise entitled. You have the right to refuse to answer' +
+        ' particular questions. Your individual privacy will be' +
+        ' maintained in all published and written data resulting from' +
+        ' the study. </p>' +
+        '<p><b>Contact information:</b> If you have any questions,' +
+        ' concerns or complaints about this research study, its' +
+        ' procedures, or risks and benefits, you should ask the' +
+        ' Protocol Director, (Professor Tobias Gerstenberg, Phone:' +
+        ' (650) 725-2431; Email: gerstenberg@stanford.edu). </p>' +
+        '<p><b>Independent contact:</b> If you are not satisfied' +
+        ' with how this study is being conducted, or if you have' +
+        ' any concerns, complaints, or general questions about the' +
+        ' research or your rights as a participant, please contact' +
+        ' the Stanford Institutional Review Board (IRB) to speak' +
+        ' to someone independent of the research team via email at' +
+        ' irb2-manager@lists.stanford.edu, or via phone at' +
+        ' (650) 723-2480 or toll free at 1-866-680-2906. You can also' +
+        ' write to the Stanford IRB, Stanford University, 3000 El' +
+        ' Camino Real, Five Palo Alto Square, 4th Floor, Palo Alto,' +
+        ' CA 94306. </p>' +
+        '<p>You may want to print a copy of this consent form to' +
+        ' keep. By clicking the button below, you acknowledge that' +
+        ' you have read the above information, that you are 18 years' +
+        ' of age, or older and give your consent to participate in' +
+        ' our internet-based study and consent for us to analyze the' +
+        ' resulting data. </p> </div>' +
+        '<p> Do you agree with the terms of the experiment as explained' +
+        ' above? </p>',
+    margin_vertical: '30px',
+    choices: ['I agree']
+}
+//timeline.push(consent)
+
+ //-------------------------------------------------------------
+//INSTRUCTIONS
+//-------------------------------------------------------------
+
+var intro = []
+ //instructions
+var intro_text = [ //create introductory text
+   "In this experiment, you will examine a Blicket Machine.",
+   "<img src= blicket_images/blicket_machine_off.jpg> </img> <p> This is a Blicket Machine. </p>",
+   "<img src= blicket_images/blicket_machine_off.jpg> </img> <p> Normally, a Blicket Machine is off, like this. </p>",
+   "<img src= blicket_images/pentagonal_prism_on.jpg> </img> <p> But, when a Blicket is placed on the machine, the machine turns on, like this.</p>",
+  "Some objects are Blickets, and some objects are not Blickets."]
+
+ var experiment_intro = { //create instructions trials
+   type: jsPsychInstructions,
+   pages: intro_text,
+   show_clickable_nav: true,
+   data: {trial: 'instructions_pt1'}
+ };
+ intro.push(experiment_intro)
+
+ //add a comprehension check
+ var comprehension_quiz = {
+   type: jsPsychImageKeyboardResponse,
+  timeline: [
+    {
+      stimulus: "blicket_images/red_pyramid.jpg",
+      prompt: "<p> This object is a Blicket! </p>"+
+      "<p> Given that this object is a Blicket, is this machine off or on? </p>"+
+      "<p> (press the 'f' key for OFF, press the 'j' key for ON) </p>"+
+      "<p> (f)-off&nbsp&nbsp&nbsp&nbsp(j)-on </p>",
+      choices: ["f", "j"],
+      data: {correct_response: "j", trial: 'comprehension_quiz'}
+    },
+    {
+      stimulus: "blicket_images/red_pyramid_on.jpg",
+      prompt: function() {
+              if(jsPsych.data.getLastTrialData().values()[0].accuracy) {
+                return "<p> ✅ Correct! ✅</p> (press 'space' to continue)"
+              } else {
+                return "<p> ❌ Incorrect! ❌</p> (press 'space' to continue)"
+              }},
+      choices: [' '],
+      data: {correct_response: ' ', trial: 'comprehension_quiz'}
+    },
+    {
+      stimulus: "blicket_images/purple_prism.jpg",
+      prompt: "<p> This object is not a Blicket! </p>"+
+      "<p> Given that this object is not a Blicket, is this machine off or on? </p>"+
+      "<p> (press the 'f' key for OFF, press the 'j' key for ON) </p>"+
+      "<p> (f)-off&nbsp&nbsp&nbsp&nbsp(j)-on </p>",
+      choices: ["f", "j"],
+      data: {correct_response: "f", trial: 'comprehension_quiz'}
+    },
+    {
+      stimulus: "blicket_images/purple_prism_off.jpg",
+      prompt: function() {
+              if(jsPsych.data.getLastTrialData().values()[0].accuracy) {
+                return "<p> ✅ Correct! ✅ </p> (press 'space' to continue)"
+              } else {
+                return "<p> ❌ Incorrect! ❌</p> (press 'space' to continue)"
+              }},
+      choices: [' '],
+      data: {correct_response: ' ', trial: 'comprehension_quiz'}
+    }],
+  data: {
+      trial: 'attention_check'
+    },
+  on_finish: function(data){
+      var accuracy = false
+      if(data.correct_response == data.response){
+        accuracy = true
+      }
+      data.accuracy = accuracy
+    }
+}
+intro.push(comprehension_quiz)
+
+//if one or more questions are answered incorrectly, play this message
+ var fail_message = {
+   type: jsPsychHtmlButtonResponse,
+   stimulus: "<p> Oops! You have answered one or more questions incorrectly.</p>" +
+             "<p> Please Review the instructions again before continuing with the experiment </p>",
+   choices: ["Review Instructions"],
+   data: {
+     trial: 'fail_message',
+     accuracy: false
+   }
+ }
+
+ //define conditional for the error message
+ var conditional_fail = {
+    timeline: [fail_message],
+    conditional_function: function(){
+        // get the data from the previous trials,
+        // if any were incorrect, display fail message and set data.loop = true
+        var data = jsPsych.data.get().last(4).values();
+        if(data[0].accuracy && data[1].accuracy && data[2].accuracy && data[3].accuracy){
+            return false;
+        } else {
+            return true;
+        }
+    } 
+}
+intro.push(conditional_fail)
+ 
+//if error message is triggered, loop back through the first part of the instructions
+  var instructions = {
+    timeline: intro,
+    loop_function: function(data){
+       if(data.last(1).values()[0].trial=='fail_message'){
+            return true
+        } else {
+            return false
+        }
+    }
+}
+timeline.push(instructions)
+
+//continue with the instructions after the first quiz
+var instructions_pt2_text = [
+  "<img src= blicket_images/blocks.jpg> </img> <p> In this experiment, we'll take a look at these blocks. </p> ",
+   "<img src= blicket_images/lights.jpg> </img> <p> Some are light.</p> ",
+   "<img src= blicket_images/darks.jpg> </img> <p> Some are dark.</p> ",
+   "<img src= blicket_images/cylinders.jpg> </img> <p> Some are cylinders. </p>",
+   "<img src= blicket_images/cubes.jpg> </img> <p> Some are cubes. </p>",
+   "<img src= blicket_images/all_blocks_hidden.jpg> </img> <p> Your task is to watch the Blicket Machine in action,</p> "+
+    "<p>and to figure out which of the blocks are Blickets, which make the machine turn on.</p>",
+   "<img src= blicket_images/all_blocks_hidden.jpg> </img> <p> On each trial in this experiment, you will see one of these four"+
+    " images, with the current state of the Blicket Machine hidden.</p>"+
+   "<p> You'll be asked to say whether the machine is off or on in each image.</p> <p>(at first, you may not know the answers)</p>",
+   "<p> You will receive additional payment depending on your overall performance on this task. </p>"+
+   "<p> For every question you answer correctly, you will receive a $" + (max_bonus/(trial_count)).toFixed(2) + " bonus.</p>" +
+   "<p> This experiment consists of "+ String(trial_count) + " trials, so the maximum bonus is $"+max_bonus.toFixed(2)+".</p>",
+   "Let's get started!"
+];
+
+var instructions_pt2 = {
+   //create instructions trials
+   type: jsPsychInstructions,
+   pages: instructions_pt2_text,
+   show_clickable_nav: true
+ };
+
+
+
+timeline.push(instructions_pt2)
+
+//-------------------------------------------------------------
+    //present blicket stimuli
+//-------------------------------------------------------------
+
+    for(var i=0; i<trial_count; i++){
+      var config = trial_sequence[i] //stimulus configuration for that trial (ex. 'dc' for dark cylinder)
+        var trial = {
+            type: jsPsychImageKeyboardResponse,
+            prompt: "<p> Is this machine off or on? </p> <p>(f)=off &nbsp&nbsp&nbsp&nbsp (j)=on</p>",
+            stimulus: answers[config]['hidden_img'],
+            choices: [off_key, on_key],
+            data: {
+              trial: 'blicket',
+              correct_response: answers[config]['answer'],
+              correct_key: answers[config]['correct_key'],
+              stimulus: answers[config]['hidden_img']
+            },
+            on_finish: function(data) {
+              var accuracy = false;
+              if (jsPsych.pluginAPI.compareKeys(data.correct_key, data.response)) {
+                accuracy = true
+              };
+              data.accuracy = accuracy
+
+              //recored 0 or 1 (for overall accuracy calculation)
+              if(accuracy){
+                data.accuracy_bool = 1
+              } else {
+                data.accuracy_bool = 0
+              }
+            }
+        }
+        timeline.push(trial)
+
+      //give subjects feedback
+        var feedback = {
+            type: jsPsychImageKeyboardResponse,
+            prompt: function() {
+              if(jsPsych.data.getLastTrialData().values()[0].accuracy) {
+                return "<p> ✅ Correct! ✅</p> (press 'space' to continue)"
+              } else {
+                return "<p> ❌ Incorrect! ❌</p> (press 'space' to continue)"
+              }
+            },
+            choices: [' '],
+            stimulus: answers[config]['answer_img'],
+            data: {
+              trial: "feedback",
+              hidden_img: answers[config]['hidden_img']
+            }
+        }
+        timeline.push(feedback)
+
+    }
+
+//-------------------------------------------------------------
+  //create the pop quiz
+//-------------------------------------------------------------
+    //generate all options for images
+    var pop_quiz_buttons = [
+          "blicket_images/lc.jpg",
+          "blicket_images/dc.jpg",
+          "blicket_images/ls.jpg",
+          "blicket_images/ds.jpg",
+        ];
+    //randomize
+    pop_quiz_buttons = jsPsych.randomization.shuffle(pop_quiz_buttons); 
+
+    //create the surprise quiz
+    var pop_quiz = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "Which of these options shows the image from the last trial, that you just saw?",
+      choices: function(){
+        var window_width = window.innerWidth
+        return [
+          "<img src="+ pop_quiz_buttons[0] + " style=width:"+String(window_width/2.5)+"px></img>", 
+          "<img src="+ pop_quiz_buttons[1] + " style=width:"+String(window_width/2.5)+"px></img>",
+          "<img src="+ pop_quiz_buttons[2] + " style=width:"+String(window_width/2.5)+"px></img>",
+          "<img src="+ pop_quiz_buttons[3] + " style=width:"+String(window_width/2.5)+"px></img>"]
+      },
+      data: {
+        trial: 'pop_quiz',
+        correct_img: function(){ return jsPsych.data.getLastTrialData().values()[0].hidden_img}
+      },
+      on_finish: function(data){
+        var accuracy = false;
+              data.img_selected = pop_quiz_buttons[data.response];
+              if (data.correct_img == data.img_selected) {
+                accuracy = true
+              };
+              data.accuracy = accuracy
+
+              //recored 0 or 1 (for overall accuracy calculation)
+              if(accuracy){
+                data.accuracy_bool = 1
+              } else {
+                data.accuracy_bool = 0
+              }
+
+          //reset response to block code
+          data.response = data.img_selected.substr(15, 2)
+          data.correct_response = data.correct_img.substr(15,2)
+      }
+    };
+
+    timeline.push(pop_quiz);
+//-------------------------------------------------------------
+  //final question asking about which blocks are blickets
+//-------------------------------------------------------------
+
+
+  var rule_question = {//ask explicitly about which blocks are blickets
+  type: jsPsychSurveyMultiSelect,
+  questions: [
+    {
+      prompt: "<p style='text-align:center'> Which of these blocks is a Blicket?</p> <p style='text-align:center'>(check all that apply)</p>", 
+      options: function(){
+        var window_width = window.innerWidth;
+        var choices = [
+        "<br><img src=blicket_images/lc_block.jpg style=width:"+String(window_width/6.5)+"px></img>",
+        "<br><img src=blicket_images/dc_block.jpg style=width:"+String(window_width/6.5)+"px></img>",
+        "<br><img src=blicket_images/ls_block.jpg style=width:"+String(window_width/6.5)+"px></img>",
+        "<br><img src=blicket_images/ds_block.jpg style=width:"+String(window_width/6.5)+"px></img>"];
+        choices = jsPsych.randomization.shuffle(choices)
+        return choices
+      },
+      horizontal: true,
+      required: true
+      }
+  ],
+  data: {
+        trial: 'rule_question'
+      },
+  on_finish: function(data) {
+        //retrieve block codes from raw response data
+        var response_raw = data.response['Q0']
+        final_response = []
+        for(var i=0; i<response_raw.length; i++) {
+          const block_i = response_raw[i].indexOf('blicket_images/')+15;
+          final_response.push(response_raw[i].substr(block_i, 2))
+        }
+        data.response = final_response
+        //calculate accuracy
+        var accuracy = false
+        var correct_response= []
+        for(var i=0; i<blicket_names.length; i++){
+          if(answers[blicket_names[i]]['answer']=='on'){
+            correct_response.push(blicket_names[i])
+          }
+        }
+        if(correct_response.sort().join(',')===final_response.sort().join(',')){
+          accuracy = true
+        }
+        data.accuracy = accuracy
+        data.correct_response = correct_response
+
+        //recored 0 or 1 (for overall accuracy calculation)
+        if(accuracy){
+                data.accuracy_bool = 1
+              } else {
+                data.accuracy_bool = 0
+              }
+    }
+  };
+    timeline.push(rule_question)
+
+//thank you message
+  var thanks = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: function(){
+      //get trials of interest
+      var trials = jsPsych.data.get().filterCustom(function(trial){
+                return (trial.trial == 'blicket');
+                })
+
+      //calculate overall accruacy
+      var score = trials.select('accuracy_bool').sum();
+      var bonus = (score/trial_count) * max_bonus
+
+      return "<p>Thank you for participating!</p>" +
+      "You answered " + score + " out of "+trial_count+" trials correctly, and will recieve a $" + bonus.toFixed(2) + " bonus." +
+      "<p>Now you will complete a short survey before finishing the experiment.</p>"
+    },
+    choices: ['Continue']
+  }
+  timeline.push(thanks)
+
+  //-------------------------------------------------------------
+  //EXIT QUIZ
+//-------------------------------------------------------------
+
+    var feedback_demographics = {
+    type: jsPsychSurveyHtmlForm,
+    html: '<div style="max-width:700px; text-align:center;"> <p>' +
+        'What factors influenced how you decided to respond? Do you' +
+        ' have any questions or comments regarding the experiment?' +
+        '</p> <textarea name="feedback" cols="40" rows="6"' +
+        ' "autofocus"></textarea> <p> Please provide the following' +
+        ' information to complete the study. </p> <div style="text-' +
+        'align:center;"> <div style="text-align:left; display:' +
+        'inline-block; margin-right:20px; line-height:1.8em;"> <ol>' +
+            '<li>Age:</li> <br><br>' +
+            '<li>Gender:</li> <br><br>' +
+            '<li>Race:</li> <br><br><br><br><br><br>' +
+            '<li>Ethnicity:</li>' +
+        '</ol> </div>' +
+        '<div style="text-align:left; display: inline-block;' +
+        ' line-height:1.8em;">' +
+            // age text box
+            '<input name="age" type="number"  min="18" max="100" /> <br> <br>' +
+            // gender options
+            '<input name="gender" type="radio" id="female" value=' +
+                '"Female" /> <label for="female"> Female </label>' +
+            '<input name="gender" type="radio" id="male" value=' +
+                '"Male" /> <label for="male"> Male </label>' +
+            '<input name="gender" type="radio" id="nonbinary" value=' +
+                '"Non-binary" /> <label for="nonbinary"> Non-binary </label> <br>' +
+            '<input name="gender" type="radio" id="other_gender" value=' +
+                '"other_gender" /> <label for="other_gender"> Other: <input' +
+                ' type="text" name="other_gender" /> </label> <br><br>' +
+            // race options
+            '<input name="race" type="radio" id="white" value=' +
+                '"White" /> <label for="white"> White </label> <br>' +
+            '<input name="race" type="radio" id="black" value=' +
+                '"Black/African American" /> <label for="black">' +
+                ' Black/African American </label> <br>' +
+            '<input name="race" type="radio" id="am_ind" value=' +
+                '"American Indian/Alaska Native" /> <label for="am_ind">' +
+                ' American Indian/Alaska Native </label> <br>' +
+            '<input name="race" type="radio" id="asian" value=' +
+                '"Asian" /> <label for="asian"> Asian </label> <br>' +
+            '<input name="race" type="radio" id="pac_isl" value=' +
+                '"Native Hawaiian/Pacific Islander" /> <label for="pac_isl">' +
+                ' Native Hawaiian/Pacific Islander </label> <br>' +
+            '<input name="race" type="radio" id="multi" value=' +
+                '"Multiracial" /> <label for="multi"> Multiracial/Mixed </label> <br>' +
+            '<input name="race" type="radio" id="other_race" value="other_race" />' +
+                '<label for="other_race"> Other: <input type="text"' +
+                'name="other_race" /> </label> <br><br>' +
+            // ethnicity options
+            '<input name="ethnicity" type="radio" id="hisp" value=' +
+                '"Hispanic" /> <label for="hisp"> Hispanic </label>' +
+            '<input name="ethnicity" type="radio" id="nonhisp" value=' +
+                '"Non-Hispanic" /> <label for="nonhisp"> Non-Hispanic' +
+                ' </label>' +
+        '</div> </div>' +
+        '<p> Please press the finish button to complete the experiment. </p> </div>',
+    button_label: 'Finish',
+    data: {
+      trial: 'exit_survey',
+    },
+    on_finish: function(data){
+
+      data.feedback = data.response['feedback'];
+      data.age = data.response['age'];
+      data.ethnicity = data.response['ethnicity']
+      data.gender = data.response['gender']
+      data.race = data.response['race']
+
+      //override undefined or other values
+      if (data.gender == "other_gender" || typeof data.gender == "undefined") {
+        data.gender = data.response['other_gender']};
+      delete data.other_gender;
+
+      if (data.race == "other_race" || typeof data.race == "undefined") {
+        data.race = data.response['other_race']};
+      delete data.other_race;
+
+      if (typeof data.ethnicity == "undefined") {
+        data.ethnicity = ""}
+
+      //calculate bonus info
+      var trials = jsPsych.data.get().filterCustom(function(trial){
+                return (trial.trial == 'blicket');
+                })
+
+      data.overall_accuracy = trials.select('accuracy_bool').mean();
+      data.bonus = data.overall_accuracy * max_bonus
+    }
+};
+
+    timeline.push(feedback_demographics)
+
+    jsPsych.run(timeline);
+
+  </script>
+</html>

@@ -1,0 +1,973 @@
+prolific_id,ramp_orientation,ramp_or_cube,orientation,predicted_further,predicted_direction,response
+63bd8c8f03965fcab1bbb917,backward,ramp,consistent,blue,right,"I feel the yellow ramp doesn't allow the cubes to make it to the line while the blue one makes the cubes cross the line or get close to the line, so I assumed the yellow cube would not go far while the blue cube would go farther so I picked that one"
+63bd8c8f03965fcab1bbb917,backward,ramp,consistent,black,right,I felt the black cube would go farther than the red cube
+63bd8c8f03965fcab1bbb917,backward,ramp,reversed,blue,left,"I just assumed the cubes would fly off the ramp and go left, and knew the cube that was on the yellow ramp would not go far compared to the blue ramp"
+63bd8c8f03965fcab1bbb917,backward,ramp,reversed,black,left,I assumed the black cube would go farther than the red cube
+667480a01b74223f7c42314e,backward,cube,consistent,yellow,left,the cubes are at the height of the ramp with no momentum to carry them over the top
+667480a01b74223f7c42314e,backward,cube,consistent,red,left,cubes at the height of the ramp with no momentum top go over to the right however the red cubes seem to go further than the black cubes
+667480a01b74223f7c42314e,backward,cube,reversed,yellow,right,the yellow ramps would go further than the blue ramps
+667480a01b74223f7c42314e,backward,cube,reversed,red,right,"red cubes go further than black cubes
+"
+66845287ef40b1ba18353714,backward,ramp,consistent,black,left,"Because black cube is in front, when a force is applied,it will be ahead of the red cube"
+66845287ef40b1ba18353714,backward,ramp,consistent,blue,left,"Because the left cube is ahead, it will go front more than the other cube on the right when a force is applied"
+66845287ef40b1ba18353714,backward,ramp,reversed,yellow,right,The first cube is slightly in front and will be ahead of the other when a force is applied
+66845287ef40b1ba18353714,backward,ramp,reversed,red,right,Red cube has a higher chance than the black because it is slightly in front of the black one.
+66736ad2b28d09d9e26164e4,forward,cube,consistent,yellow,right,The yellow wedge tended to move the block further
+66736ad2b28d09d9e26164e4,forward,cube,consistent,red,right,the red block tended to travel further than the black one
+66736ad2b28d09d9e26164e4,forward,cube,reversed,red,left,the red block tended to travel further than the block one
+66736ad2b28d09d9e26164e4,forward,cube,reversed,yellow,left,the ywllow wedge sent the blocks furhter than the blue wedge
+66857cc20736230620552dbc,forward,ramp,consistent,black,right,It was my best guess with the direction they were facing.
+66857cc20736230620552dbc,forward,ramp,consistent,blue,right,"It was my best guess and I wasn't sure about the white blocks, but I took a guess."
+66857cc20736230620552dbc,forward,ramp,reversed,red,left,I thought they would go this way with how they were facing.
+66857cc20736230620552dbc,forward,ramp,reversed,blue,left,"I thought they would go that way, but wasn't sure which white block would be first."
+65486ad91a5493d24f94d4d1,forward,ramp,consistent,red,right,it seem so
+65486ad91a5493d24f94d4d1,forward,ramp,consistent,yellow,right,objects on yellow ramp slid further than on the blue
+65486ad91a5493d24f94d4d1,forward,ramp,reversed,yellow,left,yellow ramp took the cube further than the blue
+65486ad91a5493d24f94d4d1,forward,ramp,reversed,black,left,assumed
+668d7fdd4d9bf5eaf242ae58,forward,ramp,consistent,red,right,Just by the way the ramp is angled
+668d7fdd4d9bf5eaf242ae58,forward,ramp,consistent,yellow,right,By the way the ramp is angled
+668d7fdd4d9bf5eaf242ae58,forward,ramp,reversed,red,right,The cubes are so close to falling off the ramp
+668d7fdd4d9bf5eaf242ae58,forward,ramp,reversed,yellow,left,Seems ideal for the cubes to slide off and end up this way
+5ef9338e3fa1390009d94b76,backward,cube,consistent,red,right,Because previously the red cube made it to the finish line where the black cube didn't. 
+5ef9338e3fa1390009d94b76,backward,cube,consistent,blue,right,I think the cube from the blue triangle went further than the green one.  
+5ef9338e3fa1390009d94b76,backward,cube,reversed,yellow,left,Because the position of triangles got switched
+5ef9338e3fa1390009d94b76,backward,cube,reversed,red,left,The same reason why the triangle position switched/red cube made it further than the black cube 
+653feb348f4df4e625de5909,backward,cube,consistent,yellow,left,I think the cubes will fly backwards because it is close to the end.
+653feb348f4df4e625de5909,backward,cube,consistent,black,left,I chose that answer because it is close to the end.
+653feb348f4df4e625de5909,backward,cube,reversed,black,right,I think the cubes slid to that place.
+653feb348f4df4e625de5909,backward,cube,reversed,yellow,right,I think the cubes slid off to that place .
+5feb962bf4e233c940073833,backward,cube,consistent,black,right,The black cube typically moves further than the red
+5feb962bf4e233c940073833,backward,cube,consistent,yellow,right,the yellow ramp is further front than the blue
+5feb962bf4e233c940073833,backward,cube,reversed,blue,left,the yellow ramp is further front the blue
+5feb962bf4e233c940073833,backward,cube,reversed,red,left,"the black was always further the other way, so i applied the opposite"
+66449de0adc1c8fe3761c951,forward,cube,consistent,blue,right,i think they wont go past the line but be close
+66449de0adc1c8fe3761c951,forward,cube,consistent,red,right,i think they wont past the line but be close
+66449de0adc1c8fe3761c951,forward,cube,reversed,red,right,i think theyll be close to the line
+66449de0adc1c8fe3761c951,forward,cube,reversed,blue,right,i think theyll be close to the line or over it
+6561435b409147a77be889dd,forward,ramp,consistent,red,right,I don't know
+6561435b409147a77be889dd,forward,ramp,consistent,yellow,right,If someone pushed them done they would end up at different positions.
+6561435b409147a77be889dd,forward,ramp,reversed,yellow,left,I guess if someone pushed them off
+6561435b409147a77be889dd,forward,ramp,reversed,black,left,One of them was pushed faster than the other
+668adbfcb3549e7f656159c6,forward,ramp,consistent,yellow,right,The yellow ramp allows the cubes to go further than the blue from previous results
+668adbfcb3549e7f656159c6,forward,ramp,consistent,red,right,The red cube goes further than the black cube I'm not sure
+668adbfcb3549e7f656159c6,forward,ramp,reversed,yellow,left,yellow ramp goes further than blue ramp
+668adbfcb3549e7f656159c6,forward,ramp,reversed,black,left,not sure
+65ca84cb095d96c990156ce8,forward,ramp,consistent,yellow,right,best guess
+65ca84cb095d96c990156ce8,forward,ramp,consistent,black,right,"best guess
+"
+65ca84cb095d96c990156ce8,forward,ramp,reversed,red,left,best guess
+65ca84cb095d96c990156ce8,forward,ramp,reversed,yellow,left,best guess
+65f0f44f1cae5992a2cc2c8b,forward,ramp,consistent,red,right,I honestly don't remember if red or black goes further. just that the blue ramp always made the block pass the finish line.
+65f0f44f1cae5992a2cc2c8b,forward,ramp,consistent,blue,right,Blue makes it go further than yellow.
+65f0f44f1cae5992a2cc2c8b,forward,ramp,reversed,blue,left,Blue makes it go further than yellow
+65f0f44f1cae5992a2cc2c8b,forward,ramp,reversed,red,left,Just a guess meant to be consistent with my other guesses that red goes further than black.
+561487ad7ffc8a0012812266,backward,ramp,consistent,blue,right,"It seems like things ""launched"" off the blue ramp went further"
+561487ad7ffc8a0012812266,backward,ramp,consistent,red,right,The red ball seemed to go farther in the trials
+561487ad7ffc8a0012812266,backward,ramp,reversed,red,left,I made the assumption that the cubes were traveling up the ramps 
+561487ad7ffc8a0012812266,backward,ramp,reversed,blue,left,I would think the blue ramp propels farther based on this same assumption
+6671e64b6bf199f742cc0df6,forward,ramp,consistent,blue,right,"the cubes would definitely move with a high speed downwards, likely crossing the line "
+6671e64b6bf199f742cc0df6,forward,ramp,consistent,black,right,the cubes will move with a high speed from the start and a low speed when it hit the ground
+6671e64b6bf199f742cc0df6,forward,ramp,reversed,yellow,left,the cubes will move with a high speed from the start and a low speed when it hit the ground
+6671e64b6bf199f742cc0df6,forward,ramp,reversed,black,left,the cubes will move with a high speed from the start and a low speed when it hit the ground
+6664e8eb5e7fda71dc535c83,forward,cube,consistent,blue,right,I thought I remember the cubes going further off of the blue and thinking maybe the blue ramp had less friction
+6664e8eb5e7fda71dc535c83,forward,cube,consistent,black,right,The black cubes consistently traveled further than the red and I thought thusly that it had less friction
+6664e8eb5e7fda71dc535c83,forward,cube,reversed,blue,left,"Again, I thought the blue ramp had less friction based on what happened during the trials with the blue and yellow ramps."
+6664e8eb5e7fda71dc535c83,forward,cube,reversed,black,left,"Again, I thought the black cubes had less fraction as they consistently traveled further in the trials."
+668d3d0bb11ce5c374111e9a,backward,cube,consistent,blue,right,"From the past images I predicted, the one that came with the bonusses. This was where I learnt this from"
+668d3d0bb11ce5c374111e9a,backward,cube,consistent,black,left,"The red cube was in front of the black cube, sliding back, the black cube will go back more than the red cube"
+668d3d0bb11ce5c374111e9a,backward,cube,reversed,red,left,Due to how the cube was placed on the slide
+668d3d0bb11ce5c374111e9a,backward,cube,reversed,yellow,left,Due to how the cubes was placed on the side
+5fc4a8a649c0c8912b02979c,forward,cube,consistent,red,right,The red one went farther than the black cube
+5fc4a8a649c0c8912b02979c,forward,cube,consistent,blue,right,The ramps with similar colors in previous questions made cubes go different distances
+5fc4a8a649c0c8912b02979c,forward,cube,reversed,yellow,left,Same as the last one
+5fc4a8a649c0c8912b02979c,forward,cube,reversed,red,left,The red cube has previously gone farther
+5f9a0b386a200211eea8e2ed,backward,cube,consistent,red,right,Red always went further in the previous trials
+5f9a0b386a200211eea8e2ed,backward,cube,consistent,blue,right,Yellow ramp seems to launch the cubes short
+5f9a0b386a200211eea8e2ed,backward,cube,reversed,blue,left,Yellow launches shorter
+5f9a0b386a200211eea8e2ed,backward,cube,reversed,red,left,Red always goes further
+665c989703b2609ce0e958ad,forward,cube,consistent,black,right,because the black cube always ended up over the line. and the red cube behind the line. 
+665c989703b2609ce0e958ad,forward,cube,consistent,yellow,right,Because one of those cube is still red and one is black in my mind. 
+665c989703b2609ce0e958ad,forward,cube,reversed,blue,right,Because I still see one as black and one as red. so I put one as close to over the line as possible. 
+665c989703b2609ce0e958ad,forward,cube,reversed,black,right,Same thing as before. Black needs to be over the line or as close to as possible.
+5ce4c8341bf7c9000150592e,forward,ramp,consistent,black,left,"I judged these images more on the base of the triangle, so this was simply a guess for me. "
+5ce4c8341bf7c9000150592e,forward,ramp,consistent,yellow,right,"I knew the yellow side would get further than the blue, so I went with the cube on the yellow side that had gone the furthest to the line. "
+5ce4c8341bf7c9000150592e,forward,ramp,reversed,black,left,"This was a guess because I didn't figure out the pattern for the block colors, so I assumed black went further. "
+5ce4c8341bf7c9000150592e,forward,ramp,reversed,yellow,left,I always think that the yellow side would make the cube go further than the blue side. 
+603e86969a3fd3ec23e64a13,forward,ramp,consistent,blue,left,I made a wrong selection
+603e86969a3fd3ec23e64a13,forward,ramp,consistent,red,right,It was mostly a guess
+603e86969a3fd3ec23e64a13,forward,ramp,reversed,blue,right,Wrong selection
+603e86969a3fd3ec23e64a13,forward,ramp,reversed,red,left,Based off of earlier scenarios
+6679a2c59317696d909cd9e3,backward,cube,consistent,blue,right,"Based on the others, it'll propel forward not back. "
+6679a2c59317696d909cd9e3,backward,cube,consistent,black,right,The black cube tends to go farther than the right cube. 
+6679a2c59317696d909cd9e3,backward,cube,reversed,red,left,The platform changed direction which means the cubes change direction.
+6679a2c59317696d909cd9e3,backward,cube,reversed,yellow,left,The platform changed direction so the cubes should change direction. 
+6158f8d1ad08e224c817b97b,backward,cube,consistent,blue,right,"Initial Position: In the first image, the object (a block) is placed on a ramp inclined upwards.
+Motion: Gravity causes the block to move down the ramp.
+Final Position: In the second image, the block has moved down the ramp and is now on the flat surface."
+6158f8d1ad08e224c817b97b,backward,cube,consistent,black,right,"Initial Position: In the first image, the object (a block) is placed on a ramp inclined upwards.
+Motion: Gravity causes the block to move down the ramp.
+Final Position: In the second image, the block has moved down the ramp and is now on the flat surface."
+6158f8d1ad08e224c817b97b,backward,cube,reversed,blue,left,Both cubes will be on the same level
+6158f8d1ad08e224c817b97b,backward,cube,reversed,red,left,The black cube will be ahead of the red cube
+663c44979cea037cd82721cd,forward,cube,consistent,black,right,The black cube seems to go farther.
+663c44979cea037cd82721cd,forward,cube,consistent,yellow,right,The yellow block is elevated higher.
+663c44979cea037cd82721cd,forward,cube,reversed,yellow,left,The yellow block is elevated higher.
+663c44979cea037cd82721cd,forward,cube,reversed,black,left,The black cube seems to go farther.
+66573564f424374e6d1b36bc,backward,cube,consistent,black,left,The steep incline of the wedge.
+66573564f424374e6d1b36bc,backward,cube,consistent,blue,left,I think the cube on the blue side would slide farther
+66573564f424374e6d1b36bc,backward,cube,reversed,red,right,I think the red cube would have more momentum
+66573564f424374e6d1b36bc,backward,cube,reversed,blue,right,I think the blue slope will have more speed
+61549a2caa92d84f392000e9,forward,ramp,consistent,black,left,very nice
+61549a2caa92d84f392000e9,forward,ramp,consistent,blue,right,nice
+61549a2caa92d84f392000e9,forward,ramp,reversed,red,right,good
+61549a2caa92d84f392000e9,forward,ramp,reversed,blue,right,nice
+6683248de170f597107c313c,backward,cube,consistent,blue,right,"We are just guessing, right? There is no logic to this. "
+6683248de170f597107c313c,backward,cube,consistent,red,left,I am just guessing. 
+6683248de170f597107c313c,backward,cube,reversed,black,left,I am just guessing. How would anyone know?
+6683248de170f597107c313c,backward,cube,reversed,blue,right,I am guessing
+659c7519f4c0ace95d32f6bd,forward,ramp,consistent,red,right,Red usually ends up further than black on any of the colored triangles
+659c7519f4c0ace95d32f6bd,forward,ramp,consistent,blue,right,Yellow's blocks usually ended up further away than blue's blocks
+659c7519f4c0ace95d32f6bd,forward,ramp,reversed,blue,left,Blue's blocks usually ended up more ahead of yellow's blocks
+659c7519f4c0ace95d32f6bd,forward,ramp,reversed,red,left,Red usually ended up further than black
+629082739390703f993b12bd,backward,ramp,consistent,yellow,right,The blue side always launched the cube much less than the other.
+629082739390703f993b12bd,backward,ramp,consistent,red,right,"As I believe, the black cube always went the least furthest."
+629082739390703f993b12bd,backward,ramp,reversed,blue,left,Just a guess here.
+629082739390703f993b12bd,backward,ramp,reversed,red,left,The black cube went the least furthest usually I think.
+665f123b82317d230d7b6fb6,backward,ramp,consistent,black,right,i think black goes farther...maybe
+665f123b82317d230d7b6fb6,backward,ramp,consistent,blue,right,yellow ramp makes cube go shorter 
+665f123b82317d230d7b6fb6,backward,ramp,reversed,black,left,black goes farther
+665f123b82317d230d7b6fb6,backward,ramp,reversed,blue,left,yellow ramp equals shorter distanvce
+61084dfa57b8afc07829bb19,forward,ramp,consistent,yellow,right,The cubes travel farther on the yellow than the blue
+61084dfa57b8afc07829bb19,forward,ramp,consistent,red,right,I guessed. I wasn't paying attention to red vs black differences
+61084dfa57b8afc07829bb19,forward,ramp,reversed,black,left,I guessed
+61084dfa57b8afc07829bb19,forward,ramp,reversed,yellow,left,"Yellow is yes, blue is no. Yellow goes farther"
+6685fc99a5f104da3398a1ca,backward,cube,consistent,yellow,right,seems the yellow travels faster
+6685fc99a5f104da3398a1ca,backward,cube,consistent,black,right,the red usually don't travel fast
+6685fc99a5f104da3398a1ca,backward,cube,reversed,red,left,the black is does not travel faster
+6685fc99a5f104da3398a1ca,backward,cube,reversed,yellow,left,the yellow travels faster
+62853fe01fa0d21c4daacfcb,backward,ramp,consistent,yellow,right,"My general guess was that each color of ramp provided a certain amount of horizontal movement to the cube that varied from color to color, and each color of cube also provided a certain amount of movement to itself, and I was also reasonably certain that the amount of movement provided by the ramp was greater than the amount provided by the cube because it was always the case that a yellow ramp meant the cube ended up to the right of the line regardless of the color of the cube while a blue ramp always meant it was to the left regardless of the color of the cube. Anyway, since I'd never seen what the results actually were when a white cube was used, I just took a wild guess and guessed that maybe it was ""lighter"" (I mean weight, not color, because somehow ""lighter"" equals ""provides less horizontal movement"" in my mind) than the other colors and so maybe this would be just enough for the cube not to make the line even with a yellow ramp. But obviously, yes, I predicted the white cube with the yellow ramp would go farther than the white cube with the blue ramp because that's what happened with the other color cubes."
+62853fe01fa0d21c4daacfcb,backward,ramp,consistent,red,left,"Well, my general prediction on how this works was the same as last time, but regarding this particular specific case, to be honest, I have no idea if red cubes or black cubes go farther right when launched off of yellow or blue ramps because I was just focused on whether or not they crossed the line at all and I didn't stop to note by how much they crossed the line (or if they didn't cross it, how close to the line they managed to get) and honestly I didn't even realize at the time that they were crossing the line by different amounts at all, and so honestly it's kind of just half me scrambling going ""oh man, what were the exact distances in those pictures I only glanced at?"" and half me just plain guessing that black cubes go farther right than red cubes when launched off of yellow or blue ramps, but that's the guess that I'm working with, and so anyway, since I'd never seen what white ramps actually do, I just took a random guess and guessed that maybe they're so much ""lighter"" than other ramps that cubes actually end up to the left when launched off of them (which makes literally no sense in terms of actually launching stuff off a ramp because how could you launch something so that it goes backwards? But that's not really the point because these aren't actually literally ramps anyway and nobody actually said cubes were being launched off of them, and I think what they were ACTUALLY called was, like, blocks or something, but I'm kind of just calling them ramps here because their shape does resemble ramps and imagining the cubes being launched off of them makes the whole set of occurances here feel more natural and logical in my mind), but naturally the black cube would still be farther right and the red cube would still be farther left because that's how I assume it happened before, but I guess the point is in my mind I was thinking of it something like ""red cube equals +10 horizontal position, black cube equals +20, blue ramp = +50, yellow ramp = +70, white cube = presumed -20, white ramp = presumed -70"" or whatever (It's not like I was thinking of it in terms of specific numbers or anything, but these are just some random numbers I made up to illustrate my point), with the point being that these numbers are absolute and just work in whatever direction they work regardless of anything else, e.g., a black cube always makes the cube end up farther to the right than a red cube even when the total direction of movement is to the left due to a white ramp because -70 + +20 is just greater than -70 + +10 even if both numbers ultimately are negative (and we're assuming in this case that higher numbers equals greater rightward movement in this case), but I suppose this doesn't HAVE to be the case, and an alternative way to think about this would be something like instead of thinking of the directions as positive and negative movement to just think of them as always being positive movement but just in different directions, and so maybe a yellow ramp could be +70 distance to the right and a white ramp could be +70 distance to the left, and maybe a red cube could add +10 to whatever distance it's thrown and a black cube could add +20, and so in this case a black cube would actually end up farther to the left when thrown left than a red cube and farther to the right when thrown right than a red cube, and this probably lines up closer to how real life physics works, because if I have something easy to throw and something hard to throw than the easier to throw object always ends up farther away from me regardless of whether I throw these objects east or west, but my point is just to say that that's just not how I was thinking of it (and to be fair, again, no one ever said that these cubes were necessarily being thrown per se) and I was thinking more in terms of each particular kind of cube and ramp having just a particular set value it adds to the cube's final position."
+62853fe01fa0d21c4daacfcb,backward,ramp,reversed,yellow,left,"Umm... I don't know. I'll be honest, I spent so long writing my previous responses I kind of forgot what all the sets of images you asked me about are, and I legitimately don't remember this one at all, but it just feels like ""Huh? There were images where the ramps faced left? I don't remember that"", but I'm just going to take my best guess here, and probably since the ramps are facing left now I figured the direction they'd launch the blocks would also be reversed, and since a yellow ramp launched a block farther right when facing right, I probably assumed it would launch it farther left when facing left, too. I don't have the other images available for comparison, so I can't be completly sure, but based on looks, I would guess that this is the relatively ""close"" image with the cubes not that far from the ramps, and I would guess that there was probably another image where the cubes were farther away to the left, and if that's the case, then I would guess that my assumption was that since I assumed that white cubes went less far to the right when launched right, they might also go less far to the left when launched left, resulting in the final image we see here."
+62853fe01fa0d21c4daacfcb,backward,ramp,reversed,red,right,"Hmm, did I guess this? My assumption was probably again that with the ramps facing left, everything would play out the same way as with them facing right except with the directions reversed, and so the cubes would still end up behind the ramps because I guessed randomly that maybe white ramps launch things backwards, but also with the black cube still closer to the ""forwards"" direction because that's what I guessed happened when the ramps were facing right, i.e., if the black cube goes farther right when the ramps are facing right, then maybe it goes farther left when the cubes are facing left too."
+62be632336006d96574e22ef,backward,ramp,consistent,yellow,right,"The yellow ramp means closer to the finish line (technically over it, according to previous trials), whereas the blue ramp is the opposite."
+62be632336006d96574e22ef,backward,ramp,consistent,black,right,Black cube always ended up further the red cube according to previous trials.
+62be632336006d96574e22ef,backward,ramp,reversed,black,left,"Not sure, but I predicted with the ramp inverted, the results would be inverted."
+62be632336006d96574e22ef,backward,ramp,reversed,blue,left,"Same as the previous. With the ramps inverted, the results would be inverted. Yellow ramp always went further than the blue ramp in previous trials."
+6672e054134a9cac8d3fd303,forward,cube,consistent,black,right,The black cube seems to go further than the red.
+6672e054134a9cac8d3fd303,forward,cube,consistent,yellow,right,I guessed for this one. But logically they would be on this side of the ramp.
+6672e054134a9cac8d3fd303,forward,cube,reversed,black,left,The black cube seems to go further than the red.
+6672e054134a9cac8d3fd303,forward,cube,reversed,blue,left,I guessed for this one too. But logically they would end up on the left side of the ramp.
+5cfff88a6775b90001e484f2,forward,cube,consistent,yellow,right,I think the yellow ramp is steeper/ gives more force than the blue ramp
+5cfff88a6775b90001e484f2,forward,cube,consistent,red,right,"I believe that the red cube travels further than the black cube, even in the same conditions"
+5cfff88a6775b90001e484f2,forward,cube,reversed,yellow,left,I think the yellow ramp is steeper than the blue ramp
+5cfff88a6775b90001e484f2,forward,cube,reversed,red,left,"I believe that the red cube travels further than the black cube, on average"
+664218e510e790cd8414d32c,forward,cube,consistent,red,left,They're high up
+664218e510e790cd8414d32c,forward,cube,consistent,blue,right,They will slide down
+664218e510e790cd8414d32c,forward,cube,reversed,yellow,left,they will slide down 
+664218e510e790cd8414d32c,forward,cube,reversed,black,left,They will slide down 
+6670367508b5f9d3de8b288e,backward,ramp,consistent,black,right,I have no idea! Just felt like it.
+6670367508b5f9d3de8b288e,backward,ramp,consistent,blue,right,Again... just felt like it. I am not good at observational learning. 
+6670367508b5f9d3de8b288e,backward,ramp,reversed,red,right,No momentum
+6670367508b5f9d3de8b288e,backward,ramp,reversed,blue,right,No momentum
+5fc2f07939c5f20b2e86607f,forward,ramp,consistent,red,right,just a gut feeling
+5fc2f07939c5f20b2e86607f,forward,ramp,consistent,yellow,right,the darker color might not throw as strongly
+5fc2f07939c5f20b2e86607f,forward,ramp,reversed,black,left,not as much force
+5fc2f07939c5f20b2e86607f,forward,ramp,reversed,blue,left,gut feeling
+6687b00fea5aa786440b51d1,forward,ramp,consistent,yellow,right,i considered where the cube ended in the previous imagaes
+6687b00fea5aa786440b51d1,forward,ramp,consistent,red,left,it was based on the previous positions
+6687b00fea5aa786440b51d1,forward,ramp,reversed,blue,left,because of the position
+6687b00fea5aa786440b51d1,forward,ramp,reversed,red,right,red has ended at that side many times
+668ebd73a0deeb3fb92eb098,backward,cube,consistent,blue,right,"I'm not sure which ramp color caused cubes to go further because I wasn't attending to that during the trials. My guess was blue had cubes go further, but I was paying attention to cube color."
+668ebd73a0deeb3fb92eb098,backward,cube,consistent,red,right,Red cubes made it past the line and black ones didn't. I predicted the red cube ends up further to the right than the black cube.
+668ebd73a0deeb3fb92eb098,backward,cube,reversed,blue,right,I'm not sure if ramp direction matters since it doesn't appear the cubes are running down them. I made my prediction based on colors again assuming blue was correlated with having cubes go further right.
+668ebd73a0deeb3fb92eb098,backward,cube,reversed,red,right,"Like the last one, I ignored ramp direction and predicted the red cube ending up further to the right since physics didn't seem to play in this. I'm treating it like a logic puzzle more than a physics question."
+6693b774a020c6c2214baea3,forward,cube,consistent,yellow,right,"In my view the cubes are positioned at a 45 degree angle , that will give it descending speed."
+6693b774a020c6c2214baea3,forward,cube,consistent,red,right,The cubes wouldn't have enough speed to cross the line 
+6693b774a020c6c2214baea3,forward,cube,reversed,red,left,This is because the cubes are directed in opposition to the line 
+6693b774a020c6c2214baea3,forward,cube,reversed,yellow,left,The cubes are positioned in opposite direction to the finish line
+66524aa2a82e242800be156b,forward,cube,consistent,red,right,IN MY MIND I JUST IMAGINE THEM SLIDING DOWN AND LANDING LIKE THAT
+66524aa2a82e242800be156b,forward,cube,consistent,yellow,right,I JUST IMAGINEDC THEM SLIDING DOWN AND LANDING LIKE THAT
+66524aa2a82e242800be156b,forward,cube,reversed,black,left,"THE RAMP IS BACKWARDS SO I DONT THINK THAT THEY WILL GO CLOSE TO THE LINE, IN FACT THEYD GO THE OPPOSITE DIRECTION AND SLIDE DOWN THE RAMP"
+66524aa2a82e242800be156b,forward,cube,reversed,blue,left,"SAME AS BEFORE, I BELIEVE THEY WOULD STILL SLIDE DOWN THE RAMP AND NOT GO CLOSE TO THE LINES"
+654509bce930185adab23a1a,backward,cube,consistent,red,right,i think the red cube is lighter than the black cube
+654509bce930185adab23a1a,backward,cube,consistent,yellow,right,i think the yellow ramp is faster than the blue ramp.
+654509bce930185adab23a1a,backward,cube,reversed,red,right,red cube is lighter.
+654509bce930185adab23a1a,backward,cube,reversed,yellow,right,yellow ramp is faster
+56d39b96da2aaa000dab6178,backward,ramp,consistent,black,right,"My intuition was telling me that black cubes usually travel farther, even though I didn't see this specifically during the trials. "
+56d39b96da2aaa000dab6178,backward,ramp,consistent,yellow,right,I felt that yellow ramps lead to cubes travelling farther based on the success rate of previous trials. 
+56d39b96da2aaa000dab6178,backward,ramp,reversed,yellow,left,Yellow ramps allow for further travel. 
+56d39b96da2aaa000dab6178,backward,ramp,reversed,black,left,I think black cubes travel farther. The direction of travel was based off of what occurred in earlier trials. 
+5e29dc4721a5f20481c70274,forward,cube,consistent,red,right,The red block is lighter
+5e29dc4721a5f20481c70274,forward,cube,consistent,blue,right,One cube is heavier
+5e29dc4721a5f20481c70274,forward,cube,reversed,yellow,left,One is started lower then the other
+5e29dc4721a5f20481c70274,forward,cube,reversed,red,left,Th red block is lighter
+NA,forward,cube,consistent,yellow,right,because I think cube in bule ran way could be more far that yellow.
+NA,forward,cube,consistent,black,right,I think black cube more far than re
+NA,forward,cube,reversed,blue,left,cube in bule run way should be more far than other
+NA,forward,cube,reversed,black,left,black cube should be more far than red cube
+5c91ab9b47fad40011be8306,forward,cube,consistent,black,right,The black cubes always crossed the line. While the red cubes didn't.
+5c91ab9b47fad40011be8306,forward,cube,consistent,blue,right,"The white cubes will not slide as far due to the increased friction and its lighter weight, potentially not reaching the finish line."
+5c91ab9b47fad40011be8306,forward,cube,reversed,yellow,left,"will not slide as far due to the increased friction and its lighter weight, potentially not reaching the finish line."
+5c91ab9b47fad40011be8306,forward,cube,reversed,black,left,Both cubes facing the wrong way.
+5ced23c585712e00190bd98a,forward,ramp,consistent,black,right,I'm honestly not sure here.  I understood the previous trials but I just took a guess here.
+5ced23c585712e00190bd98a,forward,ramp,consistent,blue,right,Just a guess.  I assumed the blue slant would go farther.
+5ced23c585712e00190bd98a,forward,ramp,reversed,yellow,left,Honestly just guessed
+5ced23c585712e00190bd98a,forward,ramp,reversed,black,left,Just guessed again.
+5d87defd9497150016325f66,forward,ramp,consistent,red,right,It would fit for the direction that the ramp is facing.
+5d87defd9497150016325f66,forward,ramp,consistent,blue,right,They may not fall at the same speed.
+5d87defd9497150016325f66,forward,ramp,reversed,blue,left,"the ramp changed directions, so it makes sense the cubes ind up in that direction"
+5d87defd9497150016325f66,forward,ramp,reversed,black,left,"sama as last time, the direction of the lamp is to the lft so the cubes are gonna end up to the left."
+656e0dab178ffccdaa47202e,backward,cube,consistent,blue,left,I'm not sure what the white blocks do
+656e0dab178ffccdaa47202e,backward,cube,consistent,black,right,based on what red and black blocks do
+656e0dab178ffccdaa47202e,backward,cube,reversed,black,left,the ramp is the other way
+656e0dab178ffccdaa47202e,backward,cube,reversed,yellow,left,just a guess
+66384f2ca89f26220b5e5670,backward,cube,consistent,yellow,right,Because the cubes were white and I wasn't sure of the probability of them crossing the line.
+66384f2ca89f26220b5e5670,backward,cube,consistent,black,right,Because the black cubes pass the line and the red ones don't. This option was the closest to meeting that rule.
+66384f2ca89f26220b5e5670,backward,cube,reversed,black,left,"Because the position of the ramp changed, I thought the cubes would go the opposite direction."
+66384f2ca89f26220b5e5670,backward,cube,reversed,blue,left,"Because the direction of the ramps changed, I thought the cubes would go in the opposite direction."
+667b21433af7566ac3aab971,forward,cube,consistent,red,right,red always rolled further than the black. it also always went over the line
+667b21433af7566ac3aab971,forward,cube,consistent,yellow,right,yellow slide always went further than blue
+667b21433af7566ac3aab971,forward,cube,reversed,yellow,left,yellow slide always went further than blue
+667b21433af7566ac3aab971,forward,cube,reversed,red,left,red cube always goes further than the black one
+661d91cf9f3f83afa8e53a0d,backward,ramp,consistent,red,left,"I don't really know, just that they are different than the original images, and I felt that they would not go across finish line"
+661d91cf9f3f83afa8e53a0d,backward,ramp,consistent,yellow,left,same as last answer
+661d91cf9f3f83afa8e53a0d,backward,ramp,reversed,yellow,left,Just to try a different response
+661d91cf9f3f83afa8e53a0d,backward,ramp,reversed,red,left,cubes at top of triangle seem to fall of highest point- would not go near finish line
+5c43fb651ddd660001c9de3a,backward,cube,consistent,yellow,left,"I don't know what white cubes do so maybe they go backwards instead of forwards like the others. it is just a guess because I have no idea what white cubes do. there is a difference in blue and yellow ramps, though, so the cubes would end up in different positions and blue ramps cause them to not go as far so that one would be closer."
+5c43fb651ddd660001c9de3a,backward,cube,consistent,black,right,not sure what white ramps do but black cubes always go farther than red cubes so the black one would go farther.
+5c43fb651ddd660001c9de3a,backward,cube,reversed,blue,left,not sure how white cubes work so it's a guess
+5c43fb651ddd660001c9de3a,backward,cube,reversed,black,right,not sure what white ramps do but black cubes go farther than red cubes
+5e6d8c46f93a0c35d1f82335,forward,cube,consistent,black,right,the black cube always seemed to slide farther than the red in all cases.
+5e6d8c46f93a0c35d1f82335,forward,cube,consistent,blue,right,"I assume that maybe the blue ramp will send the cube farther, but I am not sure"
+5e6d8c46f93a0c35d1f82335,forward,cube,reversed,blue,left,"Blue ramp sends the cube farther, just me assuming this though"
+5e6d8c46f93a0c35d1f82335,forward,cube,reversed,black,left,black cube always goes farther
+66294535a72655a6fd869832,backward,ramp,consistent,yellow,right,It was a guess
+66294535a72655a6fd869832,backward,ramp,consistent,black,left,It was a guess
+66294535a72655a6fd869832,backward,ramp,reversed,black,right,It was a guess
+66294535a72655a6fd869832,backward,ramp,reversed,blue,right,It was a guess
+6630f0ba3c7dd0308672336a,backward,ramp,consistent,yellow,right,One object is closer than the other.
+6630f0ba3c7dd0308672336a,backward,ramp,consistent,red,right,One object is closer than the other
+6630f0ba3c7dd0308672336a,backward,ramp,reversed,red,left,Because the platform was facing a different way.
+6630f0ba3c7dd0308672336a,backward,ramp,reversed,blue,left,The platform was facing a different way.
+5b0482fc325b6c0001bbb7f0,backward,cube,consistent,yellow,right,"I don't know anything about how white cubes behave, but I tried to remember the outcome of the cubes in relation to the different colored ramps."
+5b0482fc325b6c0001bbb7f0,backward,cube,consistent,red,right,"I don't know anything about the white ramp, but I guessed based on my knowledge of the red and black cubes."
+5b0482fc325b6c0001bbb7f0,backward,cube,reversed,yellow,left,"I don't know anything about the white cubes, but I guessed based on the ramp color and the position of the ramp."
+5b0482fc325b6c0001bbb7f0,backward,cube,reversed,red,left,"I don't know anything about the white ramp, but I guessed based on the color of the cubes and the position of the ramp."
+665fa530b8211326822c5a90,forward,ramp,consistent,blue,right,Because of the color of the ramps. When i was doing the test if i remember correctly the blue ramp took the cube farther than the yellow one.
+665fa530b8211326822c5a90,forward,ramp,consistent,black,right,This one was just a guess. I was not sure how other to answer the question
+665fa530b8211326822c5a90,forward,ramp,reversed,blue,left,Again it was based off the color. The blue one usually shot the cube farther than the yellow if i remember correctly.
+665fa530b8211326822c5a90,forward,ramp,reversed,red,left,I was not sure so this was a guess.
+63fa2f029381a13d9f2a36a8,forward,ramp,consistent,black,left,I had no idea how the ramp lacking color would affect things and this seemed like a fine 'alternate' choice.
+63fa2f029381a13d9f2a36a8,forward,ramp,consistent,blue,right,I was probably wrong with this and the yellow side of the ramp could have had the cube further away
+63fa2f029381a13d9f2a36a8,forward,ramp,reversed,black,left,I had no idea what the gray ramp would do and this seemed like a plausible alternative action
+63fa2f029381a13d9f2a36a8,forward,ramp,reversed,yellow,left,I thought cube on the yellow side of the ramp would go further away
+667eec6cb42482f576981a55,backward,cube,consistent,blue,left,because they are white
+667eec6cb42482f576981a55,backward,cube,consistent,red,right,I guessed
+667eec6cb42482f576981a55,backward,cube,reversed,black,right,I guessed
+667eec6cb42482f576981a55,backward,cube,reversed,blue,right,I guessed
+60b9af795939f976cb74232a,backward,ramp,consistent,yellow,right,I'm not sure. I think the green ramp might be better than the blue one.
+60b9af795939f976cb74232a,backward,ramp,consistent,red,right,I'm not sure. I think the red square may be better than the black one.
+60b9af795939f976cb74232a,backward,ramp,reversed,blue,right,"Actually, I made a mistake there. I thought they should be to the left of the ramp. My bad."
+60b9af795939f976cb74232a,backward,ramp,reversed,red,left,I'm not sure. I think the red square may be a little better than the black one (in terms of distance it can travel.)
+668031d19b156a71958fb3bd,backward,ramp,consistent,red,right,Because of the angle of projection
+668031d19b156a71958fb3bd,backward,ramp,consistent,yellow,right,because of how it is projected
+668031d19b156a71958fb3bd,backward,ramp,reversed,red,right,due to the angle 
+668031d19b156a71958fb3bd,backward,ramp,reversed,yellow,right,angle of inclination
+5f2047f472c1fd2eaf643c64,backward,cube,consistent,red,right,Not sure
+5f2047f472c1fd2eaf643c64,backward,cube,consistent,blue,right,I am not sure
+5f2047f472c1fd2eaf643c64,backward,cube,reversed,blue,left,I am not sure
+5f2047f472c1fd2eaf643c64,backward,cube,reversed,red,left,I am not sure
+66784f78e4fc93a68eb6ead6,backward,ramp,consistent,yellow,left,"Since they are at the top, I feel that they would likely roll down the blocks. "
+66784f78e4fc93a68eb6ead6,backward,ramp,consistent,black,right,The cubes are close to the end and if they fall over then they would end up in the position as predicted in front of the blocks.
+66784f78e4fc93a68eb6ead6,backward,ramp,reversed,red,right,Since the blocks are at the top they are likely to roll down the block.
+66784f78e4fc93a68eb6ead6,backward,ramp,reversed,blue,right,Since the cubes are at the top the are likely to roll down. 
+593e6e9ea2bf080001ed3bba,forward,cube,consistent,red,right,because the red cube always made it past the finish line so i assumed it would make it further than black here
+593e6e9ea2bf080001ed3bba,forward,cube,consistent,yellow,right,it was just a guess
+593e6e9ea2bf080001ed3bba,forward,cube,reversed,yellow,left,it was a guess. I didn't think to correlate the ramp colors to distance
+593e6e9ea2bf080001ed3bba,forward,cube,reversed,red,left,same reason as before. the red cube always made it past finish
+662e78f04fac8f09690ef409,forward,cube,consistent,red,right,Because the red cube usually goes the furthest 
+662e78f04fac8f09690ef409,forward,cube,consistent,blue,right,Blue ramp seemed like it would go further
+662e78f04fac8f09690ef409,forward,cube,reversed,yellow,left,It wasn't going to go backwards and I felt yellow would do better. 
+662e78f04fac8f09690ef409,forward,cube,reversed,red,left,Red cube usually goes the furthest
+55acf681fdf99b3d5b2ab68c,backward,ramp,consistent,blue,right,"Honestly, looking closer at the image now, I feel like I made a mistake. I wanted the cube on the yellow one to be over the black line on the right."
+55acf681fdf99b3d5b2ab68c,backward,ramp,consistent,black,right,"Red mostly doesn't get near the line or going over, the black normally does."
+55acf681fdf99b3d5b2ab68c,backward,ramp,reversed,black,right,The black is always closest or over the line where the red isn't.
+55acf681fdf99b3d5b2ab68c,backward,ramp,reversed,yellow,right,"The cubes on the yellow seem to go over or on the line, where the blue ramp typically has the cubes before the line."
+612a75214a12bdaed3bb373e,forward,cube,consistent,yellow,right,I think during the initial trials the yellow ramp made the cubes go further 
+612a75214a12bdaed3bb373e,forward,cube,consistent,red,right,"The red cube was always the one that made it past the finish line, and that was the closest option "
+612a75214a12bdaed3bb373e,forward,cube,reversed,yellow,right,I had not been shown what happens to white cubes so did not know if they would go down the ramp or not 
+612a75214a12bdaed3bb373e,forward,cube,reversed,red,right,"The colored cubes went towards the finish line, but I did not know if they would do the same with the white ramp"
+66798dfc733ea9d461780dc6,backward,ramp,consistent,yellow,right,Yellow seemed to push the cube further
+66798dfc733ea9d461780dc6,backward,ramp,consistent,black,right,black cubes seemed to move further than red
+66798dfc733ea9d461780dc6,backward,ramp,reversed,yellow,left,yellow seemed to push the cube farther
+66798dfc733ea9d461780dc6,backward,ramp,reversed,black,left,black cubes seemed to move farther
+6643d653f572827cc3743f43,forward,ramp,consistent,black,right,"It seemed to me that the black cube typically ended the farthest to the right of the line, while the red cube would typically end up closest to the line. "
+6643d653f572827cc3743f43,forward,ramp,consistent,blue,right,"It seemed that the yellow ramp didn't send the cube very far, while the blue ramp would send the cube to or over the line. "
+6643d653f572827cc3743f43,forward,ramp,reversed,red,left,"Upon review, I would not think that this would happen, as the red cube is typically closer to the ramp than the black cube. "
+6643d653f572827cc3743f43,forward,ramp,reversed,blue,left,"I think this happened because the ramp is facing away from the line, and the yellow ramp typically would send a cube less far than the blue ramp. "
+668c3efacb7c89ec72504e88,backward,ramp,consistent,yellow,right,Different colored ramps
+668c3efacb7c89ec72504e88,backward,ramp,consistent,black,right,Just one ramp
+668c3efacb7c89ec72504e88,backward,ramp,reversed,blue,right,Not Sure
+668c3efacb7c89ec72504e88,backward,ramp,reversed,red,left,Same thing 
+6348bca073c2af21404924b4,forward,ramp,consistent,red,right,I don't know
+6348bca073c2af21404924b4,forward,ramp,consistent,yellow,right,I don't know
+6348bca073c2af21404924b4,forward,ramp,reversed,black,left,I don't know
+6348bca073c2af21404924b4,forward,ramp,reversed,blue,left,I don't know
+65c11bc3df7572abd4a597ec,forward,ramp,consistent,blue,right,The squares on the blue ramp go past the line 
+65c11bc3df7572abd4a597ec,forward,ramp,consistent,black,right,The black cube normally goes further than the red cube
+65c11bc3df7572abd4a597ec,forward,ramp,reversed,blue,left,The cube on the blue lamp normally goes further 
+65c11bc3df7572abd4a597ec,forward,ramp,reversed,red,left,"Not sure, the red cube may go faster  "
+6692aa0b7747078b2460606f,backward,cube,consistent,yellow,right,"yellow rack has more projection
+"
+6692aa0b7747078b2460606f,backward,cube,consistent,red,right,guess
+6692aa0b7747078b2460606f,backward,cube,reversed,black,right,black cube move fast
+6692aa0b7747078b2460606f,backward,cube,reversed,yellow,right,yellow rack
+602fd11faa844cd2d0fd5818,forward,cube,consistent,black,right,Based on given strategy
+602fd11faa844cd2d0fd5818,forward,cube,consistent,blue,right,Their way of sliding
+602fd11faa844cd2d0fd5818,forward,cube,reversed,blue,right,Their strategy
+602fd11faa844cd2d0fd5818,forward,cube,reversed,black,right,No idea
+663a5c8a1559293f513b0cf7,forward,cube,consistent,yellow,right,Seemed like the yellow ramp had lower friction.
+663a5c8a1559293f513b0cf7,forward,cube,consistent,black,right,The black cube consistently went farther than the red cube.
+663a5c8a1559293f513b0cf7,forward,cube,reversed,yellow,left,Seemed like the yellow ramp had lower friction.
+663a5c8a1559293f513b0cf7,forward,cube,reversed,black,left,The black cube consistently went further than the red cube.
+5ec5a64c306f255ec98d5cc1,backward,cube,consistent,red,right,The red cube goes further than black cube in previous trials
+5ec5a64c306f255ec98d5cc1,backward,cube,consistent,yellow,right,The yellow ramp produces a further right block
+5ec5a64c306f255ec98d5cc1,backward,cube,reversed,yellow,left,The yellow ramp throws the block further
+5ec5a64c306f255ec98d5cc1,backward,cube,reversed,red,left,The red block is lighter and travels further.
+668e47f9477a3fcce418057f,backward,cube,consistent,black,right,because black block usually ends up to the right and the red block don't
+668e47f9477a3fcce418057f,backward,cube,consistent,blue,left,both gray block is on the edge and i think it will slide to the left easily.
+668e47f9477a3fcce418057f,backward,cube,reversed,blue,right,the gray block is on edge pointing to the right direction this time so my prediction is that it will slide to the right.
+668e47f9477a3fcce418057f,backward,cube,reversed,black,right,both block are on the edge pointing to the right so I PREDICTED the block will slide to the right.
+65fb2f8291cf16104e63effc,forward,ramp,consistent,red,right,I guessed based on previous action of red and black cubes
+65fb2f8291cf16104e63effc,forward,ramp,consistent,yellow,right,I guessed because I hadn't seen how the white cubes react in this experiment before
+65fb2f8291cf16104e63effc,forward,ramp,reversed,black,left,I guessed
+65fb2f8291cf16104e63effc,forward,ramp,reversed,blue,left,I guessed
+63b8342eb371f007b0651c7e,backward,ramp,consistent,yellow,right,The yellow ramp seems to lead to further cubes.
+63b8342eb371f007b0651c7e,backward,ramp,consistent,black,right,The black cube usually ended up further along than the red cube.
+63b8342eb371f007b0651c7e,backward,ramp,reversed,black,right,The black cube usually ends up further along than the red cube.
+63b8342eb371f007b0651c7e,backward,ramp,reversed,yellow,right,The yellow ramp seems to result in cubes further along.
+6594720fa43b97e09c261749,backward,ramp,consistent,yellow,right,The cubes on the yellow ramp appeared to travel farther than the cubes on the blue ramp.
+6594720fa43b97e09c261749,backward,ramp,consistent,red,right,I just guessed since I did not know the colors of the ramps.
+6594720fa43b97e09c261749,backward,ramp,reversed,blue,right,"Again, the cubes travelled farther on the blue ramp which is how I made my prediction."
+6594720fa43b97e09c261749,backward,ramp,reversed,red,right,I just guessed.
+60fda8f418c64ff072d22378,backward,cube,consistent,red,right,The red cube went farther than the black cube in the trials when on the same colored ramp.
+60fda8f418c64ff072d22378,backward,cube,consistent,blue,right,The blue ramp moved the cubes farther than the yellow ramp in the trials.
+60fda8f418c64ff072d22378,backward,cube,reversed,blue,right,The blue ramp moved the cubes farther than the yellow ramp.
+60fda8f418c64ff072d22378,backward,cube,reversed,red,right,The red cube went farther than the black cube in the trials.
+6692736dbc79e45d4826a73c,backward,ramp,consistent,red,left,"I factored in the color of the ramp, which is lighter than yellow."
+6692736dbc79e45d4826a73c,backward,ramp,consistent,blue,right,Blue is always ahead of yellow
+6692736dbc79e45d4826a73c,backward,ramp,reversed,blue,left,"The ramp is reversed, and the blue is always ahead of yellow."
+6692736dbc79e45d4826a73c,backward,ramp,reversed,black,left,Black always got ahead of red.
+5df97cf6deea2b70989b6528,forward,cube,consistent,red,right,Red cubes always went further than black cubes. 
+5df97cf6deea2b70989b6528,forward,cube,consistent,blue,right,I really did not know and just guessed on this one.
+5df97cf6deea2b70989b6528,forward,cube,reversed,red,left,Red cubes always went further than black cubes. 
+5df97cf6deea2b70989b6528,forward,cube,reversed,blue,left,"I did not know, so I guessed. "
+66339cc7d05e27f34b2847cd,forward,ramp,consistent,blue,right,because they slide off
+66339cc7d05e27f34b2847cd,forward,ramp,consistent,black,left,they are close to the back
+66339cc7d05e27f34b2847cd,forward,ramp,reversed,red,left,they roll off
+66339cc7d05e27f34b2847cd,forward,ramp,reversed,blue,left,they roll off
+66391102d010c43cb8a792d2,backward,ramp,consistent,blue,right,Someone lifted the slender part of the ramp and the cubes rolled
+66391102d010c43cb8a792d2,backward,ramp,consistent,black,right,the slender end of the ramp was lifted
+66391102d010c43cb8a792d2,backward,ramp,reversed,red,right,the cubes rolled off the ramp
+66391102d010c43cb8a792d2,backward,ramp,reversed,blue,right,The cubes rolled off the ramp
+666cd244c4e9f0b3a060c2c7,backward,ramp,consistent,black,right,because they do not seem to be going fast
+666cd244c4e9f0b3a060c2c7,backward,ramp,consistent,yellow,right,they sit to high
+666cd244c4e9f0b3a060c2c7,backward,ramp,reversed,blue,left,they just look like they would end up like this 
+666cd244c4e9f0b3a060c2c7,backward,ramp,reversed,red,right,the will slide down slowly 
+662a83038907a650a3115282,forward,ramp,consistent,red,right,"If I am not mistaken, the red cubes travel farther than the black cubes."
+662a83038907a650a3115282,forward,ramp,consistent,yellow,right,I estimated that the cubes may travel a shorter distance coming off the blue ramp.
+662a83038907a650a3115282,forward,ramp,reversed,red,left,"I thought the cubes would travel down the slope, with the red cube traveling a greater distance."
+662a83038907a650a3115282,forward,ramp,reversed,blue,left,I estimated that the cube coming off the blue ramp would travel farther.
+65da3eea69d000ff2dab1e19,forward,cube,consistent,red,right,"Because with both cubes doing down an incline, both are not going to drop at the same time so the red one will move a few seconds first."
+65da3eea69d000ff2dab1e19,forward,cube,consistent,blue,left,the cubes fell back due to force.
+65da3eea69d000ff2dab1e19,forward,cube,reversed,yellow,left,there is a incline so both cubes are going to go at different speeds.
+65da3eea69d000ff2dab1e19,forward,cube,reversed,black,left,both cubes are not going to move at the same speed.
+63ba10de73415d047e1d6731,backward,cube,consistent,yellow,left,Because the cubes are white
+63ba10de73415d047e1d6731,backward,cube,consistent,black,left,Because the cubes are red and black
+63ba10de73415d047e1d6731,backward,cube,reversed,blue,right,because the cubes are facing the line
+63ba10de73415d047e1d6731,backward,cube,reversed,red,right,The cubes are red and black
+6612c945cebe319d923b80f8,backward,cube,consistent,black,right,Because the black cube always goes further than the red cube. 
+6612c945cebe319d923b80f8,backward,cube,consistent,yellow,right,The blue ramp makes cubes go a shorter distance than the yellow ramp.
+6612c945cebe319d923b80f8,backward,cube,reversed,black,left,"I think the cubes will go where the tip of the ramp is facing and as previously, the black cube always goes further than the red."
+6612c945cebe319d923b80f8,backward,cube,reversed,yellow,left,"The same as the previous, i think the cubes will go where the tip of the ramps are facing. Also the yellow ramp makes the cube go a further distance than the blue."
+659808191190fc6e6c23a99f,backward,cube,consistent,red,right,I think the red cube goes further than the black cube
+659808191190fc6e6c23a99f,backward,cube,consistent,yellow,right,I think the yellow ramp makes the cube go further
+659808191190fc6e6c23a99f,backward,cube,reversed,black,right,I think the black one goes backwards
+659808191190fc6e6c23a99f,backward,cube,reversed,yellow,right,I think the yellow one make the cube go further
+65981895f5721958d1b0499a,forward,cube,consistent,blue,right,neither one would be to the right of the finish line so this option was the most accurate scenario
+65981895f5721958d1b0499a,forward,cube,consistent,black,right,The black cube is the closest to the right of the finish line
+65981895f5721958d1b0499a,forward,cube,reversed,red,left,the ramp is facing a different direction
+65981895f5721958d1b0499a,forward,cube,reversed,blue,left,the ramp is facing a different direction
+60430fc782b5752a7ae8d797,backward,cube,consistent,black,right,Because the black usually went further than the red.
+60430fc782b5752a7ae8d797,backward,cube,consistent,blue,right,I felt that the blue ramp usually had a block that went further.
+60430fc782b5752a7ae8d797,backward,cube,reversed,blue,left,I think the blue ramp has blocks that go further.
+60430fc782b5752a7ae8d797,backward,cube,reversed,black,left,Because black blocks generally go further.
+6290c65ed46e5dce4f16bb92,forward,ramp,consistent,black,right,I assumed that the black cube would reach a further distance and that the grey ramp prevents the cubes from passing the finish line
+6290c65ed46e5dce4f16bb92,forward,ramp,consistent,blue,right,I assumed that they yellow ramp prevents it's cube from passing the finish line and the blue ramp promotes a further reach
+6290c65ed46e5dce4f16bb92,forward,ramp,reversed,blue,left,the blue ramp promotes a further distance and both ramps are angles opposite of the finish line
+6290c65ed46e5dce4f16bb92,forward,ramp,reversed,black,left,I assumed the black cube would reach a greater distance
+63cbd5095083beef0c8b1a7a,backward,ramp,consistent,black,right,i just followed my gut since it is hard to predict
+63cbd5095083beef0c8b1a7a,backward,ramp,consistent,yellow,right,i thought the green will go further 
+63cbd5095083beef0c8b1a7a,backward,ramp,reversed,black,left,i thought the black cube will go further
+63cbd5095083beef0c8b1a7a,backward,ramp,reversed,blue,left,i followed my gut 
+56b8de29e1d0a200051517f8,backward,cube,consistent,red,right,Red cube would probably reach near the finish line and black cube would probably not get near regardless of the triangle colors.
+56b8de29e1d0a200051517f8,backward,cube,consistent,yellow,left,I have no idea what the white cubes would do so I made a random guess.
+56b8de29e1d0a200051517f8,backward,cube,reversed,blue,right,"I don't know what the white cubes would do, so I guessed randomly."
+56b8de29e1d0a200051517f8,backward,cube,reversed,red,right,"The red cube would probably reach the line, the black cube won't."
+665d12a2ff49fcf75675540c,forward,cube,consistent,red,right,"the cubes are of different weights .alternatively, they could collide after hitting the ground initially, thus reducing the momentum of one of them"
+665d12a2ff49fcf75675540c,forward,cube,consistent,yellow,right,"assuming the cubes are of equal wait, it is possible they collide, ending up at two different distances. "
+665d12a2ff49fcf75675540c,forward,cube,reversed,red,left,cubes colliding or different weights
+665d12a2ff49fcf75675540c,forward,cube,reversed,blue,left,cubes colliding or different weights
+63e52483a88355a3a0ac62c5,forward,cube,consistent,black,right,"Based on what we've seen before, the black cube has more strength, so I assumed the black cube should go before the red one. And being together by force, they couldn't exceed the line."
+63e52483a88355a3a0ac62c5,forward,cube,consistent,yellow,right,I don't trust the strength and momentum of the white cubes.
+63e52483a88355a3a0ac62c5,forward,cube,reversed,blue,left,"Logically, the cubes would move in that direction but without much force."
+63e52483a88355a3a0ac62c5,forward,cube,reversed,black,left,The black cube has greater force and momentum than the red one.
+662190146ef67bab626e48cb,backward,cube,consistent,red,left,They should roll backwards.
+662190146ef67bab626e48cb,backward,cube,consistent,blue,left,The cubes should roll down the ramp.
+662190146ef67bab626e48cb,backward,cube,reversed,yellow,left,Sometimes the cubes roll forward off the ramp.
+662190146ef67bab626e48cb,backward,cube,reversed,black,left,The red cube stayed on the right.
+6632a3b5ee60e7692fd50a7a,backward,ramp,consistent,yellow,left,As I lift the block the cube would slide off the front.
+6632a3b5ee60e7692fd50a7a,backward,ramp,consistent,red,right,THe ramp is shorter so I dont think the cubes would slide off front but wont be pushed far to the right
+6632a3b5ee60e7692fd50a7a,backward,ramp,reversed,blue,right,As I lift the cubes will slide off with a small added push from the ramp
+6632a3b5ee60e7692fd50a7a,backward,ramp,reversed,black,right,THe cubes would slide off and be moved farther by lifting of cube
+62838cdc775f6094ddf0664b,backward,cube,consistent,red,right,"Red cube goes further than black cube, off a ramp. all instances shown of a ramp, regardless of color, go right"
+62838cdc775f6094ddf0664b,backward,cube,consistent,blue,right,blue ramp makes cube go farther I think. I can't remember. :( one of the two makes the cube go farther.
+62838cdc775f6094ddf0664b,backward,cube,reversed,red,left,Cubes always go off the ramp side in every example. red cube naturally goes further than black cube
+62838cdc775f6094ddf0664b,backward,cube,reversed,yellow,left,blue ramp gives cube less push than yellow ramp
+6676e899ac9f7a837ad80737,backward,ramp,consistent,black,left,Because the color of the ramp is white and I feel like they would only go backwards
+6676e899ac9f7a837ad80737,backward,ramp,consistent,yellow,right,Because the yellow ramp makes the blocks go further
+6676e899ac9f7a837ad80737,backward,ramp,reversed,red,right,I'm not sure
+6676e899ac9f7a837ad80737,backward,ramp,reversed,yellow,left,Because the yellow ramp would make the block go further
+65f0e934012e6bc5f0ac6a17,forward,ramp,consistent,black,right,The black cube is heavier than the red. The slope of the white ramp is unknown though so I'm not 100% sure.
+65f0e934012e6bc5f0ac6a17,forward,ramp,consistent,yellow,right,The yellow is steeper than the blue ramp
+65f0e934012e6bc5f0ac6a17,forward,ramp,reversed,black,left,The black cube is heavier than the red so I'm thinking momentum will have it launch father
+65f0e934012e6bc5f0ac6a17,forward,ramp,reversed,yellow,left,Because the yellow slope is steeper than the blue.
+626976d0dfd20d6832fc92aa,backward,cube,consistent,blue,left,I thought that the white squares travelled downward away from the line and the blue ramp caused it to go further.
+626976d0dfd20d6832fc92aa,backward,cube,consistent,red,right,I thought the red squares travelled upwards and met the finish line while the black squares travelled upwards but fell short of the line.
+626976d0dfd20d6832fc92aa,backward,cube,reversed,blue,right,The white squares travel downwards and the blue ramp cause them to go further
+626976d0dfd20d6832fc92aa,backward,cube,reversed,red,left,Both red and black squares travel upward but red goes further
+6681626264589a3dbb6f2551,forward,cube,consistent,blue,right,"I think this will happen because, as I remember, the blocks traveled further on the yellow wedge than the blue (I selected the wrong response). Since the blocks are both white they have the same qualities. Both would not pass the line since they aren't red."
+6681626264589a3dbb6f2551,forward,cube,consistent,red,right,"The ramps are both the same color, which make me believe they are the same conditions. Red made it past the finish line in all of the cases presented. I would assume that the red block would still travel the furthest out of all the block colors, even if the ramp conditions shift to more resistence "
+6681626264589a3dbb6f2551,forward,cube,reversed,red,left,"Similar to the last question, both ramps are the same color and same conditions (assumed). Red travels further than black, and the ramp is facing away from the finish line"
+6681626264589a3dbb6f2551,forward,cube,reversed,yellow,left,"Yellow showed further distance for the blocks than blue did in the examples given previously. In my head, I think of Yellow having less friction/resistance while blue has more. The blocks are both the same color which makes me believe they have the same qualities. The block from the yellow ramp will travel further than the block from the blue ramp."
+5f85bcb11941de066ef7d941,backward,ramp,consistent,black,right,I thought the cubes would end up apart because they would slide down the ramp at different speeds.
+5f85bcb11941de066ef7d941,backward,ramp,consistent,blue,right,I thought the cubes would slide down the ramp and end up apart due to gravity pulling them at different speeds.
+5f85bcb11941de066ef7d941,backward,ramp,reversed,blue,right,I predicted the cubes would end up apart because gravity would pull them down the ramp.
+5f85bcb11941de066ef7d941,backward,ramp,reversed,black,left,I predicted the cubes would slide down the ramp and end up separated because gravity would cause them to move at different speeds.
+6627e1b9434a2e718ed099c2,forward,cube,consistent,blue,left,no color so they might go back further since the red cube didnt cross the finish line
+6627e1b9434a2e718ed099c2,forward,cube,consistent,black,right,black cube usually hits the finish line and the red cube is the same distance it usually gets
+6627e1b9434a2e718ed099c2,forward,cube,reversed,black,right,black cube always hits the finish line
+6627e1b9434a2e718ed099c2,forward,cube,reversed,blue,left,no color so they dont make any positive forward moves
+665226461593afe79894c16c,backward,cube,consistent,red,right,"Red is lighter, travels farther"
+665226461593afe79894c16c,backward,cube,consistent,yellow,right,Yellow launches farther
+665226461593afe79894c16c,backward,cube,reversed,yellow,right,This one was a guess
+665226461593afe79894c16c,backward,cube,reversed,black,right,"Black is heavier, slides farther"
+66058651f9c5fb6a8dba7633,forward,cube,consistent,blue,right,"I just guessed, because I had no information about white cubes."
+66058651f9c5fb6a8dba7633,forward,cube,consistent,black,right,The black cube always went further than the red cube.
+66058651f9c5fb6a8dba7633,forward,cube,reversed,black,left,"Again, the black cube always goes farther than the red one."
+66058651f9c5fb6a8dba7633,forward,cube,reversed,yellow,right,"I also guessed this, because I had no prior information about white cubes."
+601c1f550370f34ec49ab0b6,backward,ramp,consistent,black,right,The black cube should travel farther than the red one
+601c1f550370f34ec49ab0b6,backward,ramp,consistent,blue,right,"I took my best guess, I assumed the colors of the shape matter when it comes to where the cubes end up."
+601c1f550370f34ec49ab0b6,backward,ramp,reversed,blue,left,The cubes would go to the left because the shapes have switched sides 
+601c1f550370f34ec49ab0b6,backward,ramp,reversed,black,left,the black cube should be farther than the red
+5bef64b373e44f0001092811,forward,ramp,consistent,black,right,The black blocks move further
+5bef64b373e44f0001092811,forward,ramp,consistent,blue,right,the yellow ramps are slower
+5bef64b373e44f0001092811,forward,ramp,reversed,blue,left,The yellow ramps are slower
+5bef64b373e44f0001092811,forward,ramp,reversed,black,left,The black blocks are faster
+6686d1e939accbf766c54889,forward,cube,consistent,yellow,right,The way they would roll would probably make them bounce off each other. 
+6686d1e939accbf766c54889,forward,cube,consistent,black,right,They would probably hit while rolling down. 
+6686d1e939accbf766c54889,forward,cube,reversed,black,left,They would probably hit while rolling down.
+6686d1e939accbf766c54889,forward,cube,reversed,yellow,left,The base is pretty steep.
+615de5ffd3c522eef3c49556,backward,ramp,consistent,blue,right,just a guess
+615de5ffd3c522eef3c49556,backward,ramp,consistent,red,right,a hunch
+615de5ffd3c522eef3c49556,backward,ramp,reversed,black,right,a hunch
+615de5ffd3c522eef3c49556,backward,ramp,reversed,blue,right,the white cubes usually go that far
+655b6d4f57ae1636c0b4f647,forward,cube,consistent,red,right,The red block was going farther than the black one.
+655b6d4f57ae1636c0b4f647,forward,cube,consistent,blue,right,The blue ramp seemed to go farther than the yellow.
+655b6d4f57ae1636c0b4f647,forward,cube,reversed,red,left,The red block goes farther than the black.
+655b6d4f57ae1636c0b4f647,forward,cube,reversed,blue,left,The blocks that slid down the blue ramp went farther.
+666b59f95861737274e65238,forward,ramp,consistent,red,right,I think that the red cube traveled further than the black in the previous examples.
+666b59f95861737274e65238,forward,ramp,consistent,blue,right,The cubes went further when they started on the blue ramp than the yellow.
+666b59f95861737274e65238,forward,ramp,reversed,blue,left,The cubes went further when they started on the blue ramp rather than the yellow.
+666b59f95861737274e65238,forward,ramp,reversed,red,left,I think that the red cube traveled further than the black cube.
+665dea36cb807df733a7fc16,backward,cube,consistent,yellow,right,I used my instincts
+665dea36cb807df733a7fc16,backward,cube,consistent,red,right,I used my instincts to predict
+665dea36cb807df733a7fc16,backward,cube,reversed,yellow,left,because they are both facing the opposite direction of the finish line
+665dea36cb807df733a7fc16,backward,cube,reversed,red,right,I used instincts
+664fa6197cd2ac12ab45da27,forward,ramp,consistent,yellow,right,I think the yellow ramp gives the cube more distance than the blue ramp
+664fa6197cd2ac12ab45da27,forward,ramp,consistent,red,right,I honestly have no idea. I just didn't think that either would make it across the finish line; I didn't know which cube would make it further.
+664fa6197cd2ac12ab45da27,forward,ramp,reversed,black,left,"I think that I remember seeing the gray cube go further than the red one? I'm not sure, though; I just paid attention to whether the cube made it across the finish line or not."
+664fa6197cd2ac12ab45da27,forward,ramp,reversed,yellow,left,The yellow ramp makes the cube go further.
+628b94feb32e85fd0b5090b6,backward,cube,consistent,blue,left,I supposed that they'd slide back due to gravity.
+628b94feb32e85fd0b5090b6,backward,cube,consistent,red,right,I imagined them being propelled in some way.
+628b94feb32e85fd0b5090b6,backward,cube,reversed,red,right,I imagined them sliding down due to gravity.
+628b94feb32e85fd0b5090b6,backward,cube,reversed,yellow,right,I imagined that they'd slide due to gravity.
+60a6c56078f621f94674763f,backward,ramp,consistent,yellow,right,Yellow ramp goes farther than blue
+60a6c56078f621f94674763f,backward,ramp,consistent,black,right,I think black cube went farther than red
+60a6c56078f621f94674763f,backward,ramp,reversed,yellow,left,Yellow goes farther than blue
+60a6c56078f621f94674763f,backward,ramp,reversed,black,left,Black goes farther than red
+663e5e89d602aa442c7b2845,forward,ramp,consistent,red,right,because it seems the red has more mass than the black all things been equal
+663e5e89d602aa442c7b2845,forward,ramp,consistent,yellow,right,the yellow ramp is more sloppy as it seems to propel the cubes further
+663e5e89d602aa442c7b2845,forward,ramp,reversed,black,left,the red cube is lighter in the opposite direction
+663e5e89d602aa442c7b2845,forward,ramp,reversed,yellow,left,the yellow ramp is sloppier and propels the cube further
+657b19dde82046cd1c239c0a,backward,cube,consistent,black,right,The previous experiment showed the black had past the line than the red.
+657b19dde82046cd1c239c0a,backward,cube,consistent,blue,right,I'm not sure.
+657b19dde82046cd1c239c0a,backward,cube,reversed,black,right,The previous experiment showed the black cube went further than the red cube.
+657b19dde82046cd1c239c0a,backward,cube,reversed,blue,right,Previous experiment showed the cube with the yellow ramp did not go far compared to the blue ramp.
+667c6a1e2cc21dfa81521fb0,forward,cube,consistent,black,right,"I felt like I didn't have enough information to know based on the previous information I had, so I just took a guess."
+667c6a1e2cc21dfa81521fb0,forward,cube,consistent,blue,right,"I feel like I didn't have enough information, so I just took a guess."
+667c6a1e2cc21dfa81521fb0,forward,cube,reversed,red,right,"I feel like I didn't have enough information to know, so I took a guess."
+667c6a1e2cc21dfa81521fb0,forward,cube,reversed,blue,right,"I feel like I didn't have enough information to know, so I took a guess."
+664d031e39f59ffa82289b1a,forward,cube,consistent,black,right,They were going to roll down the platform.
+664d031e39f59ffa82289b1a,forward,cube,consistent,blue,right,I felt they would roll down and collide with each other a little.
+664d031e39f59ffa82289b1a,forward,cube,reversed,yellow,left,I felt they would roll down quite a bit from being placed at the top. 
+664d031e39f59ffa82289b1a,forward,cube,reversed,red,left,They would roll down the platform.
+602a13fccbf50263cf3985de,forward,ramp,consistent,blue,right,It looks like it would
+602a13fccbf50263cf3985de,forward,ramp,consistent,red,right,I trusted my intuion
+602a13fccbf50263cf3985de,forward,ramp,reversed,yellow,left,I trusted my intuition and it looks like it would
+602a13fccbf50263cf3985de,forward,ramp,reversed,black,left,It looks like it would
+5dc8bc757d735061e97c89c1,backward,cube,consistent,blue,right,"Honestly, I am guessing on these"
+5dc8bc757d735061e97c89c1,backward,cube,consistent,red,right,I guessed
+5dc8bc757d735061e97c89c1,backward,cube,reversed,black,left,I guessed
+5dc8bc757d735061e97c89c1,backward,cube,reversed,blue,left,I guessed
+63d432e27555fb4b5785cfcd,forward,ramp,consistent,blue,right,the cube on the blue ramp usually goes farther than the cube on the yellow ramp. 
+63d432e27555fb4b5785cfcd,forward,ramp,consistent,red,right,this was just a guess since i had no insight into the white ramp's outcomes. 
+63d432e27555fb4b5785cfcd,forward,ramp,reversed,black,left,"again, a guess. the ramp sloped left, so i figured they would roll that way. "
+63d432e27555fb4b5785cfcd,forward,ramp,reversed,yellow,left,"i thought they would roll that way since it's the way the ramp was sloped, but also know the blue ramp usually travels farther right "
+62cec3cb41e7c7bf53ff6191,backward,cube,consistent,yellow,right,far cube ricocheted off the other
+62cec3cb41e7c7bf53ff6191,backward,cube,consistent,black,right,same
+62cec3cb41e7c7bf53ff6191,backward,cube,reversed,red,right,"red made an extra rotation, didn't slide straight down"
+62cec3cb41e7c7bf53ff6191,backward,cube,reversed,yellow,right,same as one before
+66428cb64bdaf7f5f64e51f2,forward,cube,consistent,blue,right,Not sure
+66428cb64bdaf7f5f64e51f2,forward,cube,consistent,red,right,Because the black cube didn't make it past the line in the previous trails
+66428cb64bdaf7f5f64e51f2,forward,cube,reversed,red,left,Same as before so the black cube would fall closer
+66428cb64bdaf7f5f64e51f2,forward,cube,reversed,blue,left,Not sure
+65e530a3297ead448fe89234,backward,ramp,consistent,yellow,right,"I just think from the previous encounters with these ramp blocks, that this is where they would end up."
+65e530a3297ead448fe89234,backward,ramp,consistent,red,right,I think this is where the blocks would land from past encounters with the black and red blocks.
+65e530a3297ead448fe89234,backward,ramp,reversed,red,right,"The ramp being backwards has no impact to me, I was just looking at the red and black blocks."
+65e530a3297ead448fe89234,backward,ramp,reversed,blue,right,"This was really just a guess for this one.  I ramps are backwards which I didn't really put any weight into, and then since the blocks are colored I figured this might be how they end up."
+5a381de00006450001bf2691,backward,cube,consistent,black,right,The black cube should go further
+5a381de00006450001bf2691,backward,cube,consistent,blue,right,I think the blue ramp was faster
+5a381de00006450001bf2691,backward,cube,reversed,black,left,"If they're going up the ramp, the black cube should go further"
+5a381de00006450001bf2691,backward,cube,reversed,blue,left,"If they're going up the ramp, I think the blue ramp was the faster one"
+58350bfe8f7d460001e8ba7f,forward,ramp,consistent,black,right,the ramp block had blue properties
+58350bfe8f7d460001e8ba7f,forward,ramp,consistent,yellow,right,the block on the yellow ramp had red properties
+58350bfe8f7d460001e8ba7f,forward,ramp,reversed,black,left,the ramp has blue properties
+58350bfe8f7d460001e8ba7f,forward,ramp,reversed,yellow,left,"the cube that got farther had black properties, the other had red"
+668c88b07b2178a2ead02f1f,forward,ramp,consistent,black,right,Seems the red cube doesnt travel as far as the black 
+668c88b07b2178a2ead02f1f,forward,ramp,consistent,yellow,right,yellow side seems to send the squares further
+668c88b07b2178a2ead02f1f,forward,ramp,reversed,black,left,"Black seems to go farther
+
+"
+668c88b07b2178a2ead02f1f,forward,ramp,reversed,yellow,left,yellow side seems to move the square further
+5e90d6e24e0cfb0d2b8006c0,backward,cube,consistent,red,right,It's on the heavier side of the block
+5e90d6e24e0cfb0d2b8006c0,backward,cube,consistent,yellow,right,"Same reason, it's on the heavier side."
+5e90d6e24e0cfb0d2b8006c0,backward,cube,reversed,red,right,I guessed.
+5e90d6e24e0cfb0d2b8006c0,backward,cube,reversed,yellow,right,Also Guessed
+6669c002bf19235ea7aed1cf,backward,ramp,consistent,black,right,The black cube goes farther.
+6669c002bf19235ea7aed1cf,backward,ramp,consistent,blue,right,The blue triangle moves the cubes farther.
+6669c002bf19235ea7aed1cf,backward,ramp,reversed,blue,left,The triangles are facing the opposite side and the blue triangle pushes them further.
+6669c002bf19235ea7aed1cf,backward,ramp,reversed,black,left,The black triangle goes further.
+64db80772c860983ea3a7310,backward,cube,consistent,blue,left,It seems the most logical 
+64db80772c860983ea3a7310,backward,cube,consistent,black,left,The distance seems most logical 
+64db80772c860983ea3a7310,backward,cube,reversed,black,left,It seems reasonable 
+64db80772c860983ea3a7310,backward,cube,reversed,yellow,right,I had a good guess 
+5e1974bcdb54d72191658210,backward,cube,consistent,yellow,right,"Frankly, I'm not sure. It's just the image I felt was correct."
+5e1974bcdb54d72191658210,backward,cube,consistent,red,right,"Again, I'm not sure. I just felt like the image was correct. "
+5e1974bcdb54d72191658210,backward,cube,reversed,red,right,"Well, I thought they would slide down instead of hop over. But other than that, I didn't think much about it."
+5e1974bcdb54d72191658210,backward,cube,reversed,blue,right,I thought they would slide down because the slides are facing a different way.
+5c78b032419dcc0014119082,forward,cube,consistent,yellow,right,Because I assumed they wouldn't end up in the same places and one will go further than the other one
+5c78b032419dcc0014119082,forward,cube,consistent,red,right,Because the red one usually goes further than the black one 
+5c78b032419dcc0014119082,forward,cube,reversed,red,left,Because the red cube always ends up further than the black cube
+5c78b032419dcc0014119082,forward,cube,reversed,blue,left,"I predicted that, as always, one cube will end up further than the other one, they usually don't end up in the same place"
+663a8f9f3af5cb5bd42cecb1,backward,cube,consistent,black,right,THE BLACK CUBE IS MORE LIKELY TO END UP FURTHER THAN THE DUE TO THE PATTERNS I OBSERVED IN THE PREVIOUS IMAGES SHOWN TO ME. IN THE PREVIOUS IMAGES AND ANSWERS BLACK ALWAYS GOES FURTHER THAN BLACK 
+663a8f9f3af5cb5bd42cecb1,backward,cube,consistent,yellow,right,THE YELLOW PLATFORM ALWAYS PROPELS THE CUBE FURTHER THAN THE BLUE 
+663a8f9f3af5cb5bd42cecb1,backward,cube,reversed,black,left,BLACK CUBE GOES FARTHER THAN THE RED CUBE AS SEEN IN PREVIOUS EXAMPLES
+663a8f9f3af5cb5bd42cecb1,backward,cube,reversed,yellow,left,THE YELLOW PLATFORM LAUNCHES THE CUBES FAR MORE THAN THE BLUE PLATFORM AS SEEN IN PREVIOUS EXAMPLES
+6675f24bcb842d50b7d19724,backward,cube,consistent,red,right,Because of the color
+6675f24bcb842d50b7d19724,backward,cube,consistent,blue,right,The colors
+6675f24bcb842d50b7d19724,backward,cube,reversed,yellow,right,Because of the color
+6675f24bcb842d50b7d19724,backward,cube,reversed,red,right,the color
+664b304f47854ec59355d0dd,backward,cube,consistent,yellow,left,The white cubes may be too heavy to launch and roll down the slope instead
+664b304f47854ec59355d0dd,backward,cube,consistent,red,right,"The red cube has been shown to be lighter, so the red cube would be ahead of the black cube"
+664b304f47854ec59355d0dd,backward,cube,reversed,blue,right,The white cubes rolled in the direction the slope is facing.
+664b304f47854ec59355d0dd,backward,cube,reversed,red,right,"The cubes rolled down the slope and since the red is lighter, they rolled further"
+5ef32f0aeb0c9103d56a8558,backward,cube,consistent,blue,right,Based on the previous results. 
+5ef32f0aeb0c9103d56a8558,backward,cube,consistent,red,right,Based on previous results on how the different cubes moved
+5ef32f0aeb0c9103d56a8558,backward,cube,reversed,red,left,Based on previous results on how the ramps made the cubes move. 
+5ef32f0aeb0c9103d56a8558,backward,cube,reversed,blue,left,Based on the previous results of how the ramps and cubes moved. 
+6676098194c5426a29d80ff3,backward,cube,consistent,black,right,the black cube goes further than the red cube.
+6676098194c5426a29d80ff3,backward,cube,consistent,yellow,right,It seemed the most correct 
+6676098194c5426a29d80ff3,backward,cube,reversed,blue,left,Im not sure
+6676098194c5426a29d80ff3,backward,cube,reversed,black,left,Black goes further than red
+662feef92fff86ddfb5232a3,forward,ramp,consistent,black,right,I think I remember the black cube going further than the red
+662feef92fff86ddfb5232a3,forward,ramp,consistent,blue,right,becasuse the cube on the blue ramp always went further
+662feef92fff86ddfb5232a3,forward,ramp,reversed,blue,left,because the cube on the blue ramp always went further
+662feef92fff86ddfb5232a3,forward,ramp,reversed,red,left,I just took a guess because I didn't know
+65957b97896708cd25109c8b,forward,ramp,consistent,red,right,Based on past cube results it just seems like the correct prediction
+65957b97896708cd25109c8b,forward,ramp,consistent,blue,right,Just based on past predictions it makes more sense.
+65957b97896708cd25109c8b,forward,ramp,reversed,black,left,Unsure
+65957b97896708cd25109c8b,forward,ramp,reversed,blue,left,Unsure
+64345edc0fd9813bdd9ef181,backward,cube,consistent,yellow,right,Just a guess
+64345edc0fd9813bdd9ef181,backward,cube,consistent,red,right,Just a guess
+64345edc0fd9813bdd9ef181,backward,cube,reversed,black,left,Just a guess
+64345edc0fd9813bdd9ef181,backward,cube,reversed,yellow,left,Just a guess
+65cb6fdbf0ca3606c22b9eb7,backward,cube,consistent,red,right,The red goes further than black.
+65cb6fdbf0ca3606c22b9eb7,backward,cube,consistent,blue,right,The blue ramp makes the cube go further than yellow
+65cb6fdbf0ca3606c22b9eb7,backward,cube,reversed,blue,right,I wasn't sure so I guessed
+65cb6fdbf0ca3606c22b9eb7,backward,cube,reversed,red,left,I wasn't sure so I guessed again
+665dad37740a458b78ae5c71,backward,ramp,consistent,yellow,right,Because blue triangle releases cube at a lower rate
+665dad37740a458b78ae5c71,backward,ramp,consistent,red,right,Red cube went further in previous ones
+665dad37740a458b78ae5c71,backward,ramp,reversed,blue,right,Guessed on this one
+665dad37740a458b78ae5c71,backward,ramp,reversed,red,right,Red cube goes farther in previous examples
+5c223d4a4a7e1f000137e5b9,forward,ramp,consistent,red,right,because they are going to move down the ramp and I just think that the red will go further
+5c223d4a4a7e1f000137e5b9,forward,ramp,consistent,yellow,right,I think that the cube on the yellow ramp will go further because it did before and they will both go down the ramp because that makes sense
+5c223d4a4a7e1f000137e5b9,forward,ramp,reversed,yellow,left,I think that the cubes will go down the ramp and I think that the yellow will go further because it did before
+5c223d4a4a7e1f000137e5b9,forward,ramp,reversed,black,left,the cubes will go down the ramp and I just guessed that the black would make it further than the red
+663fd4d1ba4f382b5bab924e,forward,cube,consistent,blue,right,i feel the cube on the blue object is a bit higher than the one on the yellow one
+663fd4d1ba4f382b5bab924e,forward,cube,consistent,red,right,both are not high enough to cross
+663fd4d1ba4f382b5bab924e,forward,cube,reversed,red,left,it cant slide to the opposite direction
+663fd4d1ba4f382b5bab924e,forward,cube,reversed,yellow,left,cube on yellow is higher than the one on blue
+6671e8d43b2c0d6dfe15ecee,backward,ramp,consistent,red,right,Both of the cubes cant land in the exact same spot.
+6671e8d43b2c0d6dfe15ecee,backward,ramp,consistent,yellow,right,The weight of the cubes made them land there.
+6671e8d43b2c0d6dfe15ecee,backward,ramp,reversed,blue,left,The cubes always land on that side of the triangles.
+6671e8d43b2c0d6dfe15ecee,backward,ramp,reversed,red,left,Im not sure
+668159ce8b60de379354b0ee,forward,cube,consistent,red,right,Because the cube was facing the right
+668159ce8b60de379354b0ee,forward,cube,consistent,blue,right,Because the cube was facing right
+668159ce8b60de379354b0ee,forward,cube,reversed,yellow,left,Because the cube was facing the left
+668159ce8b60de379354b0ee,forward,cube,reversed,red,left,Because the cube was facing left
+6682a3860d01cd91ebd35d11,backward,ramp,consistent,yellow,right,The yellow triangle has shown to launch the black and red cube farther.
+6682a3860d01cd91ebd35d11,backward,ramp,consistent,black,left,The triangles are not blue and yellow so I thought it might slight the other direction.
+6682a3860d01cd91ebd35d11,backward,ramp,reversed,yellow,left,the yellow will likely launch its cube farther.
+6682a3860d01cd91ebd35d11,backward,ramp,reversed,black,right,slide the other direction bc unknown color of the triangles and black cube has shown to have always gone farther
+6630ee41c60c303b0b51fd22,backward,ramp,consistent,black,left,"Starting at the top of the ramp and slides down, black further than red"
+6630ee41c60c303b0b51fd22,backward,ramp,consistent,yellow,left,"Same as previous, start at top of ramp but yellow yields further results"
+6630ee41c60c303b0b51fd22,backward,ramp,reversed,black,right,"Same thing as previous, black goes further than red"
+6630ee41c60c303b0b51fd22,backward,ramp,reversed,yellow,right,Yellow ramp yields further results than blue
+65d9e4a3504a6a75a4d6a07b,forward,ramp,consistent,red,right,the red cube always goes farther
+65d9e4a3504a6a75a4d6a07b,forward,ramp,consistent,blue,right,"the cube on the blue ramp always goes farther
+"
+65d9e4a3504a6a75a4d6a07b,forward,ramp,reversed,red,left,"the red cube always goes farther
+"
+65d9e4a3504a6a75a4d6a07b,forward,ramp,reversed,blue,left,the cube on the blue ramp always goes farher
+58effc65c31d4d00015aa5b9,forward,ramp,consistent,blue,right,just a best guess
+58effc65c31d4d00015aa5b9,forward,ramp,consistent,red,right,best guess
+58effc65c31d4d00015aa5b9,forward,ramp,reversed,black,left,best guess
+58effc65c31d4d00015aa5b9,forward,ramp,reversed,blue,left,best guess
+668810c0faefd59a813116d1,forward,ramp,consistent,black,right,The black cube goes further than the red. 
+668810c0faefd59a813116d1,forward,ramp,consistent,yellow,right,The cube on the yellow ramp goes further than the cube on the blue ramp.
+668810c0faefd59a813116d1,forward,ramp,reversed,red,left,The red cube travels further than the black. 
+668810c0faefd59a813116d1,forward,ramp,reversed,yellow,left,The cube on the yellow ramp travels further than the cube on the blue ramp.
+656003dc8bea916cc4815b0a,forward,cube,consistent,black,right,Because black always gets further than red.
+656003dc8bea916cc4815b0a,forward,cube,consistent,blue,right,I guessed the one on blue would make it farther because of the previous images. Blue just looked like it always would go farther. I don't know.
+656003dc8bea916cc4815b0a,forward,cube,reversed,black,left,They are supposed to fall in the direction of the slope and black always makes it further than red.
+656003dc8bea916cc4815b0a,forward,cube,reversed,blue,left,"I'm sticking to blue being superior to yellow. Also, it's going to slide in the direction of the slope."
+655e0c6c61efd0725ff03cd3,forward,cube,consistent,yellow,right,not sure
+655e0c6c61efd0725ff03cd3,forward,cube,consistent,red,right,just a guess
+655e0c6c61efd0725ff03cd3,forward,cube,reversed,black,left,just a guess
+655e0c6c61efd0725ff03cd3,forward,cube,reversed,yellow,left,just a guess
+6672173cc06623d0d57ade99,forward,cube,consistent,red,right,Because the red cube always landed further than the black
+6672173cc06623d0d57ade99,forward,cube,consistent,yellow,right,Because the blue was always behind the yellow
+6672173cc06623d0d57ade99,forward,cube,reversed,blue,left,"Because the blue was always ahead of the yellow
+"
+6672173cc06623d0d57ade99,forward,cube,reversed,red,left,because the red is always head of the red
+6155bb4f5250fc58f16eca99,backward,ramp,consistent,blue,right,based on other predictions this seemed to be correct
+6155bb4f5250fc58f16eca99,backward,ramp,consistent,red,right,"based on predictions, it looks like this is what would happen"
+6155bb4f5250fc58f16eca99,backward,ramp,reversed,blue,right,"based on predictions, it looks like this is what would happen"
+6155bb4f5250fc58f16eca99,backward,ramp,reversed,black,right,"based on predictions, it looks like this is what would happen"
+6689870da1139f6fd4154d78,backward,cube,consistent,yellow,left,im not sure what the white ones do
+6689870da1139f6fd4154d78,backward,cube,consistent,red,right,red goes further
+6689870da1139f6fd4154d78,backward,cube,reversed,blue,right,slide backwards
+6689870da1139f6fd4154d78,backward,cube,reversed,red,right,red goes further
+668ea84ebd40d8a08ffc47ce,forward,ramp,consistent,blue,right,the odds of the slide
+668ea84ebd40d8a08ffc47ce,forward,ramp,consistent,black,right,Just a luck off the slide
+668ea84ebd40d8a08ffc47ce,forward,ramp,reversed,black,left,The angle of the ramp
+668ea84ebd40d8a08ffc47ce,forward,ramp,reversed,yellow,left,Luck vs angle
+6673b4eda8e00bb0eb8c23af,forward,cube,consistent,black,right,"The black cube always moves faster than the red cube, so I know it will be ahead."
+6673b4eda8e00bb0eb8c23af,forward,cube,consistent,yellow,right,From what I remember the yellow ramp is associated with faster speed.
+6673b4eda8e00bb0eb8c23af,forward,cube,reversed,black,left,"Again, the black cube is always faster than the red cube."
+6673b4eda8e00bb0eb8c23af,forward,cube,reversed,yellow,left,"The yellow ramp is the faster one, so I have that cube in the lead."
+6688915859b968386fbccc69,forward,cube,consistent,yellow,right,I believe the yellow ramp moves the cubes farther
+6688915859b968386fbccc69,forward,cube,consistent,black,right,The black cube travels farther than red
+6688915859b968386fbccc69,forward,cube,reversed,black,left,The black cube travels farther than red
+6688915859b968386fbccc69,forward,cube,reversed,yellow,left,The yellow ramp moves the cubes farther than blue
+668daa1bd2c9c15fe7658159,forward,ramp,consistent,red,right,I felt like the black cubes didn't slide as far
+668daa1bd2c9c15fe7658159,forward,ramp,consistent,blue,right,I felt like the yellow ramp didnt allow the cubes to slide as far
+668daa1bd2c9c15fe7658159,forward,ramp,reversed,blue,left,I felt like the yellow didn't allow the cubes to slide as far
+668daa1bd2c9c15fe7658159,forward,ramp,reversed,red,left,I felt the black cubes didn't go as far
+6643fdd5e4e6b01321ea03c8,backward,ramp,consistent,black,right,Black cube went farther than red cube if I remember correctly.
+6643fdd5e4e6b01321ea03c8,backward,ramp,consistent,blue,right,Blue ramp went farther than yellow ramp every time.
+6643fdd5e4e6b01321ea03c8,backward,ramp,reversed,blue,left,"Blue ramp went farther than yellow ramp, plus they are facing the other direction."
+6643fdd5e4e6b01321ea03c8,backward,ramp,reversed,black,left,"Black cube went farther than red cube if I remember correctly, plus the ramp is facing the other direction."
+663ed5c7cbef70a3557abc41,backward,ramp,consistent,yellow,left,The cube is close to the edge of the shape and may fall before getting to the line
+663ed5c7cbef70a3557abc41,backward,ramp,consistent,black,left,The cubes is at the edge of the shape and may fall back before it reaches the line
+663ed5c7cbef70a3557abc41,backward,ramp,reversed,blue,left,will definitely fall
+663ed5c7cbef70a3557abc41,backward,ramp,reversed,red,left,will surely fall in the left direction
+668c25e4bd5465238a9d536f,backward,ramp,consistent,yellow,right,I think yellow tended to go further than blue.
+668c25e4bd5465238a9d536f,backward,ramp,consistent,black,right,I think red did not cross the line much.
+668c25e4bd5465238a9d536f,backward,ramp,reversed,blue,left,The ramps are facing the opposite direction now so the cubes will also go the opposite direction.
+668c25e4bd5465238a9d536f,backward,ramp,reversed,black,left,Ramps are facing opposite direction so cubes will also go opposite direction.
+66515fd539f7b5b6cff2dd8d,forward,cube,consistent,yellow,right,The yellow ramp makes cubes slide farther away than the blue ramp
+66515fd539f7b5b6cff2dd8d,forward,cube,consistent,black,right,The black cubes go farther than the red
+66515fd539f7b5b6cff2dd8d,forward,cube,reversed,black,left,The black cubes slide a greater distance than the red ones
+66515fd539f7b5b6cff2dd8d,forward,cube,reversed,yellow,left,The blue ramps don't send the cubes as far as the yellow ramps do
+5d4b3106431ee60001e3d345,backward,ramp,consistent,black,right,Because I thought you guys were trying to trick me.
+5d4b3106431ee60001e3d345,backward,ramp,consistent,yellow,right,Same as before. I thought you guys were tricking me.
+5d4b3106431ee60001e3d345,backward,ramp,reversed,blue,right,Because of the orientation of the slopes stood out to me.
+5d4b3106431ee60001e3d345,backward,ramp,reversed,black,right,Because I remember the black cube making it to the finish line closer in previous task.
+5ddd2a4459b1b0c7509c7a47,backward,ramp,consistent,blue,left,Since the ramps are turned in that specific position I felt the cubes would go in the same direction. 
+5ddd2a4459b1b0c7509c7a47,backward,ramp,consistent,black,right,I felt they would go in a different direction based on the colors of the cubes.
+5ddd2a4459b1b0c7509c7a47,backward,ramp,reversed,yellow,left,With them being close to the edge it seem like they would go in the chosen direction. 
+5ddd2a4459b1b0c7509c7a47,backward,ramp,reversed,black,right,I felt as if they were to slide off the ramp this would be the outcome of where the cubes land at. 
+665f8460cb17ece2fa679d4a,backward,ramp,consistent,yellow,right,yellow ramp goes farther
+665f8460cb17ece2fa679d4a,backward,ramp,consistent,red,right,guessed
+665f8460cb17ece2fa679d4a,backward,ramp,reversed,blue,right,guessed
+665f8460cb17ece2fa679d4a,backward,ramp,reversed,red,left,guessed
+668a8c4ada0ee5df463ab1e5,forward,cube,consistent,blue,right,a block on blue moves further than on yellow
+668a8c4ada0ee5df463ab1e5,forward,cube,consistent,black,left,since the triangle is gray it means it would have an opposite outcome compared to being on a colored triangle 
+668a8c4ada0ee5df463ab1e5,forward,cube,reversed,red,left,"gray triangle means opposite direction , red block means travels further and black block doesn't travel further "
+668a8c4ada0ee5df463ab1e5,forward,cube,reversed,blue,left,"gray colour means the object will travel in opposite direction.
+NB. block on blue triangle travels further "
+63d69919e9b7547ceeb0d31d,forward,cube,consistent,black,right,before the black cube went over the line and the red cube didnt
+63d69919e9b7547ceeb0d31d,forward,cube,consistent,blue,right,it was a guess
+63d69919e9b7547ceeb0d31d,forward,cube,reversed,blue,left,just a guess
+63d69919e9b7547ceeb0d31d,forward,cube,reversed,red,right,i guessed
+669286ff827158a6b9b602f3,backward,cube,consistent,yellow,right,"because they were close to the edge
+"
+669286ff827158a6b9b602f3,backward,cube,consistent,red,right,because in the last picture they didn't end up there
+669286ff827158a6b9b602f3,backward,cube,reversed,blue,left,based of the other results
+669286ff827158a6b9b602f3,backward,cube,reversed,black,left,based on the other results
+610d170f7bb4e720cb85b6b2,forward,ramp,consistent,black,right,the black seems to go farther than the red
+610d170f7bb4e720cb85b6b2,forward,ramp,consistent,yellow,right,"even though in the image the ramps look to be level, the yellow seems to result in a farther distance "
+610d170f7bb4e720cb85b6b2,forward,ramp,reversed,yellow,left,same reason as before
+610d170f7bb4e720cb85b6b2,forward,ramp,reversed,black,left,black overall seems stronger
+5e0696dea7fba607951ae479,backward,cube,consistent,blue,right,I think they will go forward and not pass the line. It just don't look like they will.
+5e0696dea7fba607951ae479,backward,cube,consistent,black,right,They look pretty strong.
+5e0696dea7fba607951ae479,backward,cube,reversed,blue,right,It would be easier for them to land there because there is no slope.
+5e0696dea7fba607951ae479,backward,cube,reversed,black,right,With no slope in front of them I still couldn't see them pass the line.
+668ee0dd5b2718b7c1f844bc,forward,ramp,consistent,yellow,right,Because I noticed that the yellow cubes travel further than the blue one
+668ee0dd5b2718b7c1f844bc,forward,ramp,consistent,black,left,i clicked on the wrong one. it was suppose to go the other way
+668ee0dd5b2718b7c1f844bc,forward,ramp,reversed,yellow,left,Because the yellow cubes travel faster than the blue one
+668ee0dd5b2718b7c1f844bc,forward,ramp,reversed,red,left,the black cubes dont travel fast
+6630ddcd4f10b79b19d77585,forward,cube,consistent,black,right,"Based on my observations of where black and red cubes tend to end up, I assumed the black one would lead the red."
+6630ddcd4f10b79b19d77585,forward,cube,consistent,blue,right,"It was my best guess based on observations associated with the color of each slide; this said, I think cube color has more of an impact than slide color. "
+6630ddcd4f10b79b19d77585,forward,cube,reversed,blue,left,"Given the orientation of the slide and how far the cubes tended to go when oriented the other direction, I tried to gauge that distance in reverse. I do believe cube color is more significant in determining how far each will slide, however."
+6630ddcd4f10b79b19d77585,forward,cube,reversed,black,left,"Based on observation of past trials, it was my thought that the black cube would surpass the red cube here. I do not know how the white slide impacts each cube's performance, however."
+6670399b4b0c5873e6304ab5,backward,ramp,consistent,red,right,I think the red cubes consistently went farther than the black cubes
+6670399b4b0c5873e6304ab5,backward,ramp,consistent,blue,right,the blue ramps consistently produced farther reaches than the yellow ramps
+6670399b4b0c5873e6304ab5,backward,ramp,reversed,red,left,"red went farther than black, and this position of the ramp should make the cubes go left"
+6670399b4b0c5873e6304ab5,backward,ramp,reversed,blue,left,"blue ramp makes cubes go farther, cubes on left side because of direction of ramp"
+6324d39a34afdb6e1f9e5b59,forward,ramp,consistent,red,right,This is because the red cube is mostly to be at the finish line while the black cube does not get the finish line.
+6324d39a34afdb6e1f9e5b59,forward,ramp,consistent,blue,right,The cube on the blue shape mostly get to the finish line while the cube on the yellow shape does not get to the finish line.
+6324d39a34afdb6e1f9e5b59,forward,ramp,reversed,blue,left,This is because they are not facing the finish line and for that reason cube on blue at least ahead cube on yellow which there is no finish line.
+6324d39a34afdb6e1f9e5b59,forward,ramp,reversed,red,left,This is because red cube always goes ahead of the black cube.
+63d1e114550c261e5d78a941,forward,cube,consistent,yellow,right,I just guessed that I think the yellow ramp goes further
+63d1e114550c261e5d78a941,forward,cube,consistent,red,right,I know the red cube goes further
+63d1e114550c261e5d78a941,forward,cube,reversed,blue,left,I just guessed
+63d1e114550c261e5d78a941,forward,cube,reversed,red,left,I know the red cube goes further
+609e416f2662bd18ea7dcd4c,backward,ramp,consistent,black,right,I think that the cubes will separate mid air.
+609e416f2662bd18ea7dcd4c,backward,ramp,consistent,blue,right,I think the cubes will separate mid air.
+609e416f2662bd18ea7dcd4c,backward,ramp,reversed,red,left,The cubes would go the opposite way.
+609e416f2662bd18ea7dcd4c,backward,ramp,reversed,blue,left,The cubes would go the opposite way.
+662958eb81091be0624ab054,backward,ramp,consistent,black,right,The black cube typically was the furthest over the line
+662958eb81091be0624ab054,backward,ramp,consistent,blue,right,The blue ramp caused the cube to go over the line and the yellow ramp did not in previous images.
+662958eb81091be0624ab054,backward,ramp,reversed,black,right,The black cube went further than the red cube previously.
+662958eb81091be0624ab054,backward,ramp,reversed,blue,right,The blue ramp caused the cube to go further than the yellow ramp previously
+5383def8fdf99b5111d7ccf2,forward,ramp,consistent,red,right,"I noticed the black cube not going as far as the red, but I have no data on the white triangle so I was making the best choice I could"
+5383def8fdf99b5111d7ccf2,forward,ramp,consistent,blue,right,"the blue ramp made it across every time, so I believe that cube would make it farther"
+5383def8fdf99b5111d7ccf2,forward,ramp,reversed,blue,left,blue ramp makes any cube go further than the yellow
+5383def8fdf99b5111d7ccf2,forward,ramp,reversed,red,left,the black cube was not going as far as the red on any ramp
+6266db0dcf3e4f16fb9d7c56,backward,cube,consistent,blue,right,"I had no clue if there was a pattern to this or not since my mind doesn't work that way. Every prediction I made was sheer guesswork, so I doubt I guessed right very much."
+6266db0dcf3e4f16fb9d7c56,backward,cube,consistent,red,left,Total shot in the dark.
+6266db0dcf3e4f16fb9d7c56,backward,cube,reversed,black,left,Total guess.
+6266db0dcf3e4f16fb9d7c56,backward,cube,reversed,blue,right,Guess.
+6565f2c0e31a069d9dfcd44e,backward,cube,consistent,black,right,"I think the black cube is lighter than the red, therefore it will go farther."
+6565f2c0e31a069d9dfcd44e,backward,cube,consistent,blue,right,I wasn't completely sure so this was merely a guess.
+6565f2c0e31a069d9dfcd44e,backward,cube,reversed,blue,left,"Since the triangles are opposite what they have been previously, it made sense that the cubes would end up like this."
+6565f2c0e31a069d9dfcd44e,backward,cube,reversed,black,left,"It seems like the black block is possibly lighter in weight than the red; and because the triangular piece was opposite what it usually is, it made since that the cubes would go in the opposite direction."
+65ff5f9bb0108e36ee3d4033,forward,cube,consistent,yellow,right,Just a gut based on the color of the ramps
+65ff5f9bb0108e36ee3d4033,forward,cube,consistent,black,right,I remember that the black cube usually crossed the line while the red did not.
+65ff5f9bb0108e36ee3d4033,forward,cube,reversed,black,right,"Same as before, black usually crossed while red did not. Could have been a trick with the ramp backwards."
+65ff5f9bb0108e36ee3d4033,forward,cube,reversed,blue,left,Felt like a possible trick. Gut feeling they would end up that way.
+6671ce015f18ca380f8ea563,forward,ramp,consistent,yellow,right,guessed
+6671ce015f18ca380f8ea563,forward,ramp,consistent,red,right,right handed 
+6671ce015f18ca380f8ea563,forward,ramp,reversed,yellow,left,cant go backwards unless pushed
+6671ce015f18ca380f8ea563,forward,ramp,reversed,black,left,cant go backwards unless pushed
+606e3ddf19540080228e3a0c,backward,ramp,consistent,yellow,right,Because they always go up the slant and yellow goes further
+606e3ddf19540080228e3a0c,backward,ramp,consistent,black,right,I can't remember for sure but I think black goes further
+606e3ddf19540080228e3a0c,backward,ramp,reversed,black,left,Black goes further
+606e3ddf19540080228e3a0c,backward,ramp,reversed,yellow,left,Yellow goes further
+60fb26e75427cb8125f2e4a4,backward,cube,consistent,black,right,It is just a guess
+60fb26e75427cb8125f2e4a4,backward,cube,consistent,blue,right,I am just guessing
+60fb26e75427cb8125f2e4a4,backward,cube,reversed,blue,left,It is a total guess
+60fb26e75427cb8125f2e4a4,backward,cube,reversed,red,left,I was just guessing
+59baa339ab8d830001fe56f5,forward,cube,consistent,black,right,"From what I recall, black travels further than red."
+59baa339ab8d830001fe56f5,forward,cube,consistent,blue,right,I don't know how the white cubes act.
+59baa339ab8d830001fe56f5,forward,cube,reversed,blue,right,I don't know how the white cubes will act.
+59baa339ab8d830001fe56f5,forward,cube,reversed,black,left,Black travels further than red.
+660ad11f945fa3dbc5fc3e65,forward,ramp,consistent,yellow,left,When you tilt the triangles I think the cubes will slide to the left due to gravity.
+660ad11f945fa3dbc5fc3e65,forward,ramp,consistent,black,right,I think this would happen because the left cube is black and the right is red and when tilted the cubes will slide straight down.
+660ad11f945fa3dbc5fc3e65,forward,ramp,reversed,blue,right,I predicted this would happen because if the triangle lifts straight up the cubes will go behind them.
+660ad11f945fa3dbc5fc3e65,forward,ramp,reversed,black,left,I predicted this would happen because the cubes will roll or flip straight down 
+65d98e1d84cbeefbb401e815,forward,ramp,consistent,red,right,The red will be more faster than blue
+65d98e1d84cbeefbb401e815,forward,ramp,consistent,blue,right,blue looks to sprint more than yellow
+65d98e1d84cbeefbb401e815,forward,ramp,reversed,yellow,left,gravity might come to play here
+65d98e1d84cbeefbb401e815,forward,ramp,reversed,black,left,They would flow across too the slide
+5b178611c9d3cb00010fe307,backward,ramp,consistent,blue,right,I thought it was the most probable outcome.
+5b178611c9d3cb00010fe307,backward,ramp,consistent,red,right,I guessed.
+5b178611c9d3cb00010fe307,backward,ramp,reversed,blue,left,It seemed possible.
+5b178611c9d3cb00010fe307,backward,ramp,reversed,red,right,I expected the red cube to go farther.
+656a1341c7d1c426209f1146,backward,cube,consistent,blue,right,bc they dont have room to get enough momentum to go far
+656a1341c7d1c426209f1146,backward,cube,consistent,red,right,same resdon as last
+656a1341c7d1c426209f1146,backward,cube,reversed,black,left,same reason
+656a1341c7d1c426209f1146,backward,cube,reversed,blue,left,same
+559c3ad8fdf99b32b55f2d32,forward,ramp,consistent,red,right,It's a guess because I don't know if the red or black is heavier.
+559c3ad8fdf99b32b55f2d32,forward,ramp,consistent,blue,right,It was a guess.  Everythign appears equal
+559c3ad8fdf99b32b55f2d32,forward,ramp,reversed,black,left,It's a guess because I don't know if the red or black is heavier.
+559c3ad8fdf99b32b55f2d32,forward,ramp,reversed,blue,left,"It was a guess, as everything appears equal"
+63d523d89e78ae6e711ada49,backward,ramp,consistent,black,left,Because the ramp is grey I was unsure if it would push the cubes forward.
+63d523d89e78ae6e711ada49,backward,ramp,consistent,blue,right,Because the blue ramp pushes cubes further than the yellow ramp
+63d523d89e78ae6e711ada49,backward,ramp,reversed,red,right,Because the ramp is grey and the black cube doesn't go far
+63d523d89e78ae6e711ada49,backward,ramp,reversed,blue,left,Because the ramps push the cubes forward and the blue ramp pushes farther than the yellow ramp
+5ee2a663afc30b40867d4535,backward,ramp,consistent,yellow,right,Yellow seemed to make the cubes go pass the line in previous simulations while blue did not
+5ee2a663afc30b40867d4535,backward,ramp,consistent,red,right,I believe red made it further in previous simulations but I am not 100% sure
+5ee2a663afc30b40867d4535,backward,ramp,reversed,yellow,left,The ramps are reversed and yellow seemed to make the cubes move further
+5ee2a663afc30b40867d4535,backward,ramp,reversed,red,left,Red cubes seemed to go further before and the ramps are reversed
+66294a585f1cf3fdaeb80120,backward,cube,consistent,red,right,The red cube always seemed to make it over and the black cube didn't.  This looked closest to how I thought they would end up.
+66294a585f1cf3fdaeb80120,backward,cube,consistent,blue,right,There was no experience with white cubes so I had to guess.
+66294a585f1cf3fdaeb80120,backward,cube,reversed,blue,left,The triangles were facing a different way so I thought the cubes would reverse direction.
+66294a585f1cf3fdaeb80120,backward,cube,reversed,black,left,No experience with a white triangle so I just guessed based on the angle.
+60e755dd08b47aac26807cd9,backward,cube,consistent,black,right,Black ends up to the right more than the red.
+60e755dd08b47aac26807cd9,backward,cube,consistent,blue,left,The cubes are white and probably end up to the left.
+60e755dd08b47aac26807cd9,backward,cube,reversed,blue,left,The cubes are white and probably end up to the left.
+60e755dd08b47aac26807cd9,backward,cube,reversed,black,left,The wedge is facing the opposite way and black ends up going farther.
+664ce5c89fde4d6beffbd6da,forward,ramp,consistent,yellow,right,the angle that the cubs were placed
+664ce5c89fde4d6beffbd6da,forward,ramp,consistent,red,right,the angle that the cubs are placed
+664ce5c89fde4d6beffbd6da,forward,ramp,reversed,red,left,the angle that the cubs are placed
+664ce5c89fde4d6beffbd6da,forward,ramp,reversed,blue,left,the angle that the cubs are placed
+55a43278fdf99b02ff6caf89,backward,ramp,consistent,blue,left,I felt like they would slide down the ramp
+55a43278fdf99b02ff6caf89,backward,ramp,consistent,red,right,I felt like they would go the opposite of the other cubes and ramps
+55a43278fdf99b02ff6caf89,backward,ramp,reversed,blue,right,I thought they would slide towards the finish line
+55a43278fdf99b02ff6caf89,backward,ramp,reversed,red,right,I felt like they would slide towards the bottom
+65c11c5251627889612424ba,backward,cube,consistent,red,right,the red cube is closer to the line
+65c11c5251627889612424ba,backward,cube,consistent,blue,right,I don't know
+65c11c5251627889612424ba,backward,cube,reversed,blue,right,don't know
+65c11c5251627889612424ba,backward,cube,reversed,red,right,red closer to line
+668f804da949e7f22a7c647e,backward,ramp,consistent,blue,right,The cubes on the blue ramp traveled further
+668f804da949e7f22a7c647e,backward,ramp,consistent,black,right,The black cube traveled further
+668f804da949e7f22a7c647e,backward,ramp,reversed,blue,left,The cubes on the blue ramp traveled further and the cubes ended up on the vertical side of the ramp
+668f804da949e7f22a7c647e,backward,ramp,reversed,black,left,The black cube travels further
+6630ec25274c176eaaa505bf,backward,ramp,consistent,red,right,The red cube ended up closer to the line when it was on the yellow ramp.
+6630ec25274c176eaaa505bf,backward,ramp,consistent,blue,right,The blue ramp always ended its cubes across the line unlike the yellow ramp
+6630ec25274c176eaaa505bf,backward,ramp,reversed,black,left,Same logic as before but the ramp is in the opposite direction
+6630ec25274c176eaaa505bf,backward,ramp,reversed,blue,left,Same logic as before but the ramp is in the opposite direction
+55ddb84550a1f7000b90d65a,backward,ramp,consistent,yellow,right,It seemed like that might be how far they go. I am not sure. I just tried my best.
+55ddb84550a1f7000b90d65a,backward,ramp,consistent,black,right,I just guessed. I wasn't really sure. Thank you.
+55ddb84550a1f7000b90d65a,backward,ramp,reversed,red,right,Because it seems like that might be where they go. I just guessed.
+55ddb84550a1f7000b90d65a,backward,ramp,reversed,blue,left,Because I thought they may go the other way I am not sure. Thank you.
+6479c87daabda4a5809a752d,backward,cube,consistent,black,right,It just made sense in that  moment 
+6479c87daabda4a5809a752d,backward,cube,consistent,blue,right,"random guess
+"
+6479c87daabda4a5809a752d,backward,cube,reversed,blue,right,Based on how the ramp is placed it makes sense
+6479c87daabda4a5809a752d,backward,cube,reversed,black,left,Random guess
+661960d7b8bdf0bd8042c648,forward,cube,consistent,yellow,right,I was just guessing but also looking at the direction of the angle
+661960d7b8bdf0bd8042c648,forward,cube,consistent,black,right,just a guess
+661960d7b8bdf0bd8042c648,forward,cube,reversed,red,left,the direction of the ramp vs the finish line.
+661960d7b8bdf0bd8042c648,forward,cube,reversed,yellow,left,direction of the ramp vs the finish line
+668f1894d6ffc3b0cabb3ac3,forward,cube,consistent,blue,right,IM NOT SURE
+668f1894d6ffc3b0cabb3ac3,forward,cube,consistent,red,right,red was farther
+668f1894d6ffc3b0cabb3ac3,forward,cube,reversed,red,left,the ramp flipped and red is still ahead
+668f1894d6ffc3b0cabb3ac3,forward,cube,reversed,blue,left,idk
+5831f08ebfb3b400015a6ad4,forward,ramp,consistent,red,right,The colors have a certain weight to them only to get so far.
+5831f08ebfb3b400015a6ad4,forward,ramp,consistent,yellow,right,The colors have a pre-determined weight to them.
+5831f08ebfb3b400015a6ad4,forward,ramp,reversed,red,left,The colors have a pre-determined weight to them.
+5831f08ebfb3b400015a6ad4,forward,ramp,reversed,yellow,left,The colors have a pre-determined weight to them.
+666203105e0c216230d31016,forward,cube,consistent,black,right,The black cube has always gone further than the red cube
+666203105e0c216230d31016,forward,cube,consistent,blue,right,I guessed
+666203105e0c216230d31016,forward,cube,reversed,blue,left,I guessed
+666203105e0c216230d31016,forward,cube,reversed,black,left,Black cube always goes further
+5e7247f3be8fd016888bafac,forward,ramp,consistent,blue,right,Blocks slide better off the blue ramp than they do the yellow ramp 
+5e7247f3be8fd016888bafac,forward,ramp,consistent,black,right,The black blocks have a lower coefficient of friction than do the red blocks
+5e7247f3be8fd016888bafac,forward,ramp,reversed,black,left,The black blocks slide further off the ramp than do the red ones
+5e7247f3be8fd016888bafac,forward,ramp,reversed,blue,left,The coefficient of friction from the blue ramp is lower than that of the yellow ramp
+611c31c77df20ecc6881cc44,forward,ramp,consistent,red,right,No idea. I missed clues in the first part and had to guess.
+611c31c77df20ecc6881cc44,forward,ramp,consistent,blue,right,No idea. I missed clues in the first part and had to guess.
+611c31c77df20ecc6881cc44,forward,ramp,reversed,blue,left,No idea. I missed clues in the first part and had to guess.
+611c31c77df20ecc6881cc44,forward,ramp,reversed,black,left,No idea. I missed clues in the first part and had to guess.
+66845f39fb9e87677dbf66c2,backward,ramp,consistent,red,right,THE HEIGHT OF THE CUBE HELPSTO DETERMINE THAT
+66845f39fb9e87677dbf66c2,backward,ramp,consistent,yellow,right,THIS IS ALSOCLOSER TO THE FINISH LINE
+66845f39fb9e87677dbf66c2,backward,ramp,reversed,red,right,THIS ONE SLOPES DOWN
+66845f39fb9e87677dbf66c2,backward,ramp,reversed,yellow,right,THIS WAS CLOSER TO THE FINISH LINE
+6605eaefd982b606054fda4c,forward,cube,consistent,yellow,right,gravity and already slanting down
+6605eaefd982b606054fda4c,forward,cube,consistent,red,right,gravity and already slanting down
+6605eaefd982b606054fda4c,forward,cube,reversed,black,left,gravity and already slanting down
+6605eaefd982b606054fda4c,forward,cube,reversed,yellow,left,gravity and already slanting down
+5914b7b50a4b9d0001add64f,backward,cube,consistent,red,right,The red block always goes further than the black block.
+5914b7b50a4b9d0001add64f,backward,cube,consistent,blue,right,It was a random guess. I had no idea. 
+5914b7b50a4b9d0001add64f,backward,cube,reversed,blue,right,Random guess. 
+5914b7b50a4b9d0001add64f,backward,cube,reversed,red,left,Red block always goes further than black block. 
+6636da5d82d89e212fffc98f,backward,ramp,consistent,black,right,I think the black colored cube was further in other trials. 
+6636da5d82d89e212fffc98f,backward,ramp,consistent,blue,right,The blue ramp seemed to bring cubes over the line in other trials. 
+6636da5d82d89e212fffc98f,backward,ramp,reversed,blue,right,The blue ramp moved the cube over the line in other trials. 
+6636da5d82d89e212fffc98f,backward,ramp,reversed,red,right,I felt red was lighter.
+59048309c4ef1300011b1085,forward,ramp,consistent,blue,right,the blue ramp always went further
+59048309c4ef1300011b1085,forward,ramp,consistent,black,right,the black cube went further
+59048309c4ef1300011b1085,forward,ramp,reversed,blue,left,the blue ramp goes further
+59048309c4ef1300011b1085,forward,ramp,reversed,black,left,the black cube rolls further
+6679a0be36bb0c3801998d59,forward,ramp,consistent,red,right,"I predicted that the cubes would end up like this because the ramp is white, meaning the implications of a blue/yellow ramp are no longer true. I had paid so much attention to the blue/yellow ramp color that I only vaguely noticed the difference in the black/red blocks. I could not remember which one went farther. I thought it might have been the red, so it would travel farther here. "
+6679a0be36bb0c3801998d59,forward,ramp,consistent,blue,right,"I predicted that the blue part of the ramp would send the cube farther than the yellow part because in earlier sections of the experiment, the blue ramp always allowed the red/black block to clear the line. On the other hand, the yellow ramp never let the blocks pass the line. In this case, I figured the blue part of the ramp would allow the cube on it to go farther than the yellow part."
+6679a0be36bb0c3801998d59,forward,ramp,reversed,red,left,"Again, because the ramp is white, I could no longer think about how ramp color impacted the way the cubes fell. Because I had been so focused on the difference between the blue and yellow ramps, I neglected to fully notice the differences between the red and black blocks. I thought I remembered the red going farther than the black block. As a result, I believed the red block would slide farther as well."
+6679a0be36bb0c3801998d59,forward,ramp,reversed,blue,left,"I thought this would happen because the blue ramp always allowed the blocks to clear the line, while the yellow ramp never did. As a result, I assumed that the blue part of the ramp would allow the cube to slide farther away than the yellow part. "
+5589629dfdf99b72ead88339,backward,cube,consistent,black,right,black cube goes further
+5589629dfdf99b72ead88339,backward,cube,consistent,blue,left,i had to guess
+5589629dfdf99b72ead88339,backward,cube,reversed,black,right,black cube goes further
+5589629dfdf99b72ead88339,backward,cube,reversed,blue,left,i had to guess
+6622de87d20f10ebfd14a66a,forward,cube,consistent,black,right,"The black seemed to go the farthest, just unsure of the white ramp"
+6622de87d20f10ebfd14a66a,forward,cube,consistent,blue,right,just a best guess since they are white cubes
+6622de87d20f10ebfd14a66a,forward,cube,reversed,blue,left,well I didnt think they would go backwards so just a best guess
+6622de87d20f10ebfd14a66a,forward,cube,reversed,black,left,they cant go backwards and the black usually went further
+5d9cd36bed4008001284dcba,forward,ramp,consistent,black,right,I do not think they have enough momentum to cross the line
+5d9cd36bed4008001284dcba,forward,ramp,consistent,yellow,right,I think one will travel farther than the other
+5d9cd36bed4008001284dcba,forward,ramp,reversed,black,left,"Just a guess, I am not quite sure facing that way"
+5d9cd36bed4008001284dcba,forward,ramp,reversed,blue,left,I think the blue base has more momentum
+667ea7e7eca697f62fd7c59b,forward,cube,consistent,red,right,Due to the red cubes passing the line more than the black cubes in the previous tests
+667ea7e7eca697f62fd7c59b,forward,cube,consistent,yellow,right,"Just guessed, I figure have a 50/50 chance since I do not know which cube is red or black."
+667ea7e7eca697f62fd7c59b,forward,cube,reversed,red,left,Because the line is behind the ramp and the red still traveled further during previous tests.
+667ea7e7eca697f62fd7c59b,forward,cube,reversed,blue,left,I guessed the cube further away was red so figured it would travel further. 
+667cfd0b827314cd6f7027c4,forward,cube,consistent,yellow,right,Yellow seemed to accelerate the cubes more in the first part of the experiment
+667cfd0b827314cd6f7027c4,forward,cube,consistent,red,right,The red cube seemed to travel farther than the black cube in the previous part of the experiment
+667cfd0b827314cd6f7027c4,forward,cube,reversed,yellow,left,The yellow ramp seemed to accelerate the cubes farther than the blue ramp in the previous part of the experiment 
+667cfd0b827314cd6f7027c4,forward,cube,reversed,red,left,The red cube seemed to travel farther in the previous part of the experiment
+5c118b075fc7db00011b62ae,forward,ramp,consistent,red,right,After seeing the so called patterns i feel like with he white ramp they would probably land this way.
+5c118b075fc7db00011b62ae,forward,ramp,consistent,blue,right,yellow usually meant over the line. But them together i just guessed that they would make it to the other side of the line.
+5c118b075fc7db00011b62ae,forward,ramp,reversed,blue,left,since it is facing the other way it makes sense for them to go this way.
+5c118b075fc7db00011b62ae,forward,ramp,reversed,black,left,since it is facing the other way it make sense to go that way.
+6679b6e51b2f51950f21fd65,backward,cube,consistent,blue,right,if they fall to the right they may end up close to the finish line
+6679b6e51b2f51950f21fd65,backward,cube,consistent,black,left,if they slide down the left they may end up there
+6679b6e51b2f51950f21fd65,backward,cube,reversed,blue,right,if they slide down they may not make it to the finish line
+6679b6e51b2f51950f21fd65,backward,cube,reversed,red,right,they may end up close to finish line when falling
+668b89ba7b434cf8f355d5b1,backward,ramp,consistent,yellow,left,"Because the cubes are sliding downwards and from the  scenarios I have seen, the yellow cube has a higher shooting range than the blue cube."
+668b89ba7b434cf8f355d5b1,backward,ramp,consistent,black,left,Because the cubes are sliding downwards 
+668b89ba7b434cf8f355d5b1,backward,ramp,reversed,yellow,right,"With the cubes slides downwards and from the scenarios, the yellow cube shoots higher than the 
+blue cube"
+668b89ba7b434cf8f355d5b1,backward,ramp,reversed,red,right,The cubes are sliding downwards and took a guess where each cube would land
+63f2ec0bc98f4dfb1b5e60d3,forward,cube,consistent,red,right,RED COLOUR ALWAYYS TRAVELS FURTHER THAN BLACK WHILE GOING DOWN THE INCLINNE
+63f2ec0bc98f4dfb1b5e60d3,forward,cube,consistent,blue,left,INCLINE IS NOT THAT HIGH AND WHITE BLOCKS ARE ON THE CORNER SO THEY MIGHT FALL BACKWARDS
+63f2ec0bc98f4dfb1b5e60d3,forward,cube,reversed,red,right,as the blocks are on the corner so they might fall towards right and red goes further than black
+63f2ec0bc98f4dfb1b5e60d3,forward,cube,reversed,blue,left,blocks on blue side travels further than yellow slide
+6691b25c1d28e3d6f45ac853,forward,ramp,consistent,yellow,right,I thought that cubes on the yellow ramp seemed to go further than on the blue
+6691b25c1d28e3d6f45ac853,forward,ramp,consistent,red,right,I thought I remembered red cubes going further than black
+6691b25c1d28e3d6f45ac853,forward,ramp,reversed,red,right,"I thought I remembered red cubes going further than black, and it was never actually stated that the cubes slid down (as implied by the figure), so I thought they'd still go the same direction"
+6691b25c1d28e3d6f45ac853,forward,ramp,reversed,yellow,right,"i remembered cubes going further on the yellow ramp than the blue, and and again, though the ramp-like nature of the figure implied that it was sliding, it was never explicit"
+663a3cb4170937d2ce84026f,forward,ramp,consistent,blue,left,opposite of the black cubes
+663a3cb4170937d2ce84026f,forward,ramp,consistent,black,right,black goes further than the red
+663a3cb4170937d2ce84026f,forward,ramp,reversed,black,left,black launches further than red
+663a3cb4170937d2ce84026f,forward,ramp,reversed,yellow,right,yellow launches further
+60fd84bd019682124d96c178,forward,cube,consistent,red,right,i guessed
+60fd84bd019682124d96c178,forward,cube,consistent,blue,right,a guess
+60fd84bd019682124d96c178,forward,cube,reversed,red,left,a guess
+60fd84bd019682124d96c178,forward,cube,reversed,blue,left,a guess
+65c1101b2b6edf21082420d5,forward,cube,consistent,black,right,Cause they were all the way up at the top.
+65c1101b2b6edf21082420d5,forward,cube,consistent,blue,right,They were too high up.
+65c1101b2b6edf21082420d5,forward,cube,reversed,yellow,left,Too high up.
+65c1101b2b6edf21082420d5,forward,cube,reversed,red,left,They both are too high up.

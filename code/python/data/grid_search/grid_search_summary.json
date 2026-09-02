@@ -1,0 +1,24 @@
+{
+  "elapsed_seconds": 135.16702604293823,
+  "metric": "log_likelihood",
+  "storage": "shards",
+  "hyperparam_combos": 1210,
+  "model_combos_per_kde": 15488,
+  "total_evaluations_attempted": 18740480,
+  "valid_evaluations": 18740480,
+  "invalid_evaluations": 0,
+  "workers": 6,
+  "completed_tasks": 1210,
+  "result_shards": 1210,
+  "grid_sizes": {
+    "block_noise": 11,
+    "ramp_noise": 11,
+    "bandwidth": 10,
+    "p": 11,
+    "q": 11,
+    "beta": 16,
+    "r": 8
+  },
+  "timestamp": "2026-08-24T18:10:58.267592",
+  "result_rows": 18740480
+}
